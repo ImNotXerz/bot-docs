@@ -1,0 +1,104 @@
+---
+title: "The AIO sales funnel"
+description: "How the guided Category → Product → Duration purchase flow prices, discounts, and delivers an order."
+---
+
+AIO ("all-in-one") is Ticket Bot's second front door into the same ticket engine Standard panels
+use. Instead of a member picking one button, they walk a guided purchase flow that ends in a
+ticket carrying an authoritative price and, once staff confirm it, a delivered key.
+
+## The buyer's flow
+
+<Steps>
+  <Step title="Start Purchase">
+    The deployed AIO panel has one button. Pressing it creates a draft purchase session and
+    shows the category picker.
+  </Step>
+  <Step title="Choose a category">
+    A dropdown of the categories configured in `/aio_manage`. Categories are the top level of
+    the catalog — think "Games" or "Services" — and can be disabled without deleting them.
+  </Step>
+  <Step title="Choose a product">
+    A dropdown of the products under the chosen category.
+  </Step>
+  <Step title="Choose a duration/variant">
+    A dropdown of the durations (or plan variants) under the chosen product, each showing its
+    own base price — e.g. "1 Month — $9.99" vs. "1 Year — $89.99" as separate entries under the
+    same product.
+  </Step>
+  <Step title="Confirm">
+    A summary shows Category, Product, Duration, Base Price, any applied Discount, and the
+    Final Price, with **Confirm & Create Ticket**, **Start Over**, and **Cancel**. Confirming is
+    what actually creates the ticket.
+  </Step>
+</Steps>
+
+Every step also offers **Start Over** (back to category) and **Cancel** (discard the draft). The
+draft session survives a bot restart — its buttons and selects are `DynamicItem`s whose state
+lives in their own `custom_id`, not in memory, so a mid-purchase deploy is invisible to the
+buyer.
+
+## Pricing
+
+Catalog structure is generic on purpose — Category → Product → Duration/Variant — so it works
+for anything sold this way, not just game keys. Each duration/variant carries its own base
+price in the guild's currency, stored as integer minor units (cents) to avoid floating-point
+rounding on money.
+
+### Discounts
+
+`/discount create` scopes a discount to a single **Product**, a whole **Category**, or
+**Global** (everything), as either a **Percentage** or a **Fixed** minor-unit amount, with an
+optional minimum subtotal to qualify and a maximum discount cap. A discount also has an
+optional schedule (`/discount schedule`) and can be toggled off without deleting it.
+
+When more than one discount could apply to the same purchase, resolution is deterministic:
+
+1. Every enabled, currently-valid discount is checked for applicability (scope match, schedule
+   window, minimum subtotal).
+2. Among the applicable ones, whichever produces the **lowest legitimate final price** wins.
+3. Ties are broken by scope priority: **Product** beats **Category** beats **Global**.
+
+There is no stacking and no ambiguity to resolve by hand — exactly one discount applies to a
+given purchase, and it's always the one that benefits the buyer most.
+
+### Prices are never trusted from the client
+
+The confirmation screen's price is a snapshot for display, but it is never what actually gets
+charged conceptually or recorded. At the moment a buyer presses **Confirm**, the price is
+**recalculated from live catalog and discount data** — not read back from the button that was
+clicked or a value cached earlier in the session. A discount that changed, or a price edited
+mid-purchase, is reflected correctly rather than letting a stale confirmation screen lock in an
+old number.
+
+## Ticket creation
+
+Confirming goes through the same `provision_ticket()` engine a Standard panel button uses, so
+everything downstream — claiming, permissions, transcripts, auto-close, payments — behaves
+identically to a Standard ticket. Duplicate-ticket protection (a buyer double-clicking Confirm,
+or two requests racing) is enforced by a database constraint rather than in-process state, so it
+holds even across multiple bot instances.
+
+`/aiostaffroles` sets which staff roles are automatically added to every new AIO ticket, so the
+right people can see it without a manual invite.
+
+## Fulfillment — delivering the key
+
+Stock for a duration/variant is added with `/keys add`, which opens a modal for pasting values
+one per line. Every value is Fernet-encrypted at rest and never written to logs, audit records,
+or analytics — audit entries reference the reservation/delivery row's id, not the key itself.
+
+`;confirm`, run inside the ticket, reserves and DMs the next available key for that ticket's
+product/variant:
+
+- **Concurrency-safe** — two staff running `;confirm` on the same ticket at the same moment can
+  never receive or reserve the same key.
+- **DM failure doesn't lose stock** — if the DM fails, staff get **Retry**, **Secure Reveal**,
+  **Mark Manual**, and **Release Reservation** controls instead of the key silently vanishing
+  from inventory.
+
+<Note>
+  `/analytics` reports AIO purchase-request value alongside confirmed-fulfillment value, kept
+  deliberately separate from "revenue" — neither number is payment-verified, since Ticket Bot
+  never processes payments itself (see [Payments](/ticket/commands/payments)).
+</Note>

@@ -1,0 +1,50 @@
+---
+title: "Support"
+description: "Troubleshooting common issues, and how to get further help."
+---
+
+## If something is not working
+
+<AccordionGroup>
+  <Accordion title="Slash commands aren't showing up">
+    News Bot doesn't register its slash commands automatically on every restart — that's a
+    deliberate, manual step. Ask whoever operates the bot to run the owner-only `/sync`. See
+    [Administration](/news/commands/administration).
+  </Accordion>
+  <Accordion title="“You don't have permission to do that”">
+    You need Discord **Administrator**, **Manage Messages**, the role configured via
+    `/news config admin_role`, or bot-owner status. See
+    [Installation & Permissions](/news/installation-permissions) for the full breakdown.
+  </Accordion>
+  <Accordion title="The publish report shows a channel as failed">
+    Check the specific error: `missing_permissions` means the bot lacks Send Messages in that
+    channel; `channel_unavailable`/`channel_deleted` means the channel was deleted, isn't
+    cached, or the bot was removed from the server; `rate_limited`/`discord_api_error` are
+    transient and retried automatically up to a bounded number of attempts. Use
+    **Resend / Retry** from `/news history` to reclaim a target that already reached a terminal
+    failed state. See [Drafting & Publishing](/news/features/drafting-publishing) for the full
+    error list.
+  </Accordion>
+  <Accordion title="A scheduled announcement didn't go out">
+    Check whether the bot was online around the scheduled time — if it was offline, the
+    announcement is caught up automatically the next time it starts. If the bot was online the
+    whole time, ask whoever operates it to check the server logs for a scheduler error audit
+    event. A target stuck mid-send is reclaimed automatically on the next poll cycle — no
+    restart needed.
+  </Accordion>
+  <Accordion title="Mention policy shows “a role (not configured)”">
+    The announcement's policy is set to **Role**, but no role was ever selected. Open the
+    builder's Mention Policy step and pick one, or switch to a different policy.
+  </Accordion>
+  <Accordion title="A confirmation or builder panel stopped responding">
+    Panels time out after a while so a stale button can't act on state that's since changed —
+    reopen it (`/news draft edit`, `/news history`, or the original command) and try again.
+  </Accordion>
+</AccordionGroup>
+
+## Getting help
+
+There's no publicly documented Discord support server or contact address for News Bot in the
+materials this documentation is built from. If something here doesn't cover your situation,
+contact whoever operates your News Bot instance for your server — they're the ones who can
+check the logs and reach whoever maintains the code.

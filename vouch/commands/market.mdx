@@ -1,0 +1,43 @@
+---
+title: "/market"
+description: "Create, browse, and manage marketplace listings."
+---
+
+<Info>
+  These commands only work if the marketplace is enabled in this server (toggle from
+  `/vouch-admin` → Configuration). See [Marketplace](/vouch/features/marketplace) for how the
+  system fits together.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="/market create type">
+    **Who:** Anyone, where the marketplace is enabled.
+
+    **What it does:** Opens a modal (title, description, category, price, image URLs) →
+    confirmation → posts a public listing card with a **Contact Seller** button. `type` is one
+    of `Want to Sell`, `Want to Buy`, or `Service`.
+
+    **Example:** `/market create type:"Want to Sell"`
+  </Accordion>
+  <Accordion title="/market browse [type] [category] [keyword]">
+    **Who:** Anyone.
+
+    **What it does:** Paginated, filterable results; each row has a **View** button. `type`
+    additionally accepts `All` (the default) alongside the three listing types; `category` and
+    `keyword` narrow further.
+
+    **Example:** `/market browse type:"Want to Buy" keyword:controller`
+  </Accordion>
+  <Accordion title="/market manage">
+    **Who:** Listing owners, for their own listings.
+
+    **What it does:** Lists your own listings, each with a **Manage** button offering pause/
+    resume, mark sold, close, renew, or remove.
+
+    **Example:** `/market manage`
+  </Accordion>
+</AccordionGroup>
+
+Contact behavior is configurable per server (`/vouch-admin` → Marketplace Settings): show
+contact info ephemerally, open a private thread, open a ticket channel, link a storefront, or
+just mention/copy the seller.

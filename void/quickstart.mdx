@@ -1,0 +1,44 @@
+---
+title: "Quickstart"
+description: "Add V.O.I.D to your server and get it configured."
+---
+
+<Steps>
+  <Step title="Get access">
+    V.O.I.D is in private alpha, and the bot will leave any server that is not on the access
+    list — so ask for access **before** inviting it.
+    [Request access](https://void.oauth.fyi/support) with your server ID.
+  </Step>
+  <Step title="Invite the bot">
+    Use [Add to Discord](https://void.oauth.fyi/invite). The invite requests only what the
+    shipped modules need — see [Installation & Permissions](/void/installation-permissions) for
+    the itemised list and the privileged intents you'll need to enable.
+  </Step>
+  <Step title="Run =setup">
+    Run `=setup` in your server. That opens the configuration panel where you set admin and
+    staff roles, your log channel, and which modules are enabled.
+
+    The prefix is `=`. Every command works with it; a smaller set of slash commands open the
+    same panels.
+  </Step>
+  <Step title="Set who can do what">
+    `=setadmin` and `=setstaff` assign the roles V.O.I.D treats as privileged. Until you set
+    them, only members with Manage Server or Administrator can change anything.
+  </Step>
+  <Step title="Turn on the modules you want">
+    Only `core` is enabled by default. Open `=config` → **Modules** and enable what you need.
+    Some modules need a privileged intent or an API key first — [Modules](/void/modules) lists
+    which.
+  </Step>
+</Steps>
+
+## After setup
+
+`=help` gives a permission-aware command list from inside Discord — it only shows what *you*
+can run in *that* server. The full reference starts at
+[Moderation & Safety](/void/commands/moderation-safety).
+
+<Info>
+  Something not working? [Support](/void/support) covers the common fixes and how to report a
+  problem.
+</Info>

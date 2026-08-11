@@ -1,0 +1,59 @@
+---
+title: "Introduction"
+description: "One notification per game release, correlated and deduplicated across Steam, Epic, EA, Activision, Ubisoft, Riot, Bungie, Roblox, and more."
+---
+
+Updater watches the games your server cares about and posts one clean notification per release — then edits that same message in place as better information comes in, instead of flooding the channel with follow-ups.
+
+## What it monitors
+
+<CardGroup cols={2}>
+  <Card title="Storefronts & platforms" icon="gamepad">
+    Steam, Epic (Fortnite), Roblox, and Cfx.re/FiveM.
+  </Card>
+  <Card title="Publishers" icon="building">
+    EA (Battlefield, Apex Legends), Activision (Call of Duty), Ubisoft (Rainbow Six
+    Siege X), and Bungie (Destiny 2).
+  </Card>
+  <Card title="Live-service status" icon="tower-broadcast">
+    Riot (VALORANT/League maintenance signals) and Battlestate (Escape from
+    Tarkov).
+  </Card>
+  <Card title="Official feeds" icon="rss">
+    Any publisher's official RSS/Atom news feed.
+  </Card>
+</CardGroup>
+
+Coverage isn't uniform across every game. Some sources hand over exact build
+numbers and official patch notes; others only confirm that a maintenance window
+is happening. Updater is upfront about that difference rather than papering over
+it — see [Notifications](/updater/features/notifications) for what each status
+badge actually means.
+
+## What a notification looks like
+
+Every release gets one message: the game's name and icon, a platform and status
+badge, a version or build line (old → new, once both are known), when the
+release actually went out and when Updater detected it, a summary when one
+exists, and a link to the official patch notes when there is one. Fields
+Updater can't confirm are left off the card rather than filled in with a
+placeholder.
+
+<Note>
+  See [Notifications](/updater/features/notifications) for the full breakdown
+  of what each part of the card means and when it shows up.
+</Note>
+
+## Why one notification per release
+
+Games rarely announce an update all at once. A Steam build ID might show up
+hours before the developer publishes patch notes; a maintenance window is
+often confirmed before anyone says what's in it. Updater treats these as
+signals about the *same* release instead of separate events — it correlates
+them, and when a new signal adds real information, it edits the existing
+message rather than posting a new one. Your update channel ends up with one
+evolving message per release, not a stream of near-duplicates.
+
+<Card title="Start here" icon="rocket" href="/updater/quickstart">
+  Invite Updater, set a delivery channel, and choose which games to track.
+</Card>

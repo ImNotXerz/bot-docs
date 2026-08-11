@@ -1,0 +1,265 @@
+---
+title: "Support Operations"
+description: "The License Operations staff commands — lookup, HWID and subscription management, linking, and role sync."
+---
+
+Sourced directly from the bot's command handlers (`keyauth_bot/cogs/licops.py` for `/license`,
+`keyauth_bot/cogs/licadmin.py` for `/licops`). This page is maintained by hand — if a command
+here looks out of date, the source is the final authority.
+
+<Info>
+  **Permission** is the License Operations capability checked when the command actually runs —
+  see [Installation & Permissions](/keyauth/installation-permissions) and
+  [License Operations](/keyauth/features/license-operations) for how capabilities resolve.
+  Configured admins and the guild owner hold every capability
+  automatically. Both command groups also require a Discord-visible **Manage Server** by default
+  to appear at all, which server admins can loosen per role in Discord's Integrations settings —
+  that only controls visibility, not whether the command is allowed to run.
+</Info>
+
+## Lookup & customer records
+
+<AccordionGroup>
+  <Accordion title="/license lookup — Look up a license by key, username, or Discord user">
+    ```
+    /license lookup identifier:<text>
+    ```
+    `identifier` accepts a license key, KeyAuth username, Discord mention/ID, or hardware ID.
+    Opens the action panel — see [Panel actions](#panel-actions) below.
+
+    Rate-limited to 10 uses per 60 seconds per user.
+
+    **Permission:** `license.view`
+
+    **Example:** `/license lookup identifier:@SomeUser`
+  </Accordion>
+  <Accordion title="/license customer — Customer support profile">
+    ```
+    /license customer identifier:<text>
+    ```
+    `identifier` accepts a Discord mention/ID or a KeyAuth username. Returns a rolled-up support
+    profile with buttons to open the full license panel and, with `license.view_history`, its
+    history.
+
+    **Permission:** `license.view`
+
+    **Example:** `/license customer identifier:@SomeUser`
+  </Accordion>
+  <Accordion title="/license search — Filtered, paginated search">
+    ```
+    /license search [status:<choice>] [customer:<user>] [subscription:<text>]
+                     [expires_in_days:<int>] [unlinked:<true|false>] [page:<int>]
+    ```
+    `status` is one of: `Active`, `Expired`, `Disabled`, `Revoked`. Runs against the local
+    mirror, not a live KeyAuth call, because KeyAuth's `fetchallkeys` has no server-side filter
+    or cursor. `page` defaults to `1`.
+
+    **Permission:** `license.view`
+
+    **Example:** `/license search status:Active expires_in_days:7`
+  </Accordion>
+</AccordionGroup>
+
+## Account linking
+
+<AccordionGroup>
+  <Accordion title="/license link — Link a Discord user to a KeyAuth account">
+    ```
+    /license link member:<user> identifier:<text>
+    ```
+    `identifier` accepts a license key or KeyAuth username. Triggers a role sync for that member
+    on success.
+
+    **Permission:** `license.link`
+
+    **Example:** `/license link member:@SomeUser identifier:XXXXX-XXXXX-XXXXX-XXXXX`
+  </Accordion>
+  <Accordion title="/license unlink — Remove a user's account link">
+    ```
+    /license unlink member:<user>
+    ```
+    **Permission:** `license.unlink`
+
+    **Example:** `/license unlink member:@SomeUser`
+  </Accordion>
+  <Accordion title="/license transfer — Transfer a license's Discord association">
+    ```
+    /license transfer identifier:<text> to:<user> reason:<text> [reset_hwid:<true|false>]
+    ```
+    `reset_hwid` defaults to `true` and is recommended. Syncs roles onto the new owner and off
+    the old one on success.
+
+    <Warning>
+      This moves the **Discord association only**. KeyAuth-side account ownership is unchanged —
+      KeyAuth's API has no true transfer operation. See [What KeyAuth cannot
+      do](/keyauth/features/license-operations#what-keyauth-cannot-do) for why.
+    </Warning>
+
+    **Permission:** `license.transfer`
+
+    **Example:** `/license transfer identifier:SomeUser to:@NewOwner reason:Account sold reset_hwid:True`
+  </Accordion>
+</AccordionGroup>
+
+## Configuration
+
+### Reset policy
+
+<AccordionGroup>
+  <Accordion title="/licops policy show — Show the current HWID reset policy">
+    ```
+    /licops policy show
+    ```
+    **Permission:** `license.admin`
+  </Accordion>
+  <Accordion title="/licops policy set — Update the HWID reset policy">
+    ```
+    /licops policy set [self_service:<true|false>] [max_resets:<int>] [window_days:<int>]
+                        [cooldown_hours:<int>] [require_reason:<true|false>]
+                        [require_approval:<true|false>] [staff_override:<true|false>]
+    ```
+    Every argument is optional — omitted ones keep their current value. `max_resets:0` means
+    unlimited.
+
+    **Permission:** `license.admin`
+
+    **Example:** `/licops policy set max_resets:2 window_days:30 cooldown_hours:72`
+  </Accordion>
+</AccordionGroup>
+
+### Role mappings
+
+<AccordionGroup>
+  <Accordion title="/licops roles map — Map a subscription to a Discord role">
+    ```
+    /licops roles map subscription:<text> role:<role> [remove_on_expire:<true|false>]
+                       [remove_on_disable:<true|false>] [restore_on_rejoin:<true|false>]
+    ```
+    `subscription` must match the KeyAuth subscription name exactly. All three boolean flags
+    default to `true`. Refused if `role` sits at or above the bot's own highest role.
+
+    **Permission:** `license.role_sync`
+
+    **Example:** `/licops roles map subscription:premium role:@Premium`
+  </Accordion>
+  <Accordion title="/licops roles unmap — Remove a subscription-to-role mapping">
+    ```
+    /licops roles unmap subscription:<text>
+    ```
+    **Permission:** `license.role_sync`
+
+    **Example:** `/licops roles unmap subscription:premium`
+  </Accordion>
+  <Accordion title="/licops roles list — List role mappings">
+    ```
+    /licops roles list
+    ```
+    **Permission:** `license.view`
+  </Accordion>
+  <Accordion title="/licops roles sync — Re-sync one member's roles now">
+    ```
+    /licops roles sync member:<member>
+    ```
+    **Permission:** `license.role_sync`
+
+    **Example:** `/licops roles sync member:@SomeUser`
+  </Accordion>
+</AccordionGroup>
+
+### Capability grants
+
+<AccordionGroup>
+  <Accordion title="/licops permissions grant — Grant a capability to a role">
+    ```
+    /licops permissions grant role:<role> capability:<text>
+    ```
+    `capability` autocompletes against the 17 valid capability keys — see
+    [License Operations](/keyauth/features/license-operations) for the full list.
+
+    **Permission:** `license.admin`
+
+    **Example:** `/licops permissions grant role:@Support capability:license.hwid_reset`
+  </Accordion>
+  <Accordion title="/licops permissions revoke — Revoke a capability from a role">
+    ```
+    /licops permissions revoke role:<role> capability:<text>
+    ```
+    **Permission:** `license.admin`
+
+    **Example:** `/licops permissions revoke role:@Support capability:license.hwid_reset`
+  </Accordion>
+  <Accordion title="/licops permissions list — Show capability grants and available capabilities">
+    ```
+    /licops permissions list
+    ```
+    **Permission:** `license.view`
+  </Accordion>
+  <Accordion title="/licops permissions preset — Grant a standard capability set to a role">
+    ```
+    /licops permissions preset role:<role> preset:<choice>
+    ```
+    `preset` is one of: `Support` (view, history, notes, HWID reset, link), `Manager` (adds
+    unlink, HWID override, extend, set-expiration, enable/disable, and role sync). Neither preset
+    includes anything destructive — `revoke`, `delete`, `transfer`, `view_sensitive`, `bulk`, and
+    `admin` are always granted explicitly.
+
+    **Permission:** `license.admin`
+
+    **Example:** `/licops permissions preset role:@Support preset:Support`
+  </Accordion>
+</AccordionGroup>
+
+## Operations
+
+<AccordionGroup>
+  <Accordion title="/licops reconcile — Re-check licenses against KeyAuth now">
+    ```
+    /licops reconcile [limit:<int>] [sync_roles:<true|false>]
+    ```
+    `limit` defaults to `25` and is capped at `200` (each account checked spends API budget).
+    `sync_roles` defaults to `true`. Refuses to start a second run while one is already in
+    progress, and stops immediately — rather than spending remaining budget — if it hits
+    KeyAuth's rate limit.
+
+    **Permission:** `license.bulk`
+
+    **Example:** `/licops reconcile limit:50`
+  </Accordion>
+  <Accordion title="/licops status — License Operations health and recent runs">
+    ```
+    /licops status
+    ```
+    Reports the application name, mirrored license count, scheduled sweep interval, alert
+    status, HWID checking status, and the most recent reconciliation run.
+
+    **Permission:** `license.view`
+  </Accordion>
+  <Accordion title="/licops bulk — Safe bulk reports and role reconciliation">
+    ```
+    /licops bulk operation:<choice> [execute:<true|false>]
+    ```
+    `operation` is one of: `Expiring soon report`, `Orphaned link report`, `Role
+    reconciliation`. `execute` defaults to `false`, which previews the operation — including its
+    API cost — instead of running it.
+
+    <Note>
+      There is deliberately no bulk delete and no bulk revoke. A mistyped filter should not be
+      able to destroy a customer base.
+    </Note>
+
+    **Permission:** `license.bulk`
+
+    **Example:** `/licops bulk operation:Expiring soon report`
+  </Accordion>
+</AccordionGroup>
+
+## Panel actions
+
+The `/license lookup` panel carries buttons for hardware ID, extend, history, notes, refresh,
+disable/enable, revoke, and reveal. Only actions the viewer may perform are rendered — but that's
+a UX convenience, not the control: **every capability is re-checked server-side on press**, and
+the account is re-read rather than trusted from the button itself, since a button's `custom_id`
+is client-visible and technically client-modifiable.
+
+Consequential actions — disable, revoke — always require confirmation and a reason captured in a
+modal.

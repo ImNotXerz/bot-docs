@@ -1,0 +1,142 @@
+---
+title: "Members & Roles"
+description: "Role panels, mass role, welcome, invites, backups."
+---
+
+Every command works with the `=` prefix. Where a slash entry point exists it opens the same
+Components V2 panel as the prefix command.
+
+<Info>
+  A command being listed here does not mean its module is enabled in your server. Turn modules on
+  with `=config`. See [Modules](/void/modules) for what each one needs.
+</Info>
+
+**10 commands across 5 modules.**
+
+## Roles
+
+<AccordionGroup>
+  <Accordion title="=rolepanel">
+    Opens the role panel. Staff with role-panel management access see the manager (create/edit
+    panels); everyone else sees the latest public role panel to pick roles from.
+
+    **Syntax:** `=rolepanel` (opens a panel, no arguments)
+
+    **Aliases:** `=roles` · **Slash:** `/role`
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=addrole">
+    Opens the Role Panel Manager — the same panel `=rolepanel` opens for staff. Despite the
+    name, this command does not currently take a user/role argument directly; adding and
+    removing roles happens through that panel's buttons and selects.
+
+    **Syntax:** `=addrole` (opens a panel, no arguments)
+
+    **Aliases:** `=removerole` · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=massrole">
+    Opens the Mass Role panel — bulk-add or bulk-remove a role across many members at once. The
+    job is checkpointed, so it resumes from where it left off if the bot restarts mid-run.
+
+    **Syntax:** `=massrole` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** `/massrole`
+
+    **Permission:** Discord Administrator
+  </Accordion>
+</AccordionGroup>
+
+## Join Lifecycle
+
+<AccordionGroup>
+  <Accordion title="=joinlifecycle">
+    Opens the Join Lifecycle panel: autorole, join ping, join DM, welcome/leave/boost messages,
+    and custom booster roles all live here.
+
+    **Syntax:** `=joinlifecycle` (opens a panel, no arguments)
+
+    **Aliases:** `=welcome` · **Slash:** `/welcome`
+
+    **Permission:** Configured Admin
+  </Accordion>
+</AccordionGroup>
+
+## Invites
+
+<AccordionGroup>
+  <Accordion title="=invites">
+    Opens the invite tracking home panel with server-wide invite stats.
+
+    **Syntax:** `=invites` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** `/invite`
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=geninvite">
+    Opens the invite home panel for staff to generate a tracked invite.
+
+    **Syntax:** `=geninvite` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=invitesleaderboard">
+    Shows the server's invite leaderboard, plus the vanity-URL join count.
+
+    **Syntax:** `=invitesleaderboard` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=inviteinfo">
+    Shows your own invite stats — how many members you've brought in.
+
+    **Syntax:** `=inviteinfo` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+</AccordionGroup>
+
+## Restore (Member Backup)
+
+<AccordionGroup>
+  <Accordion title="=restorecord">
+    Opens the member-backup and restore panel: members opt in to an encrypted backup of their
+    membership, and staff can trigger a restore later (e.g. after a raid). Requires premium
+    (bot owners bypass the gate).
+
+    **Syntax:** `=restorecord` (opens a panel, no arguments)
+
+    **Aliases:** `=restore` · **Slash:** `/restorecord`
+
+    **Permission:** Discord Administrator
+  </Accordion>
+</AccordionGroup>
+
+## Server Backup
+
+<AccordionGroup>
+  <Accordion title="=backup">
+    Opens the server backup panel — capture and restore the server's role and channel
+    structure. Requires premium (bot owners bypass the gate).
+
+    **Syntax:** `=backup` (opens a panel, no arguments)
+
+    **Aliases:** `=backups` · **Slash:** `/backup`
+
+    **Permission:** Discord Administrator
+  </Accordion>
+</AccordionGroup>

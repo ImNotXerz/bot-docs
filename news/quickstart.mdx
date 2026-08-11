@@ -1,0 +1,49 @@
+---
+title: "Quickstart"
+description: "Get News Bot configured and publish your first announcement."
+---
+
+This assumes News Bot is already running and has already joined your server. See
+[Installation & Permissions](/news/installation-permissions) for what the invite asks for and who
+can run what once it's in.
+
+<Steps>
+  <Step title="Check the commands are there">
+    News Bot doesn't re-register its slash commands on every restart — that's a deliberate,
+    infrequent action taken by whoever runs the bot. If `/news` doesn't show up yet, ask them to
+    run the owner-only `/sync` (see [Administration](/news/commands/administration)).
+  </Step>
+  <Step title="Configure the server">
+    Run `/news config` to set who's allowed to manage announcements and where audit events get
+    posted:
+
+    ```
+    /news config admin_role:@Announcers log_channel:#audit-log default_mention_policy:"No Ping"
+    ```
+
+    Until `admin_role` is set, only Discord's **Administrator** and **Manage Messages**
+    permissions (plus the bot owner) count. See [Configuration](/news/configuration) for every
+    option.
+  </Step>
+  <Step title="Know the mention default">
+    A brand-new draft — and a guild that hasn't set `default_mention_policy` — both start at
+    **No Ping**. `@here`, `@everyone`, and pinging a role are all opt-in, chosen deliberately per
+    announcement or per guild default. Nothing pings anyone by accident.
+  </Step>
+  <Step title="Create your first announcement">
+    Run `/news create` to open the builder. Fill in a title and body, optionally add media and
+    up to 5 CTA buttons, choose a mention policy, pick target channels, then **Publish Now** or
+    **Schedule**. See [Drafting & Publishing](/news/features/drafting-publishing) for how each
+    step works.
+  </Step>
+</Steps>
+
+## After setup
+
+`/news history` shows everything that's been drafted, scheduled, or published. The full command
+reference starts at [Announcements](/news/commands/announcements).
+
+<Info>
+  Something not behaving as expected? [Support](/news/support) covers the common issues and
+  what each one usually means.
+</Info>

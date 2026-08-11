@@ -1,0 +1,29 @@
+---
+title: "Support"
+description: "Troubleshooting common issues and getting help."
+---
+
+## Common issues
+
+<AccordionGroup>
+  <Accordion title="A persistent leaderboard's channel or message was deleted">
+    The next startup's recovery pass (or the next scheduled refresh) marks it `BROKEN`. Remove
+    and redeploy it from `/vouch-admin` → Leaderboards.
+  </Accordion>
+  <Accordion title="A command shows a generic error instead of completing">
+    Vouch. always renders a safe, generic error to the Discord user rather than a leaked stack
+    trace, so this can mean a range of things behind the scenes. If it keeps happening, check
+    with whoever manages the bot for your server.
+  </Accordion>
+  <Accordion title="Discord rate limits">
+    Handled transparently by discord.py's HTTP client at the library level — no
+    application-level handling needed, and nothing for a server admin to do.
+  </Accordion>
+</AccordionGroup>
+
+## Getting help
+
+Vouch. doesn't run a shared support server across every server it's in, so start with whoever
+manages the bot for your server. If you've confirmed the issue is with how Vouch. behaves in
+Discord — not a one-off — open an issue against the project repository with what you were doing
+when it happened.

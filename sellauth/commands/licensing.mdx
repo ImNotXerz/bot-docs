@@ -1,0 +1,50 @@
+---
+title: "Licensing"
+description: "How an operator claims a KeyAuth licence, connects their SellAuth shop, and delegates access to one other person. Licences and tokens are encrypted at rest."
+---
+
+**5 commands.** How an operator claims a KeyAuth licence, connects their SellAuth shop, and delegates access to one other person. Licences and tokens are encrypted at rest — see [Configuration](/sellauth/configuration) for the commands that manage them.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/authorize`">
+    **Tier:** `owner`
+
+    Delegates your KeyAuth licence and shop entirely to one other Discord user.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/deauthorize`">
+    **Tier:** `owner`
+
+    Revokes a previously delegated authorization.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/register`">
+    **Tier:** `owner`
+
+    Registers a KeyAuth licence to your Discord account.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/setshopid`">
+    **Tier:** `owner`
+
+    Selects which of your SellAuth shops this account manages.
+
+    **SellAuth endpoint:** `GET /shops`
+  </Accordion>
+
+  <Accordion title="`/settoken`">
+    **Tier:** `owner`
+
+    Connects — or replaces — your SellAuth API token.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+</AccordionGroup>

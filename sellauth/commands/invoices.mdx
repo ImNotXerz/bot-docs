@@ -1,0 +1,67 @@
+---
+title: "Invoices"
+description: "Looking up, listing and manually processing invoices. See Orders for the commands that change an order once it exists."
+---
+
+**6 commands.** Looking up, listing and manually processing invoices. See Orders for the commands that change an order once it exists.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/create_invoice`">
+    **Tier:** `manager`
+
+    Creates a manual invoice or checkout for a customer.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}/products`
+    - `POST /shops/{id}/checkout`
+  </Accordion>
+
+  <Accordion title="`/customer_invoices`">
+    **Tier:** `support`
+
+    Lists one customer's invoices.
+
+    **SellAuth endpoint:** `GET /shops/{id}/invoices`
+  </Accordion>
+
+  <Accordion title="`/invoice`">
+    **Tier:** `support`
+
+    Shows full detail for a single invoice.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}/invoices/{id}`
+    - `GET /shops/{id}/invoices/{id}/process`
+  </Accordion>
+
+  <Accordion title="`/lastinvoices`">
+    **Tier:** `support`
+
+    Lists the shop's most recent invoices.
+
+    **SellAuth endpoint:** `GET /shops/{id}/invoices`
+  </Accordion>
+
+  <Accordion title="`/pendinginvoices`">
+    **Tier:** `support`
+
+    Lists invoices awaiting payment or processing.
+
+    **SellAuth endpoint:** `GET /shops/{id}/invoices`
+  </Accordion>
+
+  <Accordion title="`/processinvoice`">
+    **Tier:** `support`
+
+    Manually (re)processes an invoice, e.g. after a stuck payment.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}/invoices/{id}`
+    - `GET /shops/{id}/invoices/{id}/process`
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,34 @@
+---
+title: "Product groups"
+description: "Grouping products together, e.g. for bundles or catalog organization."
+---
+
+**2 commands.** Grouping products together, e.g. for bundles or catalog organization.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/create_group`">
+    **Tier:** `manager`
+
+    Creates a product group from a set of products.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}/products`
+    - `POST /shops/{id}/groups`
+  </Accordion>
+
+  <Accordion title="`/edit_group`">
+    **Tier:** `manager`
+
+    Edits an existing product group's membership or settings.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}/groups`
+    - `GET /shops/{id}/groups/{id}`
+    - `GET /shops/{id}/products`
+    - `PUT /shops/{id}/groups/{id}/update`
+  </Accordion>
+</AccordionGroup>

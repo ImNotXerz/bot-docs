@@ -1,0 +1,75 @@
+---
+title: "Introduction"
+description: "What News Bot does, and whether it's the right bot for your server."
+---
+
+News Bot is a Discord announcement-publishing bot. It replaces the "type a message, tack on
+`@everyone`, hit send" habit with a real publishing system: persistent drafts, a status
+lifecycle, an opt-in mention policy, multi-channel delivery that tolerates partial failure,
+restart-safe scheduling, templates, and a full history — all rendered with Discord's
+**Components V2** UI. No classic embeds anywhere.
+
+## Is News Bot for you?
+
+News Bot is built for servers that publish announcements to more than one channel, more than
+one person, or on more than an ad-hoc basis. It's a good fit if you:
+
+- Post the same announcement to several channels and want one send that reports back exactly
+  which channels succeeded and which didn't
+- Don't want `@everyone` firing by default every time someone posts an update
+- Want to schedule an announcement ahead of time and trust it will actually go out, even if the
+  bot restarts in between
+- Reuse the same kind of announcement often enough that a template saves real time
+- Need a record of what was announced, when, and by whom
+
+If you just need one person to paste a message into one channel occasionally, News Bot is more
+machinery than you need.
+
+## What it does
+
+<CardGroup cols={2}>
+  <Card title="Drafts" icon="pen-to-square">
+    Every step of building an announcement — title, body, media, CTAs, footer, mention policy,
+    targets — saves immediately, so an interrupted session never loses progress.
+  </Card>
+  <Card title="Opt-in mentions" icon="bell">
+    New drafts default to **No Ping**. `@here`, `@everyone`, and role pings all require a
+    deliberate choice, and any of them shows a confirmation screen before publishing.
+  </Card>
+  <Card title="Multi-channel publishing" icon="tower-broadcast">
+    Each target channel is sent to independently. A missing-permissions or deleted-channel
+    failure on one channel never blocks delivery to the rest.
+  </Card>
+  <Card title="Restart-safe scheduling" icon="clock">
+    Scheduled time lives in the database, not in memory. A crash mid-publish or downtime over a
+    scheduled time is caught up automatically once the bot is back.
+  </Card>
+  <Card title="Templates" icon="copy">
+    Save a reusable starting point — title, body, media, mention policy, CTAs — and pre-fill a
+    fresh, fully-editable draft from it any time.
+  </Card>
+  <Card title="History" icon="clock-rotate-left">
+    Browse past announcements and view, clone, resend failed targets, edit (draft or live),
+    cancel a schedule, or delete — all from one panel.
+  </Card>
+</CardGroup>
+
+## How it is built
+
+**Preview is the real thing.** `/news view`, the builder's Preview button, and the actual
+published message all render through the exact same function — there is no separate
+preview-only layout that could drift from what actually gets sent.
+
+**The mention token can't leak in from the body.** A ping (if any) only ever goes into the
+message's top-level content, gated by an explicit allowed-mentions setting. The title, body, and
+footer render inside a Components V2 text block, which Discord has never parsed for
+`@everyone`/`@here`/role syntax — so an admin literally typing "@everyone" into the body cannot
+trigger a notification.
+
+**Nothing important lives only in memory.** Drafts, schedules, and in-flight publish attempts are
+all rows in the database. A restart resumes exactly where things left off instead of losing
+state.
+
+<Card title="Start here" icon="rocket" href="/news/quickstart">
+  Get News Bot configured and publish your first announcement.
+</Card>

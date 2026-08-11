@@ -1,0 +1,34 @@
+---
+title: "Webhooks"
+description: "Managing this server's inbound webhook URL — the credential SellAuth uses to push sale/invoice events straight to the bot instead of relying on polling. See the Integrations tab for setup."
+---
+
+**3 commands.** Managing this server's inbound webhook URL — the credential SellAuth uses to push sale/invoice events straight to the bot instead of relying on polling. See the Integrations tab for setup.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/webhook regenerate`">
+    **Tier:** `owner`
+
+    Revokes the current webhook URL and issues a new one.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/webhook status`">
+    **Tier:** `owner`
+
+    Shows whether SellAuth is actually reaching the bot's webhook listener.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/webhook url`">
+    **Tier:** `owner`
+
+    Shows this server's webhook URL. Response is ephemeral — visible only to the caller.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,73 @@
+---
+title: "Introduction"
+description: "What KeyAuth Bot does, and whether it's the right bot for your server."
+---
+
+KeyAuth Bot fronts [KeyAuth](https://keyauth.cc) licensing from inside Discord. Members redeem
+keys, check their subscription, and reset their hardware ID (HWID) instead of opening a dashboard
+or a support ticket. Staff get a full support control plane — License Operations — over the same
+integration: license lookup, HWID and subscription management, Discord↔KeyAuth account linking,
+role sync, and reconciliation against the dashboard.
+
+Built on **KeyAuth API 1.3** with Ed25519 response verification, and rendered entirely with
+**Discord Components V2** — no embeds anywhere.
+
+## Is KeyAuth Bot for you?
+
+KeyAuth Bot is built for servers selling software licensed through KeyAuth. It's a good fit if
+you:
+
+- Want customers to redeem a key, check their subscription, or reset their own hardware ID
+  without opening a ticket for every machine change
+- Want a support team that can look up, adjust, and manage licenses from Discord instead of the
+  KeyAuth dashboard
+- Need granular staff permissions instead of one all-or-nothing admin role
+- Want Discord roles kept in sync with subscription status automatically, including when the
+  dashboard is edited directly
+
+It's less of a fit if you don't sell through KeyAuth, or you only need redemption and don't want
+the support control plane running at all — License Operations stays inert until a seller key and
+capabilities are configured.
+
+## What it does
+
+<CardGroup cols={2}>
+  <Card title="Self-service" icon="user">
+    Members link their KeyAuth account, redeem keys, check subscriptions and HWID status, and
+    reset their own hardware ID — no password ever typed into Discord.
+  </Card>
+  <Card title="License Operations" icon="headset">
+    A support control plane: license lookup with an action panel, HWID and subscription
+    management, account linking, and reconciliation against the dashboard.
+  </Card>
+  <Card title="Granular permissions" icon="user-lock">
+    17 capabilities mapped to Discord roles rather than a single admin bit — the person who can
+    check an expiry isn't automatically the person who can delete an account.
+  </Card>
+  <Card title="Role synchronisation" icon="arrows-rotate">
+    Discord roles follow subscription status automatically — on link, on expiry, on manual sync,
+    and during scheduled reconciliation.
+  </Card>
+</CardGroup>
+
+## How it is built
+
+Two decisions shape everything else.
+
+**Nobody ever types a hardware ID.** A Discord bot cannot see a user's hardware, so it must never
+invent one. `/account resethwid` clears the HWID server-side through the seller API, and KeyAuth
+binds whatever machine logs in next — the user just opens their loader and signs in.
+
+**Nobody ever types a KeyAuth password.** Account ownership is proven once, by license key, and
+remembered against the user's Discord ID. Follow-up commands resolve the KeyAuth account from
+that link. The one exception is `/account register`, where a user *chooses* a new password for a
+brand-new account.
+
+**KeyAuth remains authoritative.** The License Operations layer never becomes the source of truth
+for license state — everything it stores locally is either a clearly-marked cache or data KeyAuth
+has no concept of at all, such as local reset policy, staff notes, and an audit timeline of what
+the bot itself did.
+
+<Card title="Start here" icon="rocket" href="/keyauth/quickstart">
+  Add KeyAuth Bot to your server and connect it to your KeyAuth application.
+</Card>

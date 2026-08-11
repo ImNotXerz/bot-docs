@@ -1,0 +1,33 @@
+---
+title: "Quickstart"
+description: "Connect your shop and run your first commands once the bot is online in your server."
+---
+
+SellAuth Bot is self-hosted — there is no invite link. Someone runs the instance (you, or whoever
+issued your licence), and everyone they license connects their own shop to it.
+
+<Steps>
+  <Step title="What you need">
+    A **SellAuth** shop and API token, and a **KeyAuth licence** for the instance you're using —
+    the bot is licence-gated, so nothing shop-related works without one.
+  </Step>
+  <Step title="Connect your shop">
+    1. `/register <license>` — register your KeyAuth licence
+    2. `/settoken <token>` — connect your SellAuth API token
+    3. `/setshopid` — pick which shop to manage
+    4. `/notifications set` — choose where sales, invoices, feedback and audit events post
+  </Step>
+</Steps>
+
+## Letting others use your shop
+
+`/authorize @user` delegates your licence and shop to one other Discord user. For a support team,
+prefer `/permissions staff enabled:True` instead — it lends the shop for lookups and fulfilment
+only, to everyone with Discord Administrator, per server. See
+[Permissions](/sellauth/introduction#permissions) for the full tier table and what staff access
+does and does not allow.
+
+## If something is not working
+
+See [Support](/sellauth/support) for a licence that won't validate, `/webhook url` refusing to
+show a URL, and other common issues.

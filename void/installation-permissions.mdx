@@ -1,0 +1,65 @@
+---
+title: "Installation & Permissions"
+description: "What V.O.I.D asks Discord for, privileged intents, and who can run what."
+---
+
+## What the bot asks Discord for
+
+The invite requests only what the shipped modules actually need — it is not a blanket
+Administrator grant.
+
+| Permission | Used for |
+| --- | --- |
+| Manage Roles | Role panels, autoroles, mass role, level rewards |
+| Manage Channels | Ticket channels, channel manager, lock/unlock |
+| Manage Server | Reading invites for invite tracking |
+| Kick / Ban / Timeout Members | Moderation actions |
+| Manage Messages | Sticky messages, cleanup, starboard |
+| Create Invite | Invite generation and tracking |
+| Manage Nicknames | Onboarding and verification flows |
+| Send Messages, Embed Links, Attach Files, Read History, Add Reactions, Use External Emoji | Posting panels and responding to commands |
+
+### Privileged intents
+
+Two intents must be enabled in the Discord Developer Portal or parts of the bot silently do
+nothing:
+
+<CardGroup cols={2}>
+  <Card title="Server Members" icon="users">
+    Onboarding, invite tracking, autoroles, birthdays, and anything that reacts to a member
+    joining or leaving.
+  </Card>
+  <Card title="Message Content" icon="message">
+    Prefix commands, anti-phishing scanning, sticky messages, leveling, and AFK.
+  </Card>
+</CardGroup>
+
+### Role setup
+
+Role panels, autoroles, and mass role all move member roles, which means V.O.I.D's own role
+needs to sit **above** any role it's asked to manage in your server's role list. Discord refuses
+role changes from a lower role regardless of what permissions the bot has — this is the single
+most common reason a role-related command silently does nothing.
+
+## Who can run what
+
+Every command declares a policy, and it is checked when the command **runs** — not only when a
+panel is drawn. Reopening a panel with a stale button will not bypass it.
+
+| Policy | Who |
+| --- | --- |
+| Public | Anyone in the server |
+| Configured Staff | Manage Server or Administrator, **or** a role set with `=setstaff` |
+| Configured Admin | Manage Server or Administrator, **or** a role set with `=setadmin` |
+| Manage Server | Discord's Manage Server permission |
+| Discord Administrator | Discord's Administrator permission |
+| Bot Owner | The people who operate V.O.I.D itself |
+
+Set your privileged roles with `=setadmin` and `=setstaff`. Until you do, only Manage Server and
+Administrator count.
+
+<Note>
+  The dashboard is read-only for settings. Changes happen in Discord so that permission checks
+  and audit logging live in one place — there is no path where a web session can change
+  something Discord would have refused.
+</Note>

@@ -1,0 +1,85 @@
+---
+title: "Introduction"
+description: "What Ticket Bot does, and whether it's the right bot for your server."
+---
+
+Ticket Bot is a Discord ticket platform built around one shared ticket engine with two ways to
+open a ticket: a configurable **Standard** panel (buttons or a dropdown, forms, staff
+permissions) and a guided **AIO** sales funnel (Category → Product → Duration, priced and
+discounted automatically). Whichever path a ticket comes from, everything downstream —
+claiming, permissions, transcripts, auto-close, payments — is the same system.
+
+<Info>
+  Ticket Bot is centrally hosted. You invite it to your server and configure it with slash
+  commands — there's no self-hosting, database, or deployment to manage.
+</Info>
+
+## Is Ticket Bot for you?
+
+Ticket Bot is built for servers that need more than a single "open a ticket" button. It's a
+good fit if you:
+
+- Run a support desk that needs staff tiers, claiming, transcripts, and auto-close instead of
+  one flat "everyone can touch every ticket" model
+- Sell products or services and want a guided checkout-style flow inside Discord — category,
+  product, duration/plan, price, discount — ending in a ticket rather than an external cart
+- Deliver license keys or similar stock and need that handled safely: encrypted at rest, never
+  double-issued to two staff at once, and never silently lost if a DM fails
+- Want structured client intake collected *before* a ticket opens, with deterministic
+  qualification scoring and routing — not a black-box AI score
+- Need staff authority to have real tiers (Support, Sales, Reseller, Staff, Manager, Admin)
+  instead of one binary "is this person staff" check
+
+If you just want a single "click here to open a ticket" button with no funnel, no forms, and no
+staff hierarchy, Ticket Bot is more configuration than you need.
+
+## What it does
+
+<CardGroup cols={2}>
+  <Card title="Standard ticket desks" icon="ticket">
+    Button or dropdown panels, intake forms, opening/channel permission rules, claiming,
+    assignment, transcripts, and auto-close.
+  </Card>
+  <Card title="AIO sales funnel" icon="cart-shopping">
+    A guided Category → Product → Duration purchase flow with authoritative pricing, stacked
+    discounts, and encrypted key/license delivery — into the same ticket engine.
+  </Card>
+  <Card title="Client intake" icon="clipboard-list">
+    An optional plugin: multi-step, conditional questionnaires with deterministic
+    qualification scoring and routing, collected before a ticket ever opens.
+  </Card>
+  <Card title="Smart Gate" icon="filter">
+    Rules-based screening on top of a form's answers — approve, deny, or dry-run — before a
+    ticket type can be opened at all.
+  </Card>
+  <Card title="Staff operations" icon="users-gear">
+    Role-mapped staff tiers, per-panel/per-option permission rules, automation (auto-message,
+    auto-ping, auto-close, close-on-leave), and payment method presentation.
+  </Card>
+  <Card title="Feedback & analytics" icon="chart-line">
+    Post-close star ratings, per-viewer translated panels, and a dashboard covering volume,
+    SLA, AIO order value, inventory levels, and feedback.
+  </Card>
+</CardGroup>
+
+## How it is built
+
+**Everything is Components V2.** Every panel, modal, and response uses Discord's Components V2
+layout system — `discord.Embed` is never used anywhere in the bot.
+
+**One ticket engine, two front doors.** A Standard panel button and the AIO funnel's "Confirm &
+Create Ticket" both end at the same `provision_ticket()` call, which is why claiming,
+transcripts, auto-close, and payments work identically no matter how the ticket was opened.
+
+**Interactive components survive restarts.** Buttons and selects are registered as
+`discord.ui.DynamicItem` classes whose state lives in their own `custom_id` — not in memory —
+so a panel, an in-progress AIO purchase, or an intake draft keeps working immediately after a
+restart with no per-message re-registration.
+
+**Money is exact.** Prices are stored as integer minor units (cents) and AIO pricing is always
+recalculated from live catalog and discount data at confirmation time — never trusted from a
+stale snapshot or a component's encoded value.
+
+<Card title="Start here" icon="rocket" href="/ticket/quickstart">
+  Invite Ticket Bot and get a working ticket panel live.
+</Card>

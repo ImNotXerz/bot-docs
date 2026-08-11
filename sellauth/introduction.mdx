@@ -1,0 +1,139 @@
+---
+title: "SellAuth Bot"
+description: "A self-hosted Discord bot for running a SellAuth shop without leaving Discord."
+---
+
+SellAuth AIO Bot runs a [SellAuth](https://sellauth.com) shop from Discord: orders, inventory,
+customers, coupons, support tickets, affiliates, resellers, analytics, and native purchase panels
+— all without leaving the server.
+
+<Info>
+  SellAuth Bot is self-hosted — you run your own instance. It is also **multi-operator**: each
+  person who registers a KeyAuth licence connects their own shop token, so a single instance can
+  serve several shops across several Discord servers. Credentials are encrypted at rest and
+  resolved fresh on every use. See [Instances](/sellauth/features/instances) for how isolation
+  works.
+</Info>
+
+## What it does
+
+<CardGroup cols={2}>
+  <Card title="Orders" icon="receipt">
+    Invoices, refunds, cancellations, shipping, delivery and status changes — with a
+    typed-confirmation step on anything that moves money or reaches a customer.
+  </Card>
+  <Card title="Products & inventory" icon="boxes-stacked">
+    Stock levels, restocking, key delivery, visibility and bulk status changes.
+  </Card>
+  <Card title="Customers" icon="users">
+    Lookups, balances, blacklists, whitelists, and key lookup.
+  </Card>
+  <Card title="Marketing" icon="tags">
+    Coupons, product groups, affiliates and resellers with tiers, suspension and stats.
+  </Card>
+  <Card title="Support" icon="headset">
+    Tickets — list, claim, reply, close, reopen, archive — and customer feedback.
+  </Card>
+  <Card title="Analytics" icon="chart-line">
+    Overview, top products and customers, traffic, payment methods, abandoned checkouts, and
+    activity logs.
+  </Card>
+  <Card title="Storefront" icon="store">
+    Purchase panels, claim panels, and role redemption rules that hand out Discord roles for
+    completed purchases.
+  </Card>
+  <Card title="Admin" icon="sliders">
+    Permission tiers, notifications, webhooks, health checks, and multi-shop delegation.
+  </Card>
+</CardGroup>
+
+<Card title="See every command" icon="list" href="/sellauth/commands/overview">
+  143 commands across 25 modules, with permission tier, description and SellAuth endpoint for
+  each.
+</Card>
+
+## How it is built
+
+Three rules hold the shape together.
+
+**Every SellAuth call goes through one client.** New endpoints get a method on the SellAuth client
+— never a fresh HTTP session at a call site. That is where auth, timeouts, typed errors,
+rate-limit handling and retry policy live.
+
+**Retries are opt-in per endpoint, not per HTTP verb.** Each method carries a flag reflecting what
+a *duplicate* would actually do. Refunds, deliveries, emails, ticket replies and toggles are never
+auto-retried; setting an already-set state is. A toggle is the sharpest case — retrying one flips
+it back and reports success.
+
+**Renderers build views and never send them.** The command layer decides how and when to respond,
+which keeps every command testable in isolation.
+
+## Permissions
+
+By default the only gate is the licence check — anyone with a registered (or delegated) licence
+can run anything. That suits a solo operator, not a shop with staff. Four tiers, least to most
+privileged:
+
+| Tier | Can do |
+| --- | --- |
+| `viewer` | Read-only: analytics, stock levels, status |
+| `support` | Order and customer lookup, tickets, controlled fulfilment |
+| `manager` | Products, inventory, coupons, orders, customers, storefront |
+| `owner` | Credentials, shop binding, delegation, permissions, notifications |
+
+The line that matters is **manager/owner**: a manager can sell, refund and restock, but cannot
+read or replace the SellAuth API token, delegate access, or rewrite the permission rules that
+constrain them.
+
+Configure it from Discord — no file editing needed:
+
+```
+/permissions status     what's configured here
+/permissions role       give a Discord role a tier
+/permissions user       what a member can actually do
+/permissions commands   which tier each command needs
+```
+
+The bot owner, the guild owner, and anyone with Discord's **Manage Server** permission are always
+owner tier and cannot be locked out by any configuration.
+
+<Note>
+  Without any configuration the permission layer is inert — nothing changes for an existing
+  deployment until you opt in with `/permissions role` or `/permissions staff`. The layer only
+  ever *narrows* access: someone without a valid licence still can't run shop commands regardless
+  of tier.
+</Note>
+
+For a support team, `/permissions staff enabled:True` lends the shop for lookups and fulfilment
+only, to everyone with Discord Administrator in that server — without handing out your licence.
+They cannot refund, cancel, change stock or prices, read your API token, delegate access, or
+change permissions, whatever Discord roles they hold.
+
+## Notifications
+
+Four independent categories, each with its own channel and enabled state, configured per guild:
+
+| Category | Fires on |
+| --- | --- |
+| Sale | A completed sale |
+| Invoice | Invoice created, completed, or status change |
+| Feedback | New customer feedback |
+| Audit | Staff actions taken through the bot |
+
+```
+/notifications status          what's configured
+/notifications set             point a category at a channel
+/notifications enable|disable  toggle one category
+/notifications test            send a test message
+```
+
+Two categories may share a channel — that's supported, not a conflict. Notifications come from
+**polling** by default; webhooks are an optional addition. See
+[Configuration](/sellauth/configuration#webhooks-optional) for how to opt in,
+[Integrations](/sellauth/integrations/sellauth-api) for how the webhook connects to SellAuth's
+dashboard, and [Installation & permissions](/sellauth/installation-permissions) for why none of
+this needs a privileged gateway intent.
+
+<Card title="Start here" icon="rocket" href="/sellauth/quickstart">
+  Connect your shop and run your first commands.
+</Card>

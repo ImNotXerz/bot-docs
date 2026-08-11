@@ -1,0 +1,108 @@
+---
+title: "Tenants and isolation"
+description: "One bot instance can serve many operators — what's isolated per tenant, what's shared, and who can see what."
+---
+
+Two words that are easy to mix up: **an instance is the one bot an operator runs.** **A tenant is
+one operator with one connected shop.** One instance serves many tenants across many Discord
+servers — that's the multi-operator design this page explains.
+
+```
+                      one bot instance
+                            │
+      ┌───────────────┼───────────────┐
+   Guild A         Guild B         Guild C
+   Operator 1      Operator 2      Operator 1 again
+   Shop 4021       Shop 7788       Shop 4021
+```
+
+## Can other people use it without owning the source?
+
+**Yes. That is the design.** The bot is multi-operator: nobody needs your code or your SellAuth
+account to use the instance you run.
+
+What a new operator does:
+
+1. You issue them a **KeyAuth licence**.
+2. They invite *your* bot to *their* Discord server.
+3. `/register <licence>` — claims that licence to their Discord account.
+4. `/settoken <their SellAuth API token>` — their shop, not yours.
+5. `/setshopid` — picks which of their shops.
+6. `/notifications set` — their channels.
+7. `/webhook url` — their own URL, for their own SellAuth dashboard.
+
+From then on every command they run resolves *their* credentials. Your shop is never touched, and
+theirs never appears in your guild.
+
+**Your KeyAuth licences are the access control.** No licence, no shop commands. Revoking a licence
+in KeyAuth cuts them off at the next command — that is the lever you hold, and it is the only one
+you need.
+
+## Do only you control webhook URLs?
+
+**Within a server, yes — three identities and no others can view or rotate it:**
+
+- the operator who created it (it is their shop's credential)
+- that server's owner (it is their server events post into)
+- you, as the instance operator (you can read the database anyway, so pretending otherwise would
+  be a fiction)
+
+Any other licensed operator who happens to share the server is refused, even though they hold a
+perfectly valid licence. The command verifies not only that the caller holds *a* valid licence,
+but that the endpoint is theirs — otherwise a second operator in the same guild could read the URL
+and rotate it, silently breaking the real owner's SellAuth configuration.
+
+### Are they limited to one shop?
+
+A webhook URL is bound to **one guild**, recorded when it is minted along with the shop id of the
+operator who created it.
+
+The guild is resolved **from the token, never from the request body**. A forged payload claiming
+`"guild_id": 9999` is ignored; events land in the guild the token belongs to and nowhere else. So
+one operator's URL cannot post into another operator's server even if they obtain it.
+
+One URL, one guild. If the same operator runs two servers, each gets its own URL, and revoking one
+leaves the other working.
+
+Every tenant's webhook URL is distinguished only by a long random secret in its path — not by
+anything guessable like a Discord server ID. That's deliberate: a snowflake is public, so a
+guessable path would let anyone who can read a server id forge a completed sale into it.
+
+## What tenants actually share
+
+Everything below is per-guild or per-operator, isolated by the database:
+
+| Isolated per tenant | Shared across the instance |
+| --- | --- |
+| SellAuth token, shop id (per operator, encrypted) | The bot process |
+| KeyAuth licence (per operator, encrypted) | The database |
+| Notification channels and categories (per guild) | The webhook listener |
+| Webhook URL and its delivery counters (per guild) | The bot's Discord identity — one bot user |
+| Role-redemption rules and claims (per guild) | The instance's encryption key |
+| Permission role mappings (per guild) | The KeyAuth application |
+| Staff access binding (per guild) | Rate limits and uptime |
+| Purchase panels, claim panels (per guild) | |
+
+### The honest part
+
+<Warning>
+  You can decrypt every tenant's SellAuth token. Tokens are encrypted at rest with *your*
+  instance's encryption key, on *your* infrastructure, in *your* database. Encryption protects
+  against a stolen backup or a leaked database file — it does not, and cannot, protect tenants
+  from the person running the instance.
+</Warning>
+
+Anyone you onboard is trusting you with control of their shop. That is inherent to hosting a bot
+for other people, not a flaw in this one, but it should be said out loud rather than implied by
+the word "encrypted."
+
+If a tenant is not willing to extend that trust, the answer is for them to run their own instance
+with their own key, not for you to add more encryption.
+
+## Answers in one line each
+
+- **Can others use it without the source?** Yes — issue them a KeyAuth licence.
+- **Do only you control webhook URLs?** Within a guild: the creator, the guild owner, and you.
+- **Are URLs limited to one shop?** One URL, one guild, resolved from the token, never from the
+  payload.
+- **Does another server need another instance?** No. One instance, any number of servers.

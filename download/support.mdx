@@ -1,0 +1,47 @@
+---
+title: "Support"
+description: "Troubleshooting common issues, and how to get further help."
+---
+
+## If something is not working
+
+<AccordionGroup>
+  <Accordion title="Slash commands aren't showing up">
+    Command registration isn't guaranteed to happen automatically on every restart in every
+    setup, and a **global** sync can take up to an hour to propagate even once it runs. Ask
+    whoever manages your Download Bot instance to run [`/sync`](/download/commands/administration)
+    (bot owner only) if it's been longer than that. Discord also caches command lists client-side
+    for a bit — try restarting your Discord client too.
+  </Accordion>
+  <Accordion title='"This interaction has expired"'>
+    Discord invalidates interaction tokens after 15 minutes (3 seconds for the very first
+    response). This shows up as a normal status message, not a crash — just reopen whatever panel
+    or command you were using and try again.
+  </Accordion>
+  <Accordion title='The panel button says "Access denied"'>
+    Check the server's access mode and, if it's set to Roles, the configured access roles — both
+    live under `/downloads` → **⚙️ Configuration** → **🔐 Access Mode**. See
+    [Configuration](/download/configuration) for what each mode allows.
+  </Accordion>
+  <Accordion title="The panel message is missing or was deleted">
+    The bot detects this at startup, or the next time it tries to refresh the panel, and logs a
+    warning to your configured log channel if you have one. Run `/downloads-setup #channel` again
+    to repost it.
+  </Accordion>
+  <Accordion title="A product on Cloudflare R2 fails to upload or download">
+    That points to how this deployment's storage is set up, which is outside what you can fix
+    from inside Discord. Contact whoever operates your Download Bot instance — see
+    [Storage](/download/features/storage) for what R2 storage means conceptually.
+  </Accordion>
+</AccordionGroup>
+
+## Getting help
+
+There's no publicly documented Discord support server or contact address for Download Bot in the
+materials this documentation is built from — it's a self-hosted bot, so support runs through
+whoever operates your instance. If something here doesn't cover your situation, contact them
+directly; they're the ones who can reach the people who built or deployed it for you.
+
+If a command failed with an "Unexpected error" or "Discord error" message, it includes a short
+reference code — pass that along when you ask for help, it points directly at the relevant log
+entry.

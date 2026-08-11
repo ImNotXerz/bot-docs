@@ -1,0 +1,39 @@
+---
+title: "Quickstart"
+description: "Post your download panel and get your first product live."
+---
+
+This assumes Download Bot is already running and has joined your server. If it hasn't been
+invited yet, see [Installation & Permissions](/download/installation-permissions) for what to
+grant it first.
+
+<Steps>
+  <Step title="Post the download panel">
+    Run `/downloads-setup #channel` in the channel you want the panel to live in. This posts the
+    panel message with its **📥 Browse Downloads** button. Running the command again moves the
+    panel to a new channel — the old message is cleaned up automatically.
+  </Step>
+  <Step title="Add your first product">
+    Run `/downloads` to open the admin console, choose **➕ Add Loader**, and either paste a
+    download link or upload a file. See [Commands → Administration](/download/commands/administration)
+    for every action the console can do.
+  </Step>
+  <Step title="Set who can download">
+    New servers start in **Roles** access mode with no roles configured — which means nobody but
+    an admin can use the panel yet. Open `/downloads` → **⚙️ Configuration** → **🔐 Access Mode**
+    and pick Public, Roles, or Admin Only. If you pick Roles, also set the access roles from the
+    same Configuration screen. See [Configuration](/download/configuration) for what each mode
+    means.
+  </Step>
+</Steps>
+
+## After setup
+
+`/downloads` is the single entry point for everything administrative — loaders, configuration,
+and analytics all live behind it. See [Commands](/download/commands/downloads) for the full
+reference, or [Download Center](/download/features/download-center) for how the browse flow
+looks from a member's side.
+
+<Info>
+  Something not working? [Support](/download/support) covers the common fixes.
+</Info>

@@ -1,0 +1,108 @@
+---
+title: "Terms of Service"
+description: "The terms under which SellAuth Bot is offered."
+---
+
+**Last updated:** 9 August 2026
+
+These terms govern use of the SellAuth AIO Bot ("the Bot"), operated by **[OPERATOR NAME]**
+("we"). By adding the Bot to a Discord server or running any of its commands, you agree to them.
+
+<Note>
+  This document is a template for operators self-hosting the Bot. Replace the bracketed
+  placeholders below — `[OPERATOR NAME]`, `[CONTACT EMAIL]` — before publishing it for your own
+  instance. Everything else is accurate as written.
+</Note>
+
+## 1. What the Bot is
+
+The Bot lets you operate a [SellAuth](https://sellauth.com) storefront from Discord: orders,
+inventory, customers, coupons, support tickets, analytics, and purchase panels your buyers use
+without leaving your server.
+
+Access is licensed. You need a valid KeyAuth licence issued by us to use any command that touches
+a shop.
+
+## 2. Your responsibilities
+
+You are responsible for:
+
+- **Your shop and what you sell through it.** We provide a tool; we are not a party to any sale,
+  and we do not process payments.
+- **Your credentials.** Your SellAuth API token grants complete control of your shop. Do not
+  share it, and rotate it if you believe it has been exposed.
+- **Your webhook URL.** It is a credential. Anyone holding it can make the Bot announce events in
+  your server. Rotate it with `/webhook regenerate` if it leaks.
+- **Who you grant access to.** `/authorize` hands another person your shop entirely.
+  `/permissions staff` is narrower but still real access. Both are your decision and your risk.
+- **Complying with the law**, with Discord's [Terms of Service](https://discord.com/terms) and
+  [Community Guidelines](https://discord.com/guidelines), and with SellAuth's terms.
+
+## 3. What you may not do
+
+- Resell, sublicense, or redistribute access to the Bot without our written permission.
+- Share, transfer, or publish your licence key.
+- Use the Bot to sell anything unlawful, or anything prohibited by Discord or SellAuth.
+- Attempt to access another operator's shop, credentials, webhook URL, or data.
+- Attack, overload, or attempt to circumvent the Bot's rate limits, licensing, or permission
+  checks.
+- Automate the Bot's commands to place load on Discord or SellAuth beyond normal operation.
+
+We may suspend or revoke your licence immediately for any of the above, without refund.
+
+## 4. Availability
+
+The Bot is provided **as is**, with no guarantee of uptime, and we may change, suspend or
+discontinue it at any time.
+
+It depends on three services outside our control — Discord, SellAuth and KeyAuth — and an outage
+or change in any of them can interrupt or break functionality regardless of anything we do.
+
+## 5. Data
+
+Data handling is described in the [Privacy Policy](/sellauth/privacy), which forms part of these
+terms. In short: no message content, no member lists, no presence; credentials encrypted at rest;
+and the operator of the instance can technically decrypt them, which is stated plainly there
+rather than implied.
+
+## 6. Liability
+
+To the maximum extent permitted by law, we are not liable for lost profit, lost sales, lost or
+duplicated stock, mis-delivered products, refunds, chargebacks, or any indirect or consequential
+loss arising from use of the Bot.
+
+<Warning>
+  The Bot performs real, irreversible actions on your shop — refunds, cancellations, stock
+  changes, deliveries. Commands that move money or reach a customer require you to retype the
+  record's ID to confirm, precisely because they cannot be undone. **You are responsible for what
+  you confirm.**
+</Warning>
+
+Nothing here limits liability that cannot be limited by law.
+
+## 7. Termination
+
+You may stop at any time by removing the Bot from your servers.
+
+We may terminate your licence for breach of these terms, for abuse of the service, or if
+continuing to provide it becomes impractical. Where the reason is not abuse, we will make a
+reasonable effort to give notice.
+
+On termination your stored credentials stop being usable. See the [Privacy Policy](/sellauth/privacy)
+for what is retained.
+
+## 8. Changes
+
+We may update these terms. Material changes will be reflected in the "Last updated" date above
+and announced through the Bot's changelog. Continuing to use the Bot after a change means you
+accept it.
+
+## 9. Contact
+
+**[CONTACT EMAIL]**
+
+---
+
+*This document is a plain-language statement of the terms under which the Bot is offered. It is
+not legal advice and has not been reviewed by a lawyer. If you operate commercially, have counsel
+review it before relying on it.*

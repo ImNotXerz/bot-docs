@@ -1,0 +1,70 @@
+---
+title: "Purchase panels"
+description: "Native in-Discord purchase panels and standalone buy buttons that customers use to check out without leaving the server."
+---
+
+**7 commands.** Native in-Discord purchase panels and standalone buy buttons that customers use to check out without leaving the server.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/addpurchasebutton`">
+    **Tier:** `manager`
+
+    Adds a single standalone purchase button for one product, outside the full panel workflow.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}/products`
+    - `GET /shops/{id}/products/{id}/deliverables/{id}`
+    - `POST /shops/{id}/checkout`
+  </Accordion>
+
+  <Accordion title="`/purchase-panel create`">
+    **Tier:** `manager`
+
+    Creates a new purchase panel embed for one or more products in a channel.
+
+    **SellAuth endpoint:** `GET /shops/{id}/products`
+  </Accordion>
+
+  <Accordion title="`/purchase-panel delete`">
+    **Tier:** `manager`
+
+    Deletes an existing purchase panel.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/purchase-panel edit`">
+    **Tier:** `manager`
+
+    Edits an existing purchase panel's products or presentation.
+
+    **SellAuth endpoint:** `GET /shops/{id}/products`
+  </Accordion>
+
+  <Accordion title="`/purchase-panel list`">
+    **Tier:** `manager`
+
+    Lists purchase panels configured in this server.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/purchase-panel migrate_legacy`">
+    **Tier:** `manager`
+
+    Migrates a legacy-format purchase panel to the current panel schema.
+
+    **SellAuth endpoint:** `GET /shops/{id}/products/{id}`
+  </Accordion>
+
+  <Accordion title="`/purchase-panel refresh`">
+    **Tier:** `manager`
+
+    Refreshes a panel's displayed stock and price without recreating it.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+</AccordionGroup>

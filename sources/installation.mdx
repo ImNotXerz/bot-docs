@@ -1,0 +1,58 @@
+---
+title: "Installation"
+description: "The general install flow shared across every bot."
+---
+
+<Note>
+  These are the steps common to every bot in this catalog. Individual command names and file
+  paths vary — check the README that ships with the specific source you bought for exact
+  commands.
+</Note>
+
+<Steps>
+  <Step title="Extract or clone the source">
+    You'll have received either a `.zip` or a private repository link. Unpack it or clone it
+    into its own directory.
+  </Step>
+  <Step title="Install dependencies">
+    <CodeGroup>
+      ```bash Node.js bots
+      pnpm install
+      ```
+      ```bash Python bots
+      pip install -r requirements.txt
+      ```
+    </CodeGroup>
+  </Step>
+  <Step title="Copy the environment template">
+    Every bot ships a `.env.example` (sometimes several, for optional features). Copy it to
+    `.env` and fill in your bot token, application ID, and database connection string — see
+    [Prerequisites](/sources/prerequisites) for where those come from.
+  </Step>
+  <Step title="Run database migrations, if the bot uses PostgreSQL">
+    SQLite-backed bots skip this — the database file is created automatically. PostgreSQL-backed
+    bots use a migration tool (Alembic, for the Python bots that use it) — run its migrate/upgrade
+    command once your `DATABASE_URL` is set. See [Database](/sources/database).
+  </Step>
+  <Step title="Start the bot">
+    <CodeGroup>
+      ```bash Node.js bots
+      pnpm start
+      ```
+      ```bash Python bots
+      python -m app.bot.entrypoint
+      ```
+    </CodeGroup>
+    The exact entrypoint differs per bot — check its README if the command above doesn't match
+    what you have.
+  </Step>
+  <Step title="Invite it to a test server">
+    Build an invite URL from the Discord Developer Portal's OAuth2 URL Generator using the `bot`
+    and `applications.commands` scopes, plus whatever permissions that bot's Installation &
+    Permissions guide lists.
+  </Step>
+</Steps>
+
+<Card title="Running it long-term" icon="server" href="/sources/hosting">
+  Once it works locally, here's how to keep it running.
+</Card>

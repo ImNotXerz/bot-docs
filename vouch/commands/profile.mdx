@@ -1,0 +1,34 @@
+---
+title: "/profile"
+description: "View and manage seller/buyer profiles."
+---
+
+<AccordionGroup>
+  <Accordion title="/profile view [member] [public]">
+    **Who:** Anyone.
+
+    **What it does:** Shows a profile — bio, trust badges, reputation summary, rating
+    distribution, and payment methods. `member` defaults to yourself. Posted ephemerally unless
+    `public:true`, which posts it visibly to the channel instead.
+
+    **Example:** `/profile view member:@Jane public:true`
+  </Accordion>
+  <Accordion title="/profile edit">
+    **Who:** Anyone, for their own profile.
+
+    **What it does:** Opens a modal to edit your headline, bio, categories, banner URL, and
+    avatar override URL.
+
+    **Example:** `/profile edit`
+  </Accordion>
+  <Accordion title="/profile payments">
+    **Who:** Anyone, for their own profile.
+
+    **What it does:** Opens a management console for your payment methods — add one (pick a
+    type, then fill in a modal), toggle visibility, or remove one. Supported types: PayPal,
+    Cash App, BTC, LTC, ETH, USDT, and custom. Only public identifiers are stored, never
+    credentials.
+
+    **Example:** `/profile payments`
+  </Accordion>
+</AccordionGroup>

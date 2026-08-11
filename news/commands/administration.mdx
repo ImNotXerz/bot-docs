@@ -1,0 +1,30 @@
+---
+title: "Administration"
+description: "The /sync command — owner-only slash command registration."
+---
+
+1 command, sourced directly from `AdministrationCog` (`src/cogs/administration.py`).
+
+<Info>
+  **Permission** is the check News Bot enforces when the command actually runs — see
+  [Installation & Permissions](/news/installation-permissions) for how Bot Owner resolves.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="/sync — Manually sync slash commands">
+    ```
+    /sync
+    ```
+    Registers the bot's current slash commands with Discord globally. News Bot never syncs
+    automatically on startup or reconnect — registration is a deliberate, manual, auditable
+    action, kept separate from ordinary restarts so routine deploys don't trigger Discord's
+    global command-sync rate limit.
+
+    <Warning>
+      A global sync can take up to an hour to propagate to every server — that delay is a
+      Discord-side limitation, not something this command controls.
+    </Warning>
+
+    **Permission:** Bot Owner
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,82 @@
+---
+title: "Connecting to SellAuth"
+description: "How the bot authenticates against your SellAuth shop, and the two ways sale events reach it."
+---
+
+SellAuth Bot is built entirely around the [SellAuth API](https://sellauth.com) — every command in
+the [Commands tab](/sellauth/commands/overview) is a thin layer over one or more SellAuth
+endpoints. This page covers the connection itself: how a shop gets linked, and how events flow
+from SellAuth back into Discord. For how the bot's other day-to-day settings — permissions,
+notifications — are configured, see [Configuration](/sellauth/configuration).
+
+## Connecting your shop
+
+The API token and shop ID aren't shared instance-wide — they're per-operator, set from inside
+Discord, and encrypted at rest:
+
+1. `/register <license>` — claims a KeyAuth licence to your Discord account. Nothing shop-related
+   works without a valid licence.
+2. `/settoken <token>` — connects your SellAuth API token. Generate one from your SellAuth
+   dashboard's API settings; the bot only ever needs one token per operator.
+3. `/setshopid` — calls `GET /shops` with that token and lets you pick which shop it manages.
+4. `/webhook url` (optional) — see [Webhooks](#webhooks-vs-polling) below.
+
+This is why the bot is multi-operator: each person's token and shop ID are resolved fresh on every
+command from their own Discord identity, never from a shared instance-wide credential. See
+[Instances](/sellauth/features/instances) for the full isolation model, and
+[Licensing](/sellauth/commands/licensing) for the commands themselves.
+
+<Warning>
+  Your SellAuth API token grants complete control of your shop. Treat `/settoken` like handing
+  over a password — rotate the token on SellAuth's side and re-run `/settoken` if you ever suspect
+  it leaked.
+</Warning>
+
+## Webhooks vs. polling
+
+Two independent, non-exclusive ways sale, invoice and feedback events reach the bot:
+
+**Polling (always on, no setup).** The bot periodically calls SellAuth's list endpoints and
+compares against an idempotency ledger keyed on event identity, so a restart mid-poll can't
+double-post. This is what powers [notifications](/sellauth/commands/notifications) out of the
+box.
+
+**Webhooks (opt-in).** SellAuth can push events instead of waiting to be polled, if your instance
+operator has turned on the inbound webhook listener. Once it's on:
+
+```
+/webhook url         show this server's URL (ephemeral, only to you)
+/webhook status      whether SellAuth is actually reaching the bot
+/webhook regenerate  revoke a leaked URL and issue a new one
+```
+
+Paste the URL from `/webhook url` into your SellAuth dashboard under **Notification Settings →
+Endpoint URL**. Polling keeps running alongside it — both share the same idempotency ledger, so an
+event seen by both is announced once, not twice.
+
+<Warning>
+  SellAuth publishes no signature scheme for these webhooks, so the only thing separating the
+  internet from your sale notifications is the secret in the URL's path — 256 bits of randomness,
+  encrypted at rest, never logged, and revocable with `/webhook regenerate`.
+</Warning>
+
+A webhook URL is scoped to **one guild**, resolved from the token in the path rather than anything
+in the request body — see [Instances](/sellauth/features/instances#do-only-you-control-webhook-urls)
+for why that matters.
+
+## How the bot calls the API
+
+Every SellAuth call goes through one client (`clients/sellauth.py`), never a fresh HTTP session at
+a call site — see [Introduction](/sellauth/introduction#how-it-is-built) for the retry and
+idempotency rules that live there. One additional guarantee worth knowing about: the bot's test
+suite checks every endpoint the client calls against a vendored copy of SellAuth's own OpenAPI
+spec, with the same HTTP verb, so a command can't call an endpoint that doesn't exist or has
+changed shape upstream.
+
+## What SellAuth sends back
+
+SellAuth's data is not proxied blindly — see [Privacy](/sellauth/privacy) for exactly what's
+stored from a connected shop (token, licence, shop/product/variant IDs, invoice IDs, webhook
+secret) versus what's discarded. One API quirk worth knowing: analytics are USD-denominated by
+SellAuth's own design, which is why every amount in the bot's responses is formatted as
+`"24.99 USD"` rather than guessing a currency symbol.

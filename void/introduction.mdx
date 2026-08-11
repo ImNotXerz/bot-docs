@@ -1,0 +1,69 @@
+---
+title: "Introduction"
+description: "What V.O.I.D does, and whether it's the right bot for your server."
+---
+
+V.O.I.D (Versatile Operations Interface Daemon) is a Discord community and operations bot.
+Moderation, tickets, roles, onboarding, engagement, and content tooling in one app — configured
+from inside Discord, with a web dashboard for reviewing what happened.
+
+<Warning>
+  V.O.I.D is in **private alpha**. Servers must be added to the access list before the bot can
+  join, and features may change. [Request access](https://void.oauth.fyi/support).
+</Warning>
+
+## Is V.O.I.D for you?
+
+V.O.I.D is built for servers that want one bot covering the operational basics instead of
+stitching together several single-purpose ones. It's a good fit if you:
+
+- Run a community or client server that needs tickets, verification, and moderation records in
+  one place
+- Want role panels, autoroles, and a mass-role tool that survive restarts
+- Would rather configure everything from inside Discord than learn a separate web dashboard
+- Want a message builder with variables for announcements, welcome messages, and sticky messages
+
+It's less of a fit if you're looking for a single narrow feature — most of V.O.I.D's 36 modules
+are off by default, and you turn on only what you need.
+
+## What it does
+
+<CardGroup cols={2}>
+  <Card title="Moderation & safety" icon="shield">
+    Warnings, notes, and mod-logs with durable records. Anti-phishing, domain blocking, user
+    blacklists, and member verification.
+  </Card>
+  <Card title="Tickets" icon="ticket">
+    Support tickets with claiming, assignment, participant control, and saved transcripts.
+  </Card>
+  <Card title="Onboarding" icon="hand-wave">
+    Welcome, leave, and boost messages, autoroles, join DMs, and invite tracking including
+    vanity URLs.
+  </Card>
+  <Card title="Roles" icon="masks-theater">
+    Button role panels and reaction roles from one config, plus a mass-role tool that survives
+    restarts.
+  </Card>
+  <Card title="Engagement" icon="party-horn">
+    Giveaways, application forms, suggestions, starboard, birthdays, reminders, leveling, and an
+    optional fictional economy.
+  </Card>
+  <Card title="Content" icon="megaphone">
+    A message builder with variables, sticky messages, announcements, and RSS/YouTube feeds.
+  </Card>
+</CardGroup>
+
+## How it is built
+
+Two things shape how V.O.I.D behaves, and both are worth knowing before you configure it.
+
+**Configuration happens in Discord.** The dashboard is read-only for settings. That is deliberate:
+permission checks and audit logging live in one place rather than two, so there is no path where a
+web session can change something Discord would have refused.
+
+**Nothing important lives in memory.** Long-running jobs — mass role assignment, backups, feed
+polling — are checkpointed and resume where they stopped after a restart.
+
+<Card title="Start here" icon="rocket" href="/void/quickstart">
+  Add V.O.I.D to your server and run the first-time setup.
+</Card>

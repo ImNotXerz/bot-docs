@@ -1,0 +1,58 @@
+---
+title: "Marketplace"
+description: "How WTS/WTB/service listings, contact workflows, and seller reputation fit together."
+---
+
+The marketplace turns Vouch.'s reputation ledger into something people actually transact
+against: listings that carry a seller's real track record with them, rather than living
+alongside it as a separate, disconnected system.
+
+<Note>
+  The marketplace is an optional feature — toggle it from `/vouch-admin` → Configuration. If
+  it's off, `/market create` and `/market browse` return a "disabled in this server" error. See
+  [`/market`](/vouch/commands/market) for the full command reference.
+</Note>
+
+## Listing types
+
+Every listing is one of three types, chosen at creation:
+
+- **Want to Sell (WTS)** — offering something.
+- **Want to Buy (WTB)** — looking to buy something.
+- **Service** — offering a service rather than a physical or digital good.
+
+## Lifecycle
+
+1. **Create** — `/market create` opens a modal (title, description, category, price, image
+   URLs), shows a confirmation preview, then posts a public listing card with a
+   **Contact Seller** button.
+2. **Browse** — `/market browse` returns paginated, filterable results (by type, category, or
+   keyword), each with a **View** button.
+3. **Manage** — `/market manage` shows a seller their own listings, each with pause/resume, mark
+   sold, close, renew, and remove actions.
+4. **Expire** — listings expire on a schedule automatically rather than sitting stale forever;
+   a seller can renew one before that happens from **Manage**.
+
+## Contact workflow
+
+How a buyer reaches a seller after clicking **Contact Seller** is a per-server setting
+(`/vouch-admin` → Marketplace Settings), not fixed behavior:
+
+- Show contact info ephemerally to the buyer.
+- Open a private thread between buyer and seller.
+- Open a ticket channel.
+- Link to an external storefront.
+- Just mention or copy the seller.
+
+This lets a server match its moderation posture — a private thread keeps a moderatable record
+in Discord, while a storefront link hands the conversation off entirely.
+
+## Seller reputation, not just a listing
+
+A listing isn't reputation-blind. `/profile view` on a seller surfaces their trust badges,
+rating distribution, and reputation summary — the same ledger that backs vouches — so a buyer
+can check a seller's history before clicking Contact. And if a transaction goes wrong,
+[`/report`](/vouch/commands/report) can link the report directly to the listing's ID, so a
+moderator working the case in `/vouch-admin` → Reports can remove the listing as part of
+resolving it. Marketplace activity and trust & safety share the same underlying case management
+rather than being two separate systems that happen to reference the same user.

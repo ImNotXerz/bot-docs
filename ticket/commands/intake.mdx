@@ -1,0 +1,136 @@
+---
+title: "Intake"
+description: "Structured, multi-step client intake — an optional plugin attached to a panel or ticket option."
+---
+
+<Info>
+  Intake is off by default and inert until attached. See
+  [The Intake plugin](/ticket/features/intake-plugin) for how templates, qualification, and
+  routing fit together before you build one.
+</Info>
+
+**12 commands.**
+
+## Console and templates
+
+<AccordionGroup>
+  <Accordion title="/intake manage — Open the Intake management console">
+    ```
+    /intake manage
+    ```
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/intake create — Create a new intake template">
+    ```
+    /intake create key:<text> name:<text> [description:<text>]
+    ```
+    `key` is the internal identifier (e.g. `web-design`); `name` is shown to the client.
+
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/intake list — List this server's intake templates">
+    ```
+    /intake list
+    ```
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title="/intake delete — Delete a template (submitted responses are kept)">
+    ```
+    /intake delete template:<key>
+    ```
+    Detaches the template everywhere it was attached. Responses already submitted keep their
+    own copy of the questions, so they survive the delete.
+
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/intake duplicate — Copy a template, including its rules">
+    ```
+    /intake duplicate template:<key> new_key:<text> new_name:<text>
+    ```
+    A deep copy — conditions are remapped onto the new fields.
+
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/intake preview — Walk through a template yourself without opening a ticket">
+    ```
+    /intake preview template:<key>
+    ```
+    Runs the real flow, but with no panel or option attached, so submitting it can never create
+    a ticket.
+
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+</AccordionGroup>
+
+## Attachment
+
+<AccordionGroup>
+  <Accordion title="/intake attach — Run a template when a panel button is pressed">
+    ```
+    /intake attach template:<key> panel:<text> [option:<text>]
+    ```
+    Option-level beats panel-level. Refuses an option that already uses a form or a Smart Gate
+    rule set — per option, exactly one collection path runs.
+
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/intake detach — Stop running an intake for a panel or option">
+    ```
+    /intake detach panel:<text> [option:<text>]
+    ```
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+</AccordionGroup>
+
+## Guild configuration
+
+<AccordionGroup>
+  <Accordion title="/intake config — Guild-wide Intake settings">
+    ```
+    /intake config [enabled:<true|false>] [draft_hours:<1-720>] [max_drafts:<1-10>] [log_channel:<#channel>]
+    ```
+    `enabled` is the master switch — off means every attached intake is skipped and tickets open
+    normally. `draft_hours` sets how long an unfinished draft survives (inactivity-based).
+    `max_drafts` caps how many intakes one member can have in progress at once. `log_channel`
+    defaults to the existing ticket log if left unset.
+
+    **Permission:** Admin
+  </Accordion>
+</AccordionGroup>
+
+## Read-only surfaces
+
+<AccordionGroup>
+  <Accordion title="/intake responses — Recent intake submissions">
+    ```
+    /intake responses [template:<key>] [limit:<1-50>]
+    ```
+    `limit` defaults to 20.
+
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title="/intake view — Open a single submission in full">
+    ```
+    /intake view response_id:<text>
+    ```
+    Scoped to this guild — a forged or cross-guild id finds nothing.
+
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title="/intake stats — Intake funnel, qualification and drop-off analytics">
+    ```
+    /intake stats [template:<key>] [days:<0-365>]
+    ```
+    `days` defaults to 30; `0` means all time.
+
+    **Permission:** Staff
+  </Accordion>
+</AccordionGroup>

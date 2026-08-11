@@ -1,0 +1,35 @@
+---
+title: "Configuration"
+description: "How KeyAuth Bot connects to your KeyAuth application and account."
+---
+
+KeyAuth Bot needs to be linked to a KeyAuth **application**, and for most functionality a
+KeyAuth **seller account**, before it's usable. Setting up and wiring those credentials is
+covered in the bot's own deployment documentation — this page covers the credential concepts
+that matter once the bot is running and connected.
+
+## KeyAuth dashboard credentials
+
+<Warning>
+  These are two different credentials with very different blast radii. Don't confuse them.
+</Warning>
+
+| | Application name / owner ID | Seller key |
+| --- | --- | --- |
+| Where | Application settings | Seller Settings (a different page) |
+| Scope | One application | **Your entire KeyAuth account** |
+| Can do | Identify the app | Create/delete licenses and users, change settings, across **every** application on the account |
+
+The seller key cannot be scoped by KeyAuth. Every seller API call sends it as a URL query
+parameter — there's no POST form — so **IP-whitelisting your server in Seller Settings** is the
+main real control available, and it costs nothing to set up.
+
+Also confirm **HWID checking** is enabled on the application. With it off, KeyAuth runs no HWID
+logic and a reset changes nothing — check any time with `/licops status`.
+
+## What requires the seller key
+
+Without a seller key configured, the bot still starts, but account commands, key-management
+commands, and HWID-reset commands are disabled — along with everything under
+[License Operations](/keyauth/features/license-operations). See that page for what each
+capability needs.

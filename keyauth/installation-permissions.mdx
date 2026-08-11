@@ -1,0 +1,82 @@
+---
+title: "Installation & Permissions"
+description: "What KeyAuth Bot asks Discord for, and who can run what."
+---
+
+## What the bot asks Discord for
+
+<Info>
+  No privileged intents are required. Commands arrive as interactions and role assignment uses
+  the REST API rather than the member cache.
+</Info>
+
+Invite the bot with the `bot` and `applications.commands` scopes.
+
+| Permission | Used for |
+| --- | --- |
+| Manage Roles | Assigning the verified role on `/key redeem`, and Discord role sync driven by License Operations |
+
+If you don't configure a verified role or any License Operations role, **Manage Roles** isn't
+needed at all — the bot degrades gracefully and reports why a role couldn't be assigned rather
+than failing silently.
+
+### Role hierarchy
+
+Any command that assigns or removes a Discord role needs the bot's own role to sit **above**
+that role in your server's role list. Discord refuses a role change from a lower role regardless
+of what permissions the bot holds — this is the single most common setup failure, for both
+`/key redeem`'s verified role and every role mapped with `/licops roles map`.
+
+<Warning>
+  Mapping a role at or above the bot's own highest role is refused at configuration time by
+  `/licops roles map`, precisely to catch this before it becomes a silent sync failure later.
+</Warning>
+
+## Who can run what
+
+KeyAuth Bot layers two separate permission models on top of Discord's own command visibility:
+
+<CardGroup cols={2}>
+  <Card title="Base admin commands" icon="user-shield">
+    `/key generate/delete/list/info`, `/admin ...`, and `/app var/data` — gated by the bot's
+    configured administrator list.
+  </Card>
+  <Card title="License Operations" icon="user-lock">
+    `/license ...` and `/licops ...` — gated by 17 granular capabilities mapped to Discord
+    roles. See [Support Operations](/keyauth/commands/support-operations).
+  </Card>
+</CardGroup>
+
+### Base admin access
+
+Commands marked **[Admin]** — key generation and deletion, user management, reseller accounts,
+the audit log, and application variables — check the bot's configured administrator list:
+
+1. A Discord user configured as a bot administrator can always run them.
+2. If no administrators are configured, the fallback is the server owner or anyone holding
+   **Manage Server**.
+
+There is no in-between tier for these commands — a user either passes this check or the command
+refuses with "Not an administrator."
+
+### License Operations capabilities
+
+License Operations (`/license`, `/licops`) does not use the bot's administrator list as its
+primary gate. Instead:
+
+1. Configured administrators and the guild owner hold **every** capability —
+   the existing admin model is preserved, not replaced, so nobody who already administers the
+   bot is locked out of it.
+2. Otherwise, a member's effective capabilities are the union of whatever's been granted to
+   their Discord roles with `/licops permissions grant` or `/licops permissions preset`.
+3. Otherwise, **nothing** — default deny. An unconfigured guild grants no License Operations
+   capability to non-admins at all.
+
+Both `/admin` and `/licops` are registered with a Discord-side `default_permissions` of
+**Manage Server**, which controls whether a role can *see* the command in Discord — server
+admins can loosen this per-role in **Integrations** settings. Either way, the capability check
+above runs again when the command actually executes, so visibility alone never grants access.
+
+See [Support Operations](/keyauth/commands/support-operations) for the full capability list and
+what each one grants, and [License Operations](/keyauth/features/license-operations) for the
+permission model in depth.

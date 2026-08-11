@@ -1,0 +1,53 @@
+---
+title: "Prerequisites"
+description: "What to install and set up before running a bot from source."
+---
+
+## Runtime
+
+<AccordionGroup>
+  <Accordion title="Node.js bots (Void)">
+    - Node.js 20 or later
+    - pnpm (`corepack enable` on a modern Node install gets you this without a separate install)
+  </Accordion>
+  <Accordion title="Python bots (everything else)">
+    - Python 3.10 or later (some bots require 3.12 — check that bot's `pyproject.toml` or
+      `requirements.txt` for the exact floor)
+    - `pip`, or a virtual environment tool of your choice (`venv`, `poetry`, etc.)
+  </Accordion>
+</AccordionGroup>
+
+## A database
+
+- **SQLite bots** need nothing extra — the database is a single file created automatically on
+  first run.
+- **PostgreSQL bots** need a running Postgres server (13+). The simplest path is Docker: most of
+  these bots ship a `docker-compose.yml` that starts Postgres alongside the bot itself.
+
+See [Database](/sources/database) for which applies to your bot and how migrations work.
+
+## A Discord application
+
+<Steps>
+  <Step title="Create the application">
+    At the [Discord Developer Portal](https://discord.com/developers/applications), create a new
+    application and add a Bot user to it.
+  </Step>
+  <Step title="Copy the token">
+    Under the Bot page, generate and copy the bot token. This goes in your `.env` file — never
+    commit it, and never post it anywhere public. If a token ever leaks, regenerate it
+    immediately from the same page.
+  </Step>
+  <Step title="Enable the intents your bot needs">
+    Under the Bot page's **Privileged Gateway Intents**, enable whichever of Server Members
+    Intent / Message Content Intent that specific bot requires — check its own docs (each bot's
+    Installation & Permissions guide lists what it needs) or its README.
+  </Step>
+  <Step title="Note your Application ID">
+    Found on the General Information page — some bots need this in `.env` alongside the token.
+  </Step>
+</Steps>
+
+<Card title="Next: install it" icon="download" href="/sources/installation">
+  Get the code running locally.
+</Card>

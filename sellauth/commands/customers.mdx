@@ -1,0 +1,52 @@
+---
+title: "Customers"
+description: "Looking up a customer, their order history, and their store-credit balance."
+---
+
+**4 commands.** Looking up a customer, their order history, and their store-credit balance.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/customer`">
+    **Tier:** `support`
+
+    Looks up a customer's order history.
+
+    **SellAuth endpoint:** `GET /shops/{id}/invoices`
+  </Accordion>
+
+  <Accordion title="`/customer_balance`">
+    **Tier:** `support`
+
+    Shows a customer's store-credit balance.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}`
+    - `GET /shops/{id}/customers`
+  </Accordion>
+
+  <Accordion title="`/edit_balance`">
+    **Tier:** `manager`
+
+    Adjusts a customer's store-credit balance.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}`
+    - `GET /shops/{id}/customers`
+    - `PUT /shops/{id}/customers/{id}/balance`
+  </Accordion>
+
+  <Accordion title="`/keylookup`">
+    **Tier:** `support`
+
+    Looks up which invoice and customer a delivered licence key belongs to.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}/invoices`
+    - `GET /shops/{id}/invoices/{id}`
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,67 @@
+---
+title: "Announcements"
+description: "The top-level /news commands — create, view, browse history, and configure."
+---
+
+4 commands, sourced directly from `NewsCog` (`src/cogs/news.py`). This page is maintained by
+hand, not generated — if a command here looks out of date, the source is the final authority.
+
+<Info>
+  **Permission** is the check News Bot enforces when the command actually runs — see
+  [Installation & Permissions](/news/installation-permissions) for how Announcement Manager
+  resolves. Discord-side role settings only control whether you can *see* a command, not
+  whether News Bot will let you run it.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="/news create — Start a new announcement">
+    ```
+    /news create [template:<name>]
+    ```
+    Opens the staged builder. Every step you fill in — title & body, media, CTAs, footer,
+    mention policy, target channels — persists to the database immediately, so an interrupted
+    session never loses progress. Passing `template` pre-fills the draft from a saved template
+    (see [Templates](/news/commands/templates)); the result is still a fully-editable draft, not
+    a locked-in copy.
+
+    **Permission:** Announcement Manager
+
+    **Example:** `/news create template:Release Notes`
+  </Accordion>
+  <Accordion title="/news view — View an announcement">
+    ```
+    /news view announcement:<announcement>
+    ```
+    Renders through the exact same function used to actually publish, so what you see here is
+    never a different layout from what gets sent.
+
+    **Permission:** None — any member in the server can view
+
+    **Example:** `/news view announcement:Season 4 Is Live`
+  </Accordion>
+  <Accordion title="/news history — Browse announcement history">
+    ```
+    /news history
+    ```
+    Opens a paginated browser over every announcement in the server, regardless of status.
+    Selecting one opens per-item actions: View, Clone, Resend/Retry, Edit Draft or Edit Live,
+    Cancel Schedule, and Delete. See
+    [Installation & Permissions](/news/installation-permissions) for how those actions are
+    gated (or, for several of them, not).
+
+    **Permission:** None — any member in the server can open history and use its actions
+  </Accordion>
+  <Accordion title="/news config — Configure announcement settings for this server">
+    ```
+    /news config [admin_role:<role>] [log_channel:<channel>] [default_thumbnail:<url>] [default_image:<url>] [default_color:<text>] [default_mention_policy:<choice>] [default_mention_role:<role>]
+    ```
+    All fields are optional; only the ones you pass are changed. `default_mention_policy` is one
+    of `No Ping`, `@here`, `@everyone`, `Role` — setting it to `Role` requires also passing
+    `default_mention_role` in the same command. See [Configuration](/news/configuration) for
+    what each field does.
+
+    **Permission:** Announcement Manager
+
+    **Example:** `/news config admin_role:@Announcers log_channel:#audit-log default_mention_policy:"No Ping"`
+  </Accordion>
+</AccordionGroup>

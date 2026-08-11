@@ -1,0 +1,22 @@
+---
+title: "/report"
+description: "File a scammer or abuse report against another member."
+---
+
+<Info>
+  This command only works if reports are enabled in this server (toggle from `/vouch-admin` →
+  Configuration). See [Trust & Safety](/vouch/features/trust-safety) for how reports fit into
+  the wider moderation system.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="/report user [vouch_id] [listing_id]">
+    **Who:** Anyone, except against yourself or against a bot.
+
+    **What it does:** Opens a reason-select → description/evidence modal flow to file a
+    scammer/abuse report against `user`. Optionally links a specific vouch or listing as
+    supporting context. Moderators work the resulting case from `/vouch-admin` → Reports.
+
+    **Example:** `/report user:@Jane vouch_id:VCH-A8F4K2`
+  </Accordion>
+</AccordionGroup>

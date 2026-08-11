@@ -1,0 +1,56 @@
+---
+title: "Support"
+description: "Troubleshooting common issues, and how to get further help."
+---
+
+## If something is not working
+
+<AccordionGroup>
+  <Accordion title="A command says I don't have permission">
+    Check that your role is mapped to the right tier with `/staffrole list`, and see
+    [Installation & Permissions](/ticket/installation-permissions) for what each tier and
+    capability actually grants. The server owner always has full authority even with no roles
+    mapped yet.
+  </Accordion>
+  <Accordion title="Adding/removing a ticket participant doesn't change what they can see">
+    The bot needs **Manage Roles** for the ticket's channel to set per-member overwrites. This
+    is a channel-scoped permission — check it on the ticket channel itself, not just the
+    server-wide role list. See [Installation & Permissions](/ticket/installation-permissions).
+  </Accordion>
+  <Accordion title="A ticket won't close">
+    If `/transcript set-policy` is set to **Block**, a ticket can't close without a successful
+    transcript — including tickets the auto-close sweep tries to close. Run
+    `/transcript status` to check transcript storage and the retry queue. If policy is
+    **Queue Retry**, the ticket has already closed and a background worker is still retrying the
+    transcript.
+  </Accordion>
+  <Accordion title="No categories/products show up in the AIO funnel">
+    The catalog is empty or every entry is disabled. Build it from `/aio_manage` → Manage
+    Catalog — categories, then products under a category, then durations/variants under a
+    product. See [The AIO sales funnel](/ticket/features/aio-sales-funnel).
+  </Accordion>
+  <Accordion title="Smart Gate approved something I expected it to deny">
+    Smart Gate fails **open** on misconfiguration — an error evaluating a rule set counts as an
+    approval, not a denial, so a broken ticket type never becomes unusable. Check
+    `/gate status` for an error count and `/gate log` for the specific decisions, and confirm
+    the rule set is attached to a panel/option using the same form it was built against.
+  </Accordion>
+  <Accordion title="Intake or a form isn't running on an option">
+    An option runs exactly one collection path: a form (optionally gated by Smart Gate) or an
+    Intake template, never both. `/intake attach` and `/gate attach` both refuse to attach where
+    the other path is already set — detach the one you don't want first. See
+    [The Intake plugin](/ticket/features/intake-plugin).
+  </Accordion>
+  <Accordion title="There's no /help command">
+    That's expected — type `/` in Discord to see the slash commands available to you in that
+    server, or use the [Commands](/ticket/commands/panels) tab here for the full reference with
+    permissions and syntax.
+  </Accordion>
+</AccordionGroup>
+
+## Getting help
+
+There's no publicly documented support server or contact address for Ticket Bot in the
+materials this documentation is built from. Ticket Bot is centrally hosted, so if something
+here doesn't cover your situation, contact whoever operates your instance for your server —
+they're the ones who can reach the team that deployed it for you.

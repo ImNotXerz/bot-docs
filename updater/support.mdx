@@ -1,0 +1,59 @@
+---
+title: "Support"
+description: "Common reasons Updater isn't posting, how to check what's going on, and how to get help."
+---
+
+<Note>
+  `/status` is the fastest way to check most of this yourself — it's open to
+  everyone, not just admins.
+</Note>
+
+## Common issues
+
+<AccordionGroup>
+  <Accordion title="Nothing posts in the delivery channel">
+    Run `/setchannel` and check that a channel is actually set — if it's
+    blank, that's the issue. If it's set, hit **Send Test**: if that fails or
+    reports a missing permission, Updater needs **View Channel** and **Send
+    Messages** in that channel. Grant them and try the test again.
+  </Accordion>
+  <Accordion title="I enabled a game but haven't seen a notification">
+    This is expected the first time. Turning a game on in `/games` doesn't
+    back-fill past updates — Updater's first check after you enable a game
+    just establishes a starting point. You'll get a notification the next
+    time that game actually ships something new. If it's been a while, check
+    `/status` for that provider's health (see below).
+  </Accordion>
+  <Accordion title="A game hasn't had an update in a while">
+    Run `/status` and check **Provider Health**. If the relevant source shows
+    `NOT_CONFIGURED`, that source needs setup on the bot's side (an API key,
+    for some providers) — it's not something you can fix from within your
+    server, and it isn't specific to your server either. Any other
+    non-healthy state usually clears on its own; if it stays that way for a
+    long time, report it (see below).
+  </Accordion>
+  <Accordion title="I don't have permission to run /games or /setchannel">
+    Both require **Manage Server**. `/status` doesn't — anyone can run that
+    one. Ask a server admin to do the setup, or to grant you a role with
+    Manage Server.
+  </Accordion>
+  <Accordion title="I see what looks like the same release posted twice">
+    This shouldn't happen — Updater is built to guarantee exactly one message
+    per release. If you do see a duplicate, it's a bug; report it (see
+    below) with the game name and roughly when both messages appeared.
+  </Accordion>
+</AccordionGroup>
+
+## Getting help
+
+Updater doesn't have a separate ticketing system — issues get reported
+directly to whoever operates the bot for your server. When you report
+something, include:
+
+- What you expected to happen, and what happened instead
+- Roughly when it happened
+- The relevant game, if there is one
+- What `/status` showed at the time
+
+If a `/setchannel` or `/games` panel reported a specific missing permission
+or error, include that message verbatim.

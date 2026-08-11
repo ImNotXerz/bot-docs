@@ -1,0 +1,53 @@
+---
+title: "Installation & Permissions"
+description: "What Invoice Bot asks Discord for, and who can run what once it's in your server."
+---
+
+## Inviting Invoice Bot
+
+The invite uses the `bot` and `applications.commands` scopes.
+
+| Permission | Used for |
+| --- | --- |
+| Send Messages | Posting invoice panels and command responses |
+| Read Message History | Editing an invoice panel in place when its status changes |
+
+<Note>
+  **Embed Links isn't required.** Invoice Bot renders everything — invoices, payment details,
+  status panels — with Discord's Components V2 system. Classic `discord.Embed` is never used.
+</Note>
+
+### Privileged intents
+
+None are required. Slash-command interaction payloads already carry the invoking member's
+roles, so Invoice Bot never needs the Server Members or Message Content intent to check
+permissions or respond to a command.
+
+## Who can run what
+
+Every command checks its permission on the server side when it actually runs, not just when a
+button is drawn — reopening a stale panel doesn't bypass a check.
+
+Most invoice and configuration actions resolve to the same underlying check — referred to
+below as **admin**: the guild's own Discord **Administrator** permission, the role set as
+`admin_role` via [`/payment_config`](/invoice/commands/admin), or the bot's own operator. These
+are checked and named as separate concerns internally so a finer-grained role could be
+introduced later without changing every call site, but today they all resolve to the same
+admin tier.
+
+| Action | Who |
+| --- | --- |
+| Create, edit, resend, void, refund, or delete invoices | Admin |
+| Configure payment methods, roles, log channel, visibility, or the payment profiles toggle | Admin |
+| Verify a crypto payment or manually mark an invoice paid | Admin |
+| View an invoice | The invoice's own customer, or admin |
+| View `/payment_methods` | Depends on the server's `payment_visibility` setting — see [Configuration](/invoice/configuration) |
+| Register or update your **own** payment profile | Anyone who could already manage invoices (admin) |
+| Delete your own payment profile | Anyone — you can always remove your own |
+| Delete someone else's profile, or a team profile | Admin |
+| `/sync` | The bot's own operator only |
+
+<Note>
+  There's no separate "staff" tier below admin. Anyone who can manage invoices can also register
+  their own [payment profile](/invoice/commands/payment-profiles) once that module is turned on.
+</Note>

@@ -1,0 +1,26 @@
+---
+title: "Role claim"
+description: "The simple, single-role version of purchase-to-role redemption — one configured role per server for any completed invoice. See Role redemption for the more granular per-product/per-variant version."
+---
+
+**2 commands.** The simple, single-role version of purchase-to-role redemption — one configured role per server for any completed invoice. See Role redemption for the more granular per-product/per-variant version.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/claimrole`">
+    **Tier:** `viewer`
+
+    Lets a customer claim this server's configured purchase role for a completed invoice.
+
+    **SellAuth endpoint:** `GET /shops/{id}/invoices/{id}`
+  </Accordion>
+
+  <Accordion title="`/setclaimrole`">
+    **Tier:** `owner`
+
+    Sets which Discord role `/claimrole` grants in this server.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+</AccordionGroup>

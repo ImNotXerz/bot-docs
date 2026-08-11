@@ -1,0 +1,41 @@
+---
+title: "Installation & Permissions"
+description: "What Download Bot asks Discord for, and who can run what once it's in your server."
+---
+
+## What the bot asks Discord for
+
+The invite uses the `bot` and `applications.commands` scopes.
+
+| Permission | Used for |
+| --- | --- |
+| Send Messages | Posting the panel and responding to commands |
+| Read Message History | Finding and replacing the existing panel message |
+| Manage Messages | Deleting the old panel message when the panel is regenerated or moved |
+| Attach Files | Delivering a locally-stored or R2-backed file as a Discord attachment, and attaching a panel logo/banner as a file rather than a URL |
+
+Classic embeds are never used anywhere in the bot, so **Embed Links** is not required.
+
+<Info>
+  No privileged intents (Server Members or Message Content) are needed. Interaction payloads
+  already carry the invoking member's roles, and file uploads go through a modal's file-upload
+  component instead of waiting on a follow-up message — so the bot never needs to read message
+  content or track membership changes.
+</Info>
+
+## Who can run what
+
+Every check is enforced when the command or button actually runs, not just when a panel is
+drawn — reopening a stale admin panel does not bypass it.
+
+| Policy | Who | Governs |
+| --- | --- | --- |
+| Manage | Discord Administrator, the configured admin role, or the bot owner | `/downloads`, `/downloads-setup`, `/downloads-reconcile`, and everything inside the admin console |
+| Download | Managers (above), plus whoever the server's access mode/roles allow | The public panel's **Browse Downloads** button |
+| Bot Owner | The operator(s) who run the bot process itself | `/sync` |
+
+<Note>
+  Managers can always use the download panel regardless of the configured access mode, and are
+  exempt from delivery rate limiting. See [Configuration](/download/configuration) for how to set
+  the admin role and access mode.
+</Note>

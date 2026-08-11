@@ -1,0 +1,27 @@
+---
+title: "Crypto"
+description: "Ad-hoc blockchain transaction lookup, independent of any invoice."
+---
+
+<Info>
+  **Permission** reflects who Invoice Bot lets actually run the command — see
+  [Installation & Permissions](/invoice/installation-permissions) for what "Admin" means.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="/crypto_lookup — Look up a Bitcoin or Litecoin transaction by hash">
+    ```
+    /crypto_lookup coin:<Bitcoin (BTC)|Litecoin (LTC)> txid:<transaction hash>
+    ```
+    A generic, non-invoice-aware transaction inspector — total value, value sent to your
+    server's configured address for that asset, confirmations, and an approximate USD value
+    where a price quote is available. Prefer
+    [`/invoice verify`](/invoice/commands/invoices) instead whenever the lookup is actually for
+    a specific invoice; that command also checks the amount against what was quoted and
+    completes the invoice on success.
+
+    **Permission:** Admin
+
+    **Example:** `/crypto_lookup coin:Bitcoin (BTC) txid:3a1b...`
+  </Accordion>
+</AccordionGroup>

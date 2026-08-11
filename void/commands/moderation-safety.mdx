@@ -1,0 +1,248 @@
+---
+title: "Moderation & Safety"
+description: "Warnings, notes, blacklists, anti-phishing, verification, and reports."
+---
+
+Every command works with the `=` prefix. Where a slash entry point exists it opens the same
+Components V2 panel as the prefix command.
+
+<Info>
+  A command being listed here does not mean its module is enabled in your server. Turn modules on
+  with `=config`. See [Modules](/void/modules) for what each one needs.
+</Info>
+
+**18 commands across 5 modules.**
+
+## Moderation
+
+Per-member warnings, staff notes, and mod-log history. All of these need a user (mention or ID)
+except `=clearwarn`, which takes a warning ID from `=warnings`.
+
+<AccordionGroup>
+  <Accordion title="=history">
+    Shows a member's recent activity in one panel: their last 10 tickets, warnings, and notes,
+    plus recent audit-log events involving them.
+
+    **Syntax:** `=history <user>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+
+    **Example:** `=history @user`
+  </Accordion>
+
+  <Accordion title="=notes">
+    Adds or views staff notes on a member, or deletes one by ID.
+
+    **Syntax:** `=notes <user> [note text]` to view a member's notes (and add one if you include
+    text), or `=notes delete <noteId>` to remove a note.
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+
+    **Example:** `=notes @user Reached out about the report from Tuesday`
+  </Accordion>
+
+  <Accordion title="=warn">
+    Issues a warning to a member and adds it to their record.
+
+    **Syntax:** `=warn <user> <reason>` — the reason is required.
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+
+    **Example:** `=warn @user Spamming in #general`
+  </Accordion>
+
+  <Accordion title="=warnings">
+    Lists a member's active (non-cleared) warnings.
+
+    **Syntax:** `=warnings <user>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+
+    **Example:** `=warnings @user`
+  </Accordion>
+
+  <Accordion title="=clearwarn">
+    Clears (deactivates) a single warning by its ID. Get the ID from `=warnings`.
+
+    **Syntax:** `=clearwarn <warningId>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=modlogs">
+    Shows audit-log entries where the member is either the actor or the target — a record of
+    what they did and what was done to them.
+
+    **Syntax:** `=modlogs <user>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+
+    **Example:** `=modlogs @user`
+  </Accordion>
+</AccordionGroup>
+
+## Safety
+
+Anti-phishing, a user blacklist, and a blocked-domains list. Both the blacklist and blocked
+domains take an optional scope/match-mode/action beyond the target — pass none of them and the
+command defaults sensibly, or pass just enough to be specific.
+
+<AccordionGroup>
+  <Accordion title="=blacklist">
+    Adds a user to a blacklist scope. Running it with no arguments just lists current entries.
+
+    **Syntax:** `=blacklist <user> [scope] [reason]` — `scope` is one of `global_bot`, `guild`,
+    `tickets`, `applications`, `giveaways`, `payments`, `custom` (defaults to `guild`).
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+
+    **Example:** `=blacklist @user tickets Abusing the ticket system`
+  </Accordion>
+
+  <Accordion title="=unblacklist">
+    Removes a user from the blacklist — from every scope, or just one if you specify it.
+
+    **Syntax:** `=unblacklist <user> [scope]`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+
+    **Example:** `=unblacklist @user`
+  </Accordion>
+
+  <Accordion title="=blacklisted">
+    Lists blacklist entries, optionally filtered to one scope.
+
+    **Syntax:** `=blacklisted [scope]`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=blockdomain">
+    Adds a domain to the blocked list, so links to it are caught by anti-phishing scanning.
+
+    **Syntax:** `=blockdomain <domain> [matchMode] [action] [reason]` — `matchMode` is one of
+    `exact_domain`, `subdomain`, `contains` (defaults to `exact_domain`); `action` is one of
+    `log_only`, `delete_message`, `delete_and_warn` (defaults to `log_only`).
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+
+    **Example:** `=blockdomain scam-site.com subdomain delete_and_warn Known phishing host`
+  </Accordion>
+
+  <Accordion title="=unblockdomain">
+    Removes a blocked-domain rule.
+
+    **Syntax:** `=unblockdomain <domain>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=blockeddomains">
+    Lists the server's blocked-domain rules.
+
+    **Syntax:** `=blockeddomains` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=safety">
+    Opens the Safety & Anti-Phishing home panel — toggle scanning on or off and set its mode from
+    there.
+
+    **Syntax:** `=safety` (opens a panel, no arguments)
+
+    **Aliases:** `=anti-phishing` · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+</AccordionGroup>
+
+## Verification
+
+<AccordionGroup>
+  <Accordion title="=setverify">
+    Opens the verification configuration panel for staff.
+
+    **Syntax:** `=setverify` (opens a panel, no arguments)
+
+    **Aliases:** `=verification` · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=verify">
+    Opens the public verification panel a member uses to complete verification.
+
+    **Syntax:** `=verify` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+</AccordionGroup>
+
+## Reports
+
+<AccordionGroup>
+  <Accordion title="=report">
+    Files a report. Running it with no text opens the report panel instead of submitting
+    immediately.
+
+    **Syntax:** `=report <description>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=report User is impersonating a staff member in #general`
+  </Accordion>
+
+  <Accordion title="=reports">
+    Opens the staff report review panel.
+
+    **Syntax:** `=reports` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+</AccordionGroup>
+
+## Event Logs
+
+<AccordionGroup>
+  <Accordion title="=eventlogs">
+    Opens the event log configuration panel — which event types get logged, and to which
+    channel. Needs the Server Members privileged intent for member-related events.
+
+    **Syntax:** `=eventlogs` (opens a panel, no arguments)
+
+    **Aliases:** `=logs` · **Slash:** none — prefix only
+
+    **Permission:** Configured Admin
+  </Accordion>
+</AccordionGroup>

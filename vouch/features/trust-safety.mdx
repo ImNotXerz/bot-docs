@@ -1,0 +1,61 @@
+---
+title: "Trust & Safety"
+description: "How reports, disputes, blacklists, and the anti-abuse engine work together."
+---
+
+Trust & safety in Vouch. isn't one system — it's several independent, purpose-built tools that
+share a common case-management surface in `/vouch-admin`. Keeping them independent matters:
+a report doesn't have to be about a specific vouch, and a vouch dispute doesn't have to involve
+a report at all.
+
+## Reports
+
+A report is opened with [`/report`](/vouch/commands/report): a reason-select and
+description/evidence modal, optionally linked to a specific vouch or listing for context. A
+member can't report themselves or a bot.
+
+Moderators then work the case from `/vouch-admin` → Reports, with a full case-management
+surface: assign, note, attach evidence, dismiss/close/reopen/escalate, and — where warranted —
+composite enforcement actions in one step: void the related vouch, remove the related listing,
+blacklist the accused, or strip their guild trust.
+
+## Disputes
+
+A dispute is narrower and more direct than a report: it's opened by
+[`/vouch dispute`](/vouch/commands/vouch) (or the **Dispute** button on any public vouch card),
+and only the two people involved in that specific vouch — voucher or recipient — can open one.
+A vouch can only have one open dispute at a time.
+
+Moderators resolve open disputes from `/vouch-admin` → Disputes with one of four outcomes:
+**uphold**, **modified**, **void**, or **restore** — mirroring the vouch state machine
+(pending review → valid → disputed/voided/removed → restored) rather than just deleting the
+record.
+
+## Blacklists and trusted users
+
+Both blacklists and trusted-user status exist at two distinct scopes, and the distinction is
+kept visible rather than flattened into one list:
+
+- **Guild-scoped** — set by a server's own moderators, applies to that server only.
+- **Global-scoped** — set only by the bot's global owners (`GLOBAL_OWNER`), applies across
+  every server the bot is in.
+
+A global blacklist entry is a meaningfully bigger action than a guild one, and the two are never
+presented as though they were the same thing at different volumes.
+
+## The anti-abuse engine
+
+Before `/vouch create` even opens its confirmation modal, the integrity engine runs a set of
+hard blocks — self-vouch, bot recipient, blacklist membership, minimum account age, minimum
+membership age, required/blocked roles, cooldown, and pair-frequency (the same two people
+vouching for each other too often) — any of which reject the vouch outright. Beyond the hard
+blocks, a softer risk classification is attached to vouches that pass but still look unusual,
+surfaced to moderators in the moderator-only view of [`/vouch view`](/vouch/commands/vouch)
+rather than blocking the vouch itself.
+
+## Where the permission model comes in
+
+Every action above respects the same permission hierarchy —
+`MEMBER < SELLER < MODERATOR < ADMIN < GLOBAL_OWNER` — described in full on the
+[`/vouch-admin`](/vouch/commands/vouch-admin) reference. Reports and disputes are moderator
+work; global blacklist and global trust are bot-owner-only, by design.

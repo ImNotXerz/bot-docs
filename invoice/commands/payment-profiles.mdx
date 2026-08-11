@@ -1,0 +1,81 @@
+---
+title: "Payment Profiles"
+description: "The /payment_profile command group — self-service and team payment destinations."
+---
+
+Everything on this page is gated behind the `payment_profiles_enabled` toggle set via
+[`/payment_config`](/invoice/commands/admin) — with it off, every command here refuses to run.
+See [Configuration → Payment profiles](/invoice/configuration#payment-profiles) before turning
+it on.
+
+## Profile fields
+
+`create-mine` and `create-team` accept the same set of optional fields — set only the ones that
+apply:
+
+| Field | Description |
+| --- | --- |
+| `paypal_email` | PayPal email address |
+| `paypal_me` | PayPal.me username or link |
+| `stripe_link` | Stripe payment link |
+| `revolut_link` | Revolut payment link |
+| `cashapp_tag` | CashApp `$tag` |
+| `applepay_contact` | Apple Pay contact (phone number or Apple ID email) |
+| `btc_address` | Bitcoin wallet address |
+| `ltc_address` | Litecoin wallet address |
+
+At least one field is required.
+
+<Info>
+  **Permission** reflects who Invoice Bot lets actually run the command — see
+  [Installation & Permissions](/invoice/installation-permissions) for what "Admin" means.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="/payment_profile create-mine — Register or update your own payment profile">
+    ```
+    /payment_profile create-mine [paypal_email:...] [paypal_me:...] [stripe_link:...] [revolut_link:...] [cashapp_tag:...] [applepay_contact:...] [btc_address:...] [ltc_address:...]
+    ```
+    Self-service, but only for staff who could already manage invoices — running it again
+    updates your existing profile in place rather than creating a duplicate.
+
+    **Permission:** Admin (any staff member who can manage invoices)
+
+    **Example:** `/payment_profile create-mine paypal_email:me@example.com btc_address:bc1q...`
+  </Accordion>
+  <Accordion title="/payment_profile create-team — Create a named team payment profile">
+    ```
+    /payment_profile create-team name:<profile name> [paypal_email:...] [paypal_me:...] [stripe_link:...] [revolut_link:...] [cashapp_tag:...] [applepay_contact:...] [btc_address:...] [ltc_address:...]
+    ```
+    A named profile not tied to one person, e.g. `"Sales Team"` or `"EU Reseller"`. `name`
+    cannot be `Server Default` — that name is reserved for the server's own configuration — and
+    must be unique.
+
+    **Permission:** Admin
+
+    **Example:** `/payment_profile create-team name:Sales Team paypal_email:sales@example.com`
+  </Accordion>
+  <Accordion title="/payment_profile list — List every payment profile configured for this server">
+    ```
+    /payment_profile list
+    ```
+    Shows Server Default plus every named and personal profile, and what's configured for each.
+
+    **Permission:** Admin
+
+    **Example:** `/payment_profile list`
+  </Accordion>
+  <Accordion title="/payment_profile delete — Delete a payment profile">
+    ```
+    /payment_profile delete name:<profile name>
+    ```
+    Any invoice currently using the deleted profile falls back to Server Default, and any
+    in-flight, unpaid crypto quote tied to that invoice is cancelled — a fresh quote against the
+    new destination is required before it can be verified again.
+
+    **Permission:** You can always delete your own profile; deleting anyone else's or a team
+    profile requires admin access
+
+    **Example:** `/payment_profile delete name:Sales Team`
+  </Accordion>
+</AccordionGroup>

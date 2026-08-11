@@ -1,0 +1,62 @@
+---
+title: "Vouch."
+description: "A Discord reputation, vouching, marketplace, and trust platform bot."
+---
+
+Vouch. is a dedicated Discord reputation, vouching, marketplace, and trust platform bot.
+Profiles, marketplace listings, leaderboards, and trust & safety all derive from one thing: an
+auditable ledger of vouches, not a counter that goes up.
+
+<Note>
+  Set up Vouch. by inviting your own bot application to your server and configuring it with
+  `/vouch-admin`. See [Installation & Permissions](/vouch/installation-permissions) and
+  [Configuration](/vouch/configuration) for the full walkthrough.
+</Note>
+
+## What it does
+
+<CardGroup cols={2}>
+  <Card title="Vouches" icon="star">
+    1–5 star ratings with product/service and transaction details, optional proof, and a real
+    state machine: pending review → valid → disputed/voided/removed → restored. Double-submit
+    protection and a dedicated anti-abuse engine back every submission.
+  </Card>
+  <Card title="Profiles" icon="id-card">
+    Bio, banner, categories, contact methods, and payment-method presentation (PayPal, Cash App,
+    BTC, LTC, ETH, USDT, custom) — public identifiers only, never credentials.
+  </Card>
+  <Card title="Marketplace" icon="shop">
+    WTS/WTB/service listings with media, search and filter, seller-reputation linkage,
+    configurable contact workflow, and scheduled expiration.
+  </Card>
+  <Card title="Leaderboards" icon="ranking-star">
+    5 categories × 4 time ranges, minimum-sample-size eligibility for rating leaderboards, and
+    persistent auto-refreshing deployments that recover after a restart.
+  </Card>
+  <Card title="Trust & safety" icon="shield-halved">
+    Scammer reports with full case management, vouch disputes independent of reports, and
+    guild/global blacklists, restrictions, and trust with visibly distinct scoping.
+  </Card>
+  <Card title="Admin console" icon="sliders">
+    One interactive, permission-gated `/vouch-admin` console covering configuration, channels,
+    roles, restrictions, reports, disputes, blacklists, trusted users, marketplace settings,
+    leaderboards, analytics, and audit search.
+  </Card>
+</CardGroup>
+
+## How it is built
+
+Two things shape how Vouch. behaves, and both are worth knowing before you configure it.
+
+**A vouch is an auditable event, not a counter increment.** Every vouch goes through a real
+state machine, and everything else — profiles, marketplace, leaderboards, trust — derives from
+that ledger rather than a running total.
+
+**Every response is Components V2.** `discord.Embed` never appears anywhere in the codebase —
+enforced by an AST-walking test, not just convention. Confirmations, pagination, and moderator
+actions happen through buttons and selects on the response rather than a scattered set of
+separate commands.
+
+<Card title="Start here" icon="rocket" href="/vouch/quickstart">
+  Invite Vouch. to your server and run first-time setup.
+</Card>

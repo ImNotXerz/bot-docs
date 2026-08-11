@@ -1,0 +1,97 @@
+---
+title: "Installation & Permissions"
+description: "What Ticket Bot asks Discord for, privileged intents, and who can run what."
+---
+
+## Inviting the bot
+
+The invite uses the `bot` and `applications.commands` scopes — `applications.commands` is what
+lets Discord register the bot's slash commands in your server.
+
+## What the bot asks Discord for
+
+<Note>
+  Ticket Bot is centrally hosted, so you won't generate this invite yourself — but knowing what
+  it asks for explains why some actions (renaming a pinned ticket, adding a participant) need
+  specific permissions in place.
+</Note>
+
+| Permission | Used for |
+| --- | --- |
+| Manage Channels | Creating ticket channels, and renaming them for `/pinticket`/`;pinticket` |
+| Manage Roles *(channel-scoped)* | Per-member channel overwrites when `/ticket add-user`/`remove-user` runs |
+| Send Messages, Read Message History | Posting panels and ticket messages, and prefix commands reading their context |
+| Manage Messages | Deleting the triggering message after `;confirm` delivers a key |
+| Attach Files | Transcript and key-delivery presentation |
+| Use Application Commands | Registering and running slash commands |
+
+### Privileged intents
+
+Two intents are enabled by the bot and must be allowed in its Discord application:
+
+<CardGroup cols={2}>
+  <Card title="Server Members" icon="users">
+    Drives close-on-leave (`;ticketcloseonleave`) and resolving guild members for DMs (key
+    delivery, AIO order notices).
+  </Card>
+  <Card title="Message Content" icon="message">
+    Required for the bot's prefix commands (`;confirm`, `;pinticket`, `;unpinticket`,
+    `;autocloseticket`, `;ticketcloseonleave`) to be parsed at all — without it, Discord never
+    delivers message text to the bot.
+  </Card>
+</CardGroup>
+
+## Who can run what
+
+Ticket Bot's authority system is independent of Discord's native permission bits, and it is
+checked when a command **runs**, not just when a panel is drawn — reopening a stale panel does
+not bypass it.
+
+### Staff tiers
+
+Assigned with `/staffrole set`, which maps a Discord role to one of these tiers. The server
+owner and the bot's configured owner(s) always hold full (`Owner`) authority implicitly,
+regardless of role mappings — you can never lock yourself out.
+
+| Tier | Position |
+| --- | --- |
+| Customer | The floor — everyone satisfies this |
+| Staff | General ticket operations: claim, close, transfer, fulfill |
+| Manager | Staff, plus panel/automation/discount/form configuration |
+| Admin | Manager, plus guild-wide switches that can block tickets entirely (max-open caps, transcript failure policy, panel deletion) |
+| Owner | Full authority — the Discord server owner, or a configured bot owner |
+
+<Note>
+  `Staff → Manager → Admin → Owner` is a genuine seniority ladder — each tier includes everything
+  below it. `Reseller`, `Sales`, and `Support` below are **not** part of that ladder.
+</Note>
+
+### Peer specialist tiers
+
+`Reseller`, `Sales`, and `Support` are independent specialty tiers, not rungs on the ladder
+above — holding one grants nothing from another, even though their internal numbering might
+suggest otherwise.
+
+| Tier | Grants |
+| --- | --- |
+| Support | View the support queue, claim tickets, close tickets |
+| Sales | View the sales queue, fulfill AIO orders (`;confirm` and DM-failure recovery) |
+| Reseller | View-only access to the reseller queue |
+
+### Capabilities
+
+Some commands check a specific capability rather than a tier directly. Every `Staff`+ tier holds
+the capabilities below; `Support` and `Sales` hold a subset relevant to their specialty (see
+above).
+
+| Capability | Grants | Minimum tier |
+| --- | --- | --- |
+| `CAN_CLAIM` | Claim a ticket | Staff, or Support |
+| `CAN_TRANSFER` | Reassign another staff member's ticket | Staff |
+| `CAN_CLOSE` | Close a ticket | Staff, or Support |
+| `CAN_FULFILL` | Deliver AIO stock (`;confirm`) | Staff, or Sales |
+| `CAN_MANAGE_PANEL` | Create/edit panels, forms, automation, discounts, intake templates, gate rule sets | Manager |
+| `CAN_OVERRIDE` | Override another staff member's claim | Admin |
+
+See each command's own page in [Commands](/ticket/commands/panels) for exactly which tier or
+capability it checks.

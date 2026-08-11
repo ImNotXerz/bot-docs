@@ -1,0 +1,33 @@
+---
+title: "Quickstart"
+description: "Add AEGIS to your server and get it configured."
+---
+
+<Steps>
+  <Step title="Invite the bot">
+    The invite uses the `bot` and `applications.commands` scopes. AEGIS asks for the Discord
+    permissions its moderation and containment actions need — role and channel management,
+    kick/ban/timeout, and audit log access. See
+    [Installation & Permissions](/aegis/installation-permissions) for exactly what's requested
+    and how AEGIS decides who can use what once it's in your server.
+  </Step>
+  <Step title="Run /aegis setup">
+    Run `/aegis setup` in your server to open the configuration panel. This is where you set
+    your initial admin/staff mappings, log channels, and which protections are turned on.
+  </Step>
+  <Step title="Finish configuring">
+    Map your Discord roles onto AEGIS permissions and review each protection's enforcement mode
+    before you rely on it. See [Configuration](/aegis/configuration) for both — new guilds start
+    with safe defaults, so nothing takes action on your server until you decide it should.
+  </Step>
+</Steps>
+
+## After setup
+
+`/help` shows the commands available to you in that server. The dashboard mirrors the same
+permissions for a web view of cases, incidents, signals, and audit history. See
+[Commands](/aegis/commands) for the full command reference.
+
+<Card title="Something not working?" icon="wrench" href="/aegis/support">
+  Check the troubleshooting guide in Support for the most common first-run issues.
+</Card>

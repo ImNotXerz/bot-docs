@@ -1,0 +1,37 @@
+---
+title: "Blacklist"
+description: "Blocking specific customers (by identifier, e.g. email) from purchasing. See Storefront for the whitelist equivalent."
+---
+
+**3 commands.** Blocking specific customers (by identifier, e.g. email) from purchasing. See Storefront for the whitelist equivalent.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/blacklist_add`">
+    **Tier:** `manager`
+
+    Adds an identifier to the shop's blacklist, blocking future purchases.
+
+    **SellAuth endpoint:** `POST /shops/{id}/blacklist`
+  </Accordion>
+
+  <Accordion title="`/blacklist_list`">
+    **Tier:** `support`
+
+    Lists blacklisted identifiers for the shop.
+
+    **SellAuth endpoint:** `GET /shops/{id}/blacklist`
+  </Accordion>
+
+  <Accordion title="`/blacklist_remove`">
+    **Tier:** `manager`
+
+    Removes an entry from the shop's blacklist.
+
+    **SellAuth endpoints:**
+
+    - `DELETE /shops/{id}/blacklist/{id}`
+    - `GET /shops/{id}/blacklist`
+  </Accordion>
+</AccordionGroup>

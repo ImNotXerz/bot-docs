@@ -1,0 +1,51 @@
+---
+title: "Quickstart"
+description: "Invite Vouch. to your server and get it configured."
+---
+
+<Steps>
+  <Step title="Invite it to your server">
+    Vouch. requests no privileged intents — only `discord.Intents.default()`. Generate an
+    OAuth2 invite URL from the Discord Developer Portal for your application, with the `bot`
+    and `applications.commands` scopes, and grant at minimum: Send Messages, Embed Links,
+    Attach Files, Create Public/Private Threads, and Manage Threads. Add Manage Channels if
+    you'll use the ticket-channel contact workflow, and Manage Messages so persistent
+    leaderboard/vouch/listing cards can be edited in place. See
+    [Installation & Permissions](/vouch/installation-permissions) for the full reference.
+  </Step>
+  <Step title="Wait for slash commands to appear">
+    If `/vouch`, `/profile`, `/market`, `/leaderboard`, `/report`, and `/vouch-admin` don't
+    show up immediately, give it a little time — Discord's command list can take a while to
+    catch up the first time a bot is invited. If they still haven't appeared, check with
+    whoever manages the bot for your server.
+  </Step>
+  <Step title="Run /vouch-admin">
+    Open `/vouch-admin` as a server admin. Under **Channels**, set at least a vouch channel;
+    add modlog, marketplace, and report channels for the features you're using.
+  </Step>
+  <Step title="Set roles and thresholds">
+    Under **Roles**, assign admin/moderator/seller roles if you don't want to rely solely on
+    Discord's native Administrator permission. Under **Configuration**, review the vouch
+    integrity thresholds (minimum account age, minimum membership age, cooldown) for your
+    community's risk tolerance.
+  </Step>
+</Steps>
+
+## After setup
+
+Deploy a persistent, auto-refreshing leaderboard from `/vouch-admin` → **Leaderboards** if you
+want one visible in a channel. The full command reference is in the Commands tab, starting with
+[`/vouch`](/vouch/commands/vouch).
+
+## If something is not working
+
+<AccordionGroup>
+  <Accordion title="A persistent leaderboard stopped updating">
+    If its channel or message was deleted, the next startup recovery pass (or scheduled
+    refresh) marks it `BROKEN`. Remove and redeploy it from `/vouch-admin` → Leaderboards.
+  </Accordion>
+  <Accordion title="A command shows a generic error instead of completing">
+    Vouch. always renders a safe, generic error to the user rather than leaking internal
+    details. If this keeps happening, check with whoever manages the bot for your server.
+  </Accordion>
+</AccordionGroup>

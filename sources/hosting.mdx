@@ -1,0 +1,40 @@
+---
+title: "Hosting"
+description: "Keeping the bot running past your terminal session."
+---
+
+Running the bot from a terminal (`pnpm start` / `python -m app.bot.entrypoint`) is fine for
+testing, but it stops the moment you close that terminal or your machine sleeps. For anything
+real, you need it running unattended on a server.
+
+## Options
+
+<CardGroup cols={2}>
+  <Card title="A VPS with a process manager" icon="server">
+    The most common path. Rent a small VPS (1 vCPU / 1GB RAM is enough for most of these bots),
+    and keep the process alive with `systemd`, `pm2` (Node bots), or `supervisord`, so it
+    restarts automatically if it crashes or the server reboots.
+  </Card>
+  <Card title="Docker" icon="docker">
+    Several bots ship a `Dockerfile` and `docker-compose.yml` already — if yours does,
+    `docker compose up -d` runs the bot (and its Postgres, if it needs one) as a managed
+    container with restart policies built in. Check the bot's own README for whether this is
+    included.
+  </Card>
+  <Card title="A machine you already run" icon="house">
+    A home server or NAS works too, as long as it has a stable connection — Discord's gateway
+    needs a persistent outbound WebSocket connection, so intermittent internet means the bot
+    keeps disconnecting and reconnecting.
+  </Card>
+</CardGroup>
+
+## Keeping it updated
+
+If you're on a private repo (rather than a one-time `.zip`), `git pull` plus re-running
+dependency install and migrations covers most updates. If you received a `.zip`, you'll need to
+re-apply any local configuration changes on top of the new version manually — diff your `.env`
+against the new `.env.example` for any new variables.
+
+<Card title="License & support" icon="file-contract" href="/sources/license-support">
+  What's covered if something breaks, and what you're allowed to do with the code.
+</Card>

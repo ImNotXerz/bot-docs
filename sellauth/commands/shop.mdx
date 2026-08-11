@@ -1,0 +1,97 @@
+---
+title: "Shop settings"
+description: "Product-level detail, bulk status/visibility changes, and the shop's own linked-Discord, subdomain and YouTube settings."
+---
+
+**9 commands.** Product-level detail, bulk status/visibility changes, and the shop's own linked-Discord, subdomain and YouTube settings.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/image_upload`">
+    **Tier:** `manager`
+
+    Uploads an image asset to the shop, e.g. for a product or panel.
+
+    **SellAuth endpoint:** `POST /shops/{id}/images`
+  </Accordion>
+
+  <Accordion title="`/productinfo`">
+    **Tier:** `viewer`
+
+    Shows detail for a single product.
+
+    **SellAuth endpoint:** `GET /shops/{id}/products`
+  </Accordion>
+
+  <Accordion title="`/setdiscord`">
+    **Tier:** `manager`
+
+    Sets the shop's linked Discord server invite.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}`
+    - `PUT /shops/{id}/update`
+  </Accordion>
+
+  <Accordion title="`/setfeedback`">
+    **Tier:** `manager`
+
+    Attempts to configure automatic feedback requests for the shop.
+
+    **SellAuth endpoints:** none — local by design. SellAuth exposes no automatic-feedback setting on `PUT /shops/{id}/update` — the command says so rather than fabricating a toggle.
+  </Accordion>
+
+  <Accordion title="`/setsubdomain`">
+    **Tier:** `manager`
+
+    Sets the shop's SellAuth subdomain.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}`
+    - `PUT /shops/{id}/update`
+  </Accordion>
+
+  <Accordion title="`/setyoutube`">
+    **Tier:** `manager`
+
+    Sets the shop's linked YouTube URL.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}`
+    - `PUT /shops/{id}/update`
+  </Accordion>
+
+  <Accordion title="`/shopinfo`">
+    **Tier:** `viewer`
+
+    Shows shop identity and balance summary.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops`
+    - `GET /shops/{id}/payouts/balances`
+  </Accordion>
+
+  <Accordion title="`/status`">
+    **Tier:** `manager`
+
+    Bulk-changes product status (e.g. active/inactive) across products.
+
+    **SellAuth endpoint:** `PUT /shops/{id}/products/bulk-update/status`
+  </Accordion>
+
+  <Accordion title="`/visibility`">
+    **Tier:** `manager`
+
+    Bulk-changes product visibility (listed/hidden) across products.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}/products`
+    - `PUT /shops/{id}/products/bulk-update/visibility`
+  </Accordion>
+</AccordionGroup>

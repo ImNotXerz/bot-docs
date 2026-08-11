@@ -1,0 +1,38 @@
+---
+title: "Payments"
+description: "The quick single-item payment flow, and checking what's configured."
+---
+
+<Info>
+  **Permission** reflects who Invoice Bot lets actually run the command — see
+  [Installation & Permissions](/invoice/installation-permissions) for what "Admin" means.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="/payment — Create and send a quick single-item invoice">
+    ```
+    /payment amount:<decimal amount> method:<paypal|stripe|revolut|cashapp|applepay|btc|ltc> [customer:<user>] [description:<text>] [currency:<USD|EUR|GBP>] [profile:<name>]
+    ```
+    The shortcut path: one command creates a single-item invoice for a flat amount, prepares
+    the chosen payment method, and posts it immediately — no builder panel. `amount` is typed as
+    plain decimal text (e.g. `149.99`); scientific notation and malformed amounts are rejected.
+    `profile` picks which [payment profile](/invoice/commands/payment-profiles) the invoice bills
+    to, defaulting to your own profile if you have one and the module is enabled.
+
+    **Permission:** Admin
+
+    **Example:** `/payment amount:49.99 method:paypal customer:@SomeCustomer description:Design consult`
+  </Accordion>
+  <Accordion title="/payment_methods — Show the payment methods configured for this server">
+    ```
+    /payment_methods
+    ```
+    Lists every configured method with an honest label for what actually happens when someone
+    pays it — see [Payment methods](/invoice/features/payment-methods) for what each capability
+    label means.
+
+    **Permission:** Depends on the server's `payment_visibility` setting (`public` / `customers`
+    / `staff`) — admins can always see it regardless. See
+    [Configuration](/invoice/configuration).
+  </Accordion>
+</AccordionGroup>

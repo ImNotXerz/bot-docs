@@ -1,0 +1,50 @@
+---
+title: "Support"
+description: "Common permission and webhook problems, and how to reach your instance's operator."
+---
+
+## If something is not working
+
+<AccordionGroup>
+  <Accordion title="A licence won't validate">
+    That's usually an instance-side configuration issue rather than a problem with your key —
+    something for whoever administers the instance to check, since the `/register` error itself
+    won't say which.
+  </Accordion>
+  <Accordion title="`/webhook url` refuses to show a URL">
+    That means your instance's webhook listener isn't fully set up yet — something for whoever
+    administers the instance to finish. See
+    [Connecting to SellAuth](/sellauth/integrations/sellauth-api#webhooks-vs-polling) for what the
+    listener needs before it can hand out a URL. Polling keeps working in the meantime, so
+    notifications aren't affected.
+  </Accordion>
+  <Accordion title="`/webhook status` says SellAuth isn't reaching the bot">
+    First confirm the URL pasted into SellAuth's **Notification Settings → Endpoint URL** still
+    matches the current output of `/webhook url` (it changes if you ever ran
+    `/webhook regenerate`). If it matches and events still aren't arriving, that's a networking or
+    configuration issue for whoever administers the instance to look into.
+  </Accordion>
+  <Accordion title="A command says my tier can't do that">
+    That's the permission layer working as configured, not a bug. `/permissions user` shows what
+    tier you actually resolve to and why. See [Permissions](/sellauth/commands/permissions) and
+    the tier table on the [Introduction](/sellauth/introduction#permissions) page — the bot owner,
+    the guild owner, and anyone with Discord's Manage Server permission are always `owner` and
+    cannot be locked out.
+  </Accordion>
+</AccordionGroup>
+
+## Getting help from your instance operator
+
+SellAuth Bot is self-hosted and multi-operator: this documentation describes the bot's behaviour,
+but it isn't run as a single hosted service with its own support desk. If you're a delegated staff
+member or an operator who registered a licence on someone else's instance, account- and
+access-level questions (licence issues, delegation, shop connection) go to whoever issued your
+KeyAuth licence — usually the person who invited the bot to your server.
+
+If you operate the instance yourself, the contact address published in your
+[Privacy Policy](/sellauth/privacy) and [Terms of Service](/sellauth/terms) is the one your own
+users should reach — fill in `[CONTACT EMAIL]` there before pointing anyone at it.
+
+For anything that looks like a bug in the bot itself rather than a configuration or account issue,
+the project's `README.md` and `docs/` (in the bot's own repository, not this site) cover
+development, testing, and how to file it upstream.

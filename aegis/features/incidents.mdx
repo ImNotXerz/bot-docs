@@ -1,0 +1,52 @@
+---
+title: "Incidents"
+description: "How AEGIS tracks security events that are bigger than a single member action."
+---
+
+Cases track enforcement against one member. **Incidents** track broader security events —
+things that need a timeline, a commander, and often more than one case.
+
+## Types
+
+`raid`, `anti_nuke`, `compromised_staff`, `spam_campaign`, `phishing_campaign`, `mass_ban`,
+`config_compromise`, `webhook_compromise`, `coordinated_abuse`, and `custom` for anything
+that doesn't fit a preset type.
+
+## Lifecycle
+
+An incident moves through a fixed set of states, and illegal transitions are rejected outright:
+
+```
+open → investigating → contained → monitoring → resolved → closed
+                ↘ resolved            ↘ reopened ↗
+```
+
+Timestamps for contained/resolved/closed are stamped automatically, and every transition is
+recorded on the incident's timeline — nothing is backfilled after the fact.
+
+## What an incident holds
+
+Severity, a commander, a list of members involved (commander, responders, subjects), affected
+resources (channels, roles, users, webhooks), a timeline of status changes and related signals
+and cases, containment notes, a resolution summary, and post-incident review fields once it's
+closed.
+
+## Automatic incidents
+
+- **Raid.** Sentinel opens (or adds to) a single active raid incident per guild, records why it
+  reached that verdict on the timeline, and alerts staff with a containment-approval panel.
+- **Anti-nuke.** A budget violation opens an `anti_nuke` incident recording the actor, what
+  threshold was hit, what containment was attempted, whether it succeeded, and whether it
+  needs a human to follow up.
+
+## Manual workflow
+
+Open, list, and check status with `/incident open`, `/incident list`, and `/incident status`
+(mutating these requires the `incidents.manage` permission — see
+[Installation & Permissions](/aegis/installation-permissions)). The dashboard renders the full
+timeline for anything open or closed.
+
+Opening an incident can also create a private `incident-N` channel, visible only to the bot,
+the incident commander, and your configured moderator roles. It's recorded as part of the
+incident automatically, and locks itself read-only the moment the incident is resolved or
+closed — so the room stays as a record without staying open indefinitely.

@@ -1,0 +1,75 @@
+---
+title: "Moderation"
+description: "Actions, cases, confirmations, and how temporary actions expire on their own."
+---
+
+## Actions
+
+`warn`, `note`, `timeout` (up to 28 days), `remove_timeout`, `kick`, `ban`, `tempban`,
+`softban`, `unban`, `quarantine`, `remove_quarantine`, `purge`, `slowmode`, channel
+lock/unlock, and nickname reset. Role add/remove is available from the dashboard editor.
+
+## How an action runs
+
+Every action that targets a member goes through the same pipeline, in order:
+
+<Steps>
+  <Step title="Validate">
+    The reason must be at least 3 characters. Durations are parsed and capped (timeouts, for
+    example, can't exceed Discord's own 28-day limit).
+  </Step>
+  <Step title="Check hierarchy">
+    See [Installation & Permissions → Hierarchy](/aegis/installation-permissions#hierarchy). The
+    server owner can never be targeted, and AEGIS won't attempt an action Discord would refuse
+    anyway.
+  </Step>
+  <Step title="Execute on Discord">
+    The action runs against Discord's API, with the audit-log reason prefixed `AEGIS |` so it's
+    traceable back to the bot from Discord's own audit log.
+  </Step>
+  <Step title="Record the case">
+    A case is created whether or not Discord actually applied the action — so if something
+    fails, it shows up in the record instead of disappearing silently.
+  </Step>
+  <Step title="Audit">
+    A hash-chained audit event is written with a correlation id linking it back to the case.
+  </Step>
+  <Step title="Notify the subject">
+    A best-effort DM goes to the affected member with their case number and a note on how to
+    appeal, if your guild has this enabled.
+  </Step>
+</Steps>
+
+## Cases
+
+Cases are numbered sequentially per guild. Each one tracks the subject, the moderator (or
+Sentinel, or the system), the action, the reason, a public-facing explanation, its status
+(open, resolved, reversed, expired), appeal status, any linked incident, and an expiry if it's
+temporary. Every case keeps a full, append-only action history, plus room for internal notes
+staff can leave for each other.
+
+Use `/case view`, `/case list`, `/case note`, and `/case reverse`. Reversing a case requires
+the `cases.reverse` permission, honors
+[separation of duties](/aegis/installation-permissions#separation-of-duties),
+actually undoes the Discord-side effect where possible (unban, remove timeout, remove
+quarantine), and is added to the case's history rather than replacing it.
+
+## Confirmations
+
+Ban, tempban, and softban always show a confirmation panel before anything happens. Only the
+moderator who opened it can confirm it, and the confirmation is consumed the moment it's used —
+a double-click or a replay can't execute the action twice. These panels survive a bot restart.
+
+## Temporary actions
+
+Tempbans, quarantines, and timeouts reverse themselves automatically when they expire — no one
+has to remember to undo them. A background sweep checks for due actions roughly every 15
+seconds, reverses them through Discord, and marks the case `expired`. If the member already
+left or was already unbanned, that counts as success. If Discord's API fails, AEGIS retries
+with backoff before flagging the case for a human to check. If AEGIS itself restarts, the next
+sweep simply picks up anything it missed — nothing is lost to downtime.
+
+## Reason templates
+
+Guilds can maintain a library of reusable reason templates from the dashboard, so common
+actions don't require retyping the same explanation every time.

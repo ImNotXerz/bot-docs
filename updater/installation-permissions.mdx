@@ -1,0 +1,42 @@
+---
+title: "Installation & Permissions"
+description: "The OAuth scopes and Discord permissions Updater needs, and who can run each command."
+---
+
+## Inviting the bot
+
+Ask whoever manages Updater for your server's invite link. It uses the `bot`
+and `applications.commands` scopes — the latter is what registers `/games`,
+`/setchannel`, and `/status` as slash commands in your server.
+
+## Channel permissions
+
+| Permission | Used for |
+| --- | --- |
+| View Channel | Confirming the delivery channel still exists before posting to it |
+| Send Messages | Posting a notification the first time, and editing it in place afterward |
+
+Updater only needs these two permissions in the one channel you actually use
+for notifications — you can scope them down to just that channel instead of
+granting them server-wide.
+
+<Note>
+  `/setchannel` checks both permissions in the channel you pick before it
+  accepts it. If either one is missing, the panel says exactly what's missing
+  instead of saving anyway and failing silently later. If the channel no
+  longer exists — for example it was deleted mid-flow — the panel reports
+  that too.
+</Note>
+
+## Command access
+
+| Command | Access | Why |
+| --- | --- | --- |
+| `/games` | Manage Server | Changes which games this server gets notifications for |
+| `/setchannel` | Manage Server | Changes where notifications are delivered |
+| `/status` | Everyone | Read-only — doesn't change any server behavior |
+
+Discord enforces this automatically: members without **Manage Server** can't
+run `/games` or `/setchannel` in the first place. `/status` is deliberately
+open so anyone can check what's tracked and whether delivery is healthy
+without needing elevated access.

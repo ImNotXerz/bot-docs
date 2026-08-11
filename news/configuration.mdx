@@ -1,0 +1,56 @@
+---
+title: "Configuration"
+description: "Guild-wide announcement defaults, set from inside Discord with /news config."
+---
+
+Everything is configured from inside Discord with `/news config`. Settings are scoped to your
+server — nothing is shared between servers. All fields are optional and independent: pass only
+the ones you want to change, and unset fields keep their previous value.
+
+```
+/news config admin_role:<role> log_channel:<channel> default_thumbnail:<url> default_image:<url> default_color:<name or hex> default_mention_policy:<choice> default_mention_role:<role>
+```
+
+## What each field does
+
+| Field | Effect |
+| --- | --- |
+| `admin_role` | The role that, alongside Discord Administrator and Manage Messages, counts as [Announcement Manager](/news/installation-permissions) |
+| `log_channel` | Where audit events (drafts created/edited/deleted, published, scheduled, cancelled, config changes) are mirrored |
+| `default_thumbnail` | Default thumbnail/logo URL applied to new drafts |
+| `default_image` | Default banner/artwork URL applied to new drafts |
+| `default_color` | Default accent color for new drafts — a name (`blurple`, `gold`, `red`, ...) or a hex code |
+| `default_mention_policy` | The mention policy a brand-new draft starts with — `No Ping`, `@here`, `@everyone`, or `Role` |
+| `default_mention_role` | Which role to ping when `default_mention_policy` is `Role` — required together |
+
+<Warning>
+  Setting `default_mention_policy` to `Role` without also passing `default_mention_role` in the
+  same command is refused — the two are set together.
+</Warning>
+
+## Defaults if you configure nothing
+
+A server that hasn't run `/news config` at all starts with **No Ping** as the mention default, no
+admin role (so only Administrator, Manage Messages, and the bot owner count), and no log channel
+(audit events are still recorded, just not mirrored anywhere visible).
+
+## Related, but configured elsewhere
+
+**Channel presets** — reusable sets of target channels — are their own command group
+(`/news preset create/list/delete`), not part of `/news config`. See
+[Presets](/news/commands/presets) and [Drafting & Publishing](/news/features/drafting-publishing).
+
+**Templates** — reusable announcement starting points — work the same way
+(`/news template create/list/delete`). See [Templates](/news/commands/templates).
+
+## Audit log
+
+Every draft, publish, schedule, cancel, edit, delete, and config change is recorded, including
+who did it. If `log_channel` is set, the same event is mirrored there as a status message. If
+it's unset, events are still recorded — they just aren't posted anywhere in Discord.
+
+<Note>
+  See [Commands](/news/commands/announcements) for the exact `/news config` syntax and
+  permission check, and [Installation & Permissions](/news/installation-permissions) for how
+  Announcement Manager resolves.
+</Note>

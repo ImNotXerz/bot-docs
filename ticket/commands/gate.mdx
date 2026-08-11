@@ -1,0 +1,78 @@
+---
+title: "Smart Gate"
+description: "Rules-based screening of a form's answers before a ticket type can be opened."
+---
+
+<Info>
+  Smart Gate doesn't appear in the bundled command-reference table this documentation set is
+  built from — its commands below are sourced directly from the bot's command registry
+  (`app/modules/gate/cog.py`). If something here looks out of date, the source is the final
+  authority.
+</Info>
+
+Smart Gate evaluates a ticket option's **form** answers against a rule set and approves or
+denies opening the ticket — it applies to standard panel tickets only, since AIO purchase
+tickets have no form to screen. It's off by default and inert until a rule set is both created
+and attached.
+
+**7 commands.**
+
+<AccordionGroup>
+  <Accordion title="/gate manage — Open the Smart Gate management console">
+    ```
+    /gate manage
+    ```
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/gate toggle — Turn the whole gate on or off for this server">
+    ```
+    /gate toggle enabled:<true|false>
+    ```
+    **Permission:** Admin — a guild-wide switch that can block every ticket of a type, so it
+    sits at the same tier as `/setmax` and `/panel delete`
+  </Accordion>
+
+  <Accordion title="/gate dryrun — Evaluate and log decisions, but approve everything">
+    ```
+    /gate dryrun enabled:<true|false>
+    ```
+    Lets you check your rules against real traffic before any denial takes effect. Check
+    `/gate log` to see what would have been denied.
+
+    **Permission:** Admin
+  </Accordion>
+
+  <Accordion title="/gate status — Show gate configuration and recent decision counts">
+    ```
+    /gate status
+    ```
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title="/gate attach — Apply a rule set to a panel, or to one ticket option">
+    ```
+    /gate attach rule_set:<text> panel:<text> [option:<text>]
+    ```
+    A rule set is bound to one form; attaching it to an option using a different form is
+    refused rather than failing open silently at runtime.
+
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/gate detach — Remove the rule set from a panel or ticket option">
+    ```
+    /gate detach panel:<text> [option:<text>]
+    ```
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/gate log — Recent gate decisions">
+    ```
+    /gate log [limit:<1-50>]
+    ```
+    `limit` defaults to 20.
+
+    **Permission:** Staff
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,54 @@
+---
+title: "Introduction"
+description: "What you get with source access, and who this section is for."
+---
+
+This section is for people who purchased the **source code** for one of these bots, rather than
+using a hosted instance. If you're running a bot someone else hosts for you, you don't need
+anything here — use that bot's own **Guides** tab instead.
+
+<Note>
+  The exact terms of your purchase — what you're licensed to do with the code, what support is
+  included, and how updates work — are covered in [License &
+  support](/sources/license-support). Read that before you deploy anything commercially.
+</Note>
+
+## What's the same across every bot
+
+Every bot in this hub follows the same general shape, whichever one you bought:
+
+<CardGroup cols={2}>
+  <Card title="A Discord application" icon="discord">
+    You'll create your own bot application in the Discord Developer Portal and use your own
+    token — the source doesn't come with one.
+  </Card>
+  <Card title="Environment-based config" icon="gear">
+    Settings live in a `.env` file (token, database connection, feature flags) — nothing is
+    hardcoded, so you configure without touching source.
+  </Card>
+  <Card title="A database" icon="database">
+    Either SQLite (a single file, zero setup) or PostgreSQL (needs its own server), depending on
+    which bot you bought — see [Database](/sources/database).
+  </Card>
+  <Card title="Your own hosting" icon="server">
+    A VPS, a home server, or a container platform — the source doesn't include hosting. See
+    [Hosting](/sources/hosting) for what's involved.
+  </Card>
+</CardGroup>
+
+## What's different bot to bot
+
+The two things that actually differ across the catalog:
+
+| | Node.js bots | Python bots |
+| --- | --- | --- |
+| Which bots | Void | Aegis, SellAuth Bot, KeyAuth Bot, Ticket Bot, Vouch Bot, Invoice Bot, News Bot, Download Bot, Updater Bot |
+| Runtime | Node.js + pnpm | Python 3.10+ |
+| Typical database | PostgreSQL | SQLite or PostgreSQL, depending on the bot |
+
+Check the specific bot's own repo README for which database it uses — the setup steps in this
+section flag where that matters.
+
+<Card title="Start here" icon="rocket" href="/sources/prerequisites">
+  See what you need installed before you start.
+</Card>

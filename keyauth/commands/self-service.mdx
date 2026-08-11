@@ -1,0 +1,156 @@
+---
+title: "Self-Service"
+description: "What any member can run — linking, redeeming, checking, and resetting their own account."
+---
+
+Sourced directly from the bot's command handlers (`keyauth_bot/cogs/account.py`,
+`keyauth_bot/cogs/key.py`, `keyauth_bot/cogs/app_.py`, and the `/license me` command in
+`keyauth_bot/cogs/licops.py`). This page is maintained by hand — if a command here looks out of
+date, the source is the final authority.
+
+<Info>
+  Most of these commands open a Discord modal to collect input rather than taking slash command
+  arguments — a license key is never typed directly into the command line, so it never lingers
+  in Discord's message history the way an argument would. The modal fields are listed under each
+  command that uses one.
+</Info>
+
+## Account
+
+None of these need any special role — only, where noted, a linked KeyAuth account.
+
+<AccordionGroup>
+  <Accordion title="/account link — Link your Discord to your KeyAuth account">
+    ```
+    /account link
+    ```
+    Opens a modal with one field, **License Key**. Resolves the key through the seller API and
+    records `discord_id → keyauth_username`. Refused if the key hasn't been used to create an
+    account yet (run `/account register` instead), or if the account is already linked to a
+    different Discord user.
+
+    Failed attempts are rate-limited to 5 per hour per user, since presenting a key here is what
+    grants control of an account.
+
+    **Permission:** None — requires the seller key to be configured
+  </Accordion>
+  <Accordion title="/account unlink — Remove the link">
+    ```
+    /account unlink
+    ```
+    Removes the association between your Discord account and your KeyAuth account. Doesn't
+    touch the KeyAuth account itself.
+
+    **Permission:** None
+  </Accordion>
+  <Accordion title="/account info — View your subscriptions, expiry, and HWID status">
+    ```
+    /account info
+    ```
+    Requires a linked account. Shows each subscription's status and expiry, whether a hardware
+    ID is currently bound, your reset cooldown if one is active, and ban status.
+
+    **Permission:** None — requires a linked account
+  </Accordion>
+  <Accordion title="/account resethwid — Reset your hardware ID">
+    ```
+    /account resethwid
+    ```
+    Clears your account's hardware ID server-side. There is no username or HWID parameter by
+    design — you can only ever reset the account your own Discord ID is linked to, and you never
+    see or type the hardware ID itself. Open your loader and log in afterward; the machine you
+    use binds automatically.
+
+    Blocked while your reset cooldown is active, and does nothing observable if HWID checking is
+    disabled on the application (the response says so explicitly rather than claiming a success
+    that isn't one).
+
+    **Permission:** None — requires a linked account
+  </Accordion>
+  <Accordion title="/account register — Create a new KeyAuth account using a license key">
+    ```
+    /account register
+    ```
+    Opens a modal with three fields: **Username**, **Choose a Password**, and **License Key**.
+    This is the one place in the bot where a secret is typed into Discord — everywhere else,
+    ownership is proven by key, not password. Successfully creating the account links it to your
+    Discord ID automatically, unless that key's account is already linked to someone else.
+
+    **Permission:** None — requires the seller key to be configured
+  </Accordion>
+  <Accordion title="/account upgrade — Extend your subscription with another license key">
+    ```
+    /account upgrade
+    ```
+    Opens a modal with one field, **Upgrade Key**. Requires a linked account; the username comes
+    from the existing link, not from the modal.
+
+    **Permission:** None — requires a linked account
+  </Accordion>
+  <Accordion title="/account setvar — Set a personal variable on your KeyAuth account">
+    ```
+    /account setvar
+    ```
+    Opens a modal with two fields, **Variable Name** and **Value**. Requires a linked account.
+
+    **Permission:** None — requires a linked account
+  </Accordion>
+</AccordionGroup>
+
+## Keys
+
+<AccordionGroup>
+  <Accordion title="/key redeem — Redeem a license key and claim your role">
+    ```
+    /key redeem
+    ```
+    Opens a modal with one field, **License Key**. Validates the key, links it to your Discord
+    account opportunistically (the same as running `/account link` with it), and assigns the
+    configured verified role, if one is set up. Refused if the key is banned.
+
+    Every failure mode of the role assignment itself is reported explicitly — a missing
+    **Manage Roles** permission or an unfavorable role hierarchy shows up in the response instead
+    of silently doing nothing.
+
+    Rate-limited to 3 uses per 60 seconds per user.
+
+    **Permission:** None — requires the seller key to be configured
+  </Accordion>
+</AccordionGroup>
+
+## Application
+
+<AccordionGroup>
+  <Accordion title="/app stats — Show KeyAuth application status">
+    ```
+    /app stats
+    ```
+    Reports the application's KeyAuth version, total users, users currently online, total keys,
+    and whether HWID checking is enabled — no linked account required.
+
+    Rate-limited to 2 uses per 30 seconds per user.
+
+    **Permission:** None
+  </Accordion>
+</AccordionGroup>
+
+## Your license (License Operations)
+
+This command belongs to the License Operations layer (see
+[License Operations](/keyauth/features/license-operations)) but, like everything above, requires
+no staff capability — it's scoped to your own account only.
+
+<AccordionGroup>
+  <Accordion title="/license me — View your own license">
+    ```
+    /license me
+    ```
+    Resolves your license from the Discord↔KeyAuth link table and shows product, status,
+    expiry, and hardware ID display — never internal identifiers or staff notes. If self-service
+    resets are enabled by policy, a **Reset Hardware ID** button appears on the panel.
+
+    Rate-limited to 5 uses per 60 seconds per user.
+
+    **Permission:** None — requires a linked account
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,238 @@
+---
+title: "Content & Messaging"
+description: "Embed builder, sticky messages, announcements, social feeds."
+---
+
+Every command works with the `=` prefix. Where a slash entry point exists it opens the same
+Components V2 panel as the prefix command.
+
+<Info>
+  A command being listed here does not mean its module is enabled in your server. Turn modules on
+  with `=config`. See [Modules](/void/modules) for what each one needs.
+</Info>
+
+**18 commands across 7 modules.**
+
+## Templates
+
+The message builder and its supporting commands. Most of these need a template ID, which you get
+from `=templates` or `=template`.
+
+<AccordionGroup>
+  <Accordion title="=builder">
+    Opens the V2 Template Builder — build a reusable message with variables, buttons, and
+    formatting.
+
+    **Syntax:** `=builder` (opens a panel, no arguments)
+
+    **Aliases:** `=embed_creator`, `=embed` · **Slash:** `/panel`
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=templates">
+    Lists the server's saved templates.
+
+    **Syntax:** `=templates` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=template">
+    Shows one template's detail and its buttons. Running it with no ID lists all templates
+    instead.
+
+    **Syntax:** `=template <templateId>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=copyembed">
+    Clones an existing template.
+
+    **Syntax:** `=copyembed <templateId>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=updateembed">
+    Shows messages already published from templates, so you can pick one to update.
+
+    **Syntax:** `=updateembed <templateId>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=recreateembed">
+    Same published-messages list as `=updateembed`, for re-sending a message built from a
+    template.
+
+    **Syntax:** `=recreateembed <templateId>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=addbuttonemb">
+    Opens the button manager for a template, to add a button.
+
+    **Syntax:** `=addbuttonemb <templateId>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=removebuttonemb">
+    Opens the button manager for a template, to remove a button.
+
+    **Syntax:** `=removebuttonemb <templateId>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=updatebuttonemb">
+    Opens the button manager for a template, to edit an existing button.
+
+    **Syntax:** `=updatebuttonemb <templateId>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+</AccordionGroup>
+
+## Announcements
+
+<AccordionGroup>
+  <Accordion title="=announce">
+    Posts a one-off announcement. Running it with no text opens the announcement panel instead.
+    Messages that would mass-mention (@everyone/@here or many roles) are held back for
+    confirmation through the panel rather than sent directly.
+
+    **Syntax:** `=announce <message>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+
+    **Example:** `=announce Scheduled maintenance tonight at 10pm UTC.`
+  </Accordion>
+
+  <Accordion title="=announcements">
+    Lists templates tagged as announcements.
+
+    **Syntax:** `=announcements` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=say">
+    Has V.O.I.D repost a message as itself in the current channel. Running it with no text opens
+    the announcement panel instead.
+
+    **Syntax:** `=say <message>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+
+    **Example:** `=say Welcome to the new #announcements channel!`
+  </Accordion>
+</AccordionGroup>
+
+## Sticky Messages
+
+<AccordionGroup>
+  <Accordion title="=sticky">
+    Opens the sticky message home panel for the server. Add `list` to see configured sticky
+    messages per channel instead.
+
+    **Syntax:** `=sticky` or `=sticky list`
+
+    **Aliases:** none · **Slash:** `/sticky`
+
+    **Permission:** Configured Staff
+  </Accordion>
+</AccordionGroup>
+
+## Auto Resend
+
+<AccordionGroup>
+  <Accordion title="=resend_embed">
+    Opens the Auto Resend home panel — link a saved template or published message so it gets
+    reposted periodically. Linking itself happens from the panel.
+
+    **Syntax:** `=resend_embed` (opens a panel)
+
+    **Aliases:** `=autoresend` · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+</AccordionGroup>
+
+## Social Updates
+
+<AccordionGroup>
+  <Accordion title="=social_updates">
+    Opens the Social Updates home panel — configure RSS and YouTube-RSS feed sources that post
+    into a channel when they publish.
+
+    **Syntax:** `=social_updates` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** `/social`
+
+    **Permission:** Configured Staff
+  </Accordion>
+</AccordionGroup>
+
+## Channels
+
+<AccordionGroup>
+  <Accordion title="=channelmanager">
+    Opens the channel manager home panel.
+
+    **Syntax:** `=channelmanager` (opens a panel, no arguments)
+
+    **Aliases:** `=channel` · **Slash:** `/channel`
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=channellock">
+    Opens the channel manager panel — locking and unlocking a channel is done from there.
+
+    **Syntax:** `=channellock` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+</AccordionGroup>
+
+## Webhooks
+
+<AccordionGroup>
+  <Accordion title="=webhooks">
+    Opens the webhook manager — named webhook targets and which internal events route to them.
+
+    **Syntax:** `=webhooks` (opens a panel, no arguments)
+
+    **Aliases:** `=webhook` · **Slash:** `/webhooks`
+
+    **Permission:** Configured Admin
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,84 @@
+---
+title: "/vouch-admin"
+description: "The canonical, permission-gated server management console."
+---
+
+`/vouch-admin` is a single command — there's no subcommand tree. It opens one interactive
+console, and everything below is a **section of that console** rather than a separate slash
+command. Moderator level is required just to open it; individual sections are gated further, as
+noted per section.
+
+<AccordionGroup>
+  <Accordion title="Configuration">
+    **Who:** Moderator to view, admin to change.
+
+    Feature toggles, currency/timezone, and vouch integrity thresholds (minimum account age,
+    minimum membership age, cooldown).
+  </Accordion>
+  <Accordion title="Channels">
+    **Who:** Admin.
+
+    Sets the vouch/modlog/leaderboard/marketplace/report channels.
+  </Accordion>
+  <Accordion title="Roles">
+    **Who:** Admin.
+
+    Assigns admin/moderator/seller/trusted roles, and required/blocked vouch roles.
+  </Accordion>
+  <Accordion title="Restrictions">
+    **Who:** Moderator.
+
+    Applies or revokes per-user feature restrictions.
+  </Accordion>
+  <Accordion title="Reports">
+    **Who:** Moderator.
+
+    Full case management for scammer/abuse reports: assign, note, evidence, dismiss/close/
+    reopen/escalate, void the related vouch, remove the related listing, blacklist the accused,
+    or strip guild trust.
+  </Accordion>
+  <Accordion title="Disputes">
+    **Who:** Moderator.
+
+    Resolves open vouch disputes: uphold, modified, void, or restore.
+  </Accordion>
+  <Accordion title="Blacklists">
+    **Who:** Moderator for the guild blacklist; bot owner (`GLOBAL_OWNER`) for the global
+    blacklist.
+
+    Guild and global blacklists are visibly distinct — a global entry isn't just "this server's
+    blacklist, bigger."
+  </Accordion>
+  <Accordion title="Trusted Users">
+    **Who:** Same guild/global split as Blacklists.
+
+    Marks members as trusted, at guild or global scope.
+  </Accordion>
+  <Accordion title="Marketplace Settings">
+    **Who:** Admin.
+
+    Sets the default contact workflow for marketplace listings.
+  </Accordion>
+  <Accordion title="Leaderboards">
+    **Who:** Admin.
+
+    Deploys persistent, auto-refreshing leaderboards to a channel; removes broken ones.
+  </Accordion>
+  <Accordion title="Analytics">
+    **Who:** Moderator.
+
+    Server and bot-wide stats.
+  </Accordion>
+  <Accordion title="Audit Search">
+    **Who:** Moderator.
+
+    Recent events, or a filtered modal search over the audit trail.
+  </Accordion>
+</AccordionGroup>
+
+## Permission levels
+
+`MEMBER < SELLER < MODERATOR < ADMIN < GLOBAL_OWNER`. Seller/moderator/admin come from
+configured guild roles (or Discord's native Administrator permission / guild ownership for
+ADMIN). `GLOBAL_OWNER` is granted by whoever operates the bot, outside of any Discord server —
+no guild role can grant it.

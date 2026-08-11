@@ -1,0 +1,134 @@
+---
+title: "Commands overview"
+description: "143 commands across 25 modules — how they're organized, what the permission tiers mean, and what test coverage does and doesn't guarantee."
+---
+
+**143 commands across 25 modules.** Every command is listed on its module's page, grouped by what
+it does — orders, inventory, tickets, partners, and so on.
+
+<Info>
+  **Gaps: none.** Every command has a permission mapping, every mutation audits, and every client
+  method it calls exists. This is checked on every release by the bot's own release-verification
+  script, not maintained by hand.
+</Info>
+
+## Categories
+
+<CardGroup cols={2}>
+  <Card title="Orders" icon="receipt" href="/sellauth/commands/orders">
+    Refunds, cancellations, shipping, delivery and status changes
+  </Card>
+  <Card title="Invoices" icon="file-invoice" href="/sellauth/commands/invoices">
+    Lookup and manual processing
+  </Card>
+  <Card title="Inventory" icon="boxes-stacked" href="/sellauth/commands/inventory">
+    Stock, restocking, key delivery, crash recovery
+  </Card>
+  <Card title="Shop settings" icon="store" href="/sellauth/commands/shop">
+    Product info, bulk status/visibility, shop links
+  </Card>
+  <Card title="Customers" icon="user" href="/sellauth/commands/customers">
+    Lookup, balances, key lookup
+  </Card>
+  <Card title="Blacklist" icon="user-slash" href="/sellauth/commands/blacklist">
+    Blocking customers from purchasing
+  </Card>
+  <Card title="Coupons" icon="tag" href="/sellauth/commands/coupons">
+    Shop-wide and product-scoped discounts
+  </Card>
+  <Card title="Product groups" icon="layer-group" href="/sellauth/commands/groups">
+    Bundling products together
+  </Card>
+  <Card title="Affiliates & resellers" icon="handshake" href="/sellauth/commands/partners">
+    Referral codes, tiers, approvals
+  </Card>
+  <Card title="Purchase panels" icon="cart-shopping" href="/sellauth/commands/panels">
+    Native in-Discord checkout
+  </Card>
+  <Card title="Role claim" icon="key" href="/sellauth/commands/role-claim">
+    Single-role purchase redemption
+  </Card>
+  <Card title="Role redemption" icon="award" href="/sellauth/commands/role-redeem">
+    Granular per-product/variant role rules
+  </Card>
+  <Card title="Storefront" icon="shop" href="/sellauth/commands/storefront">
+    Payment methods, subscriptions, whitelist
+  </Card>
+  <Card title="Tickets" icon="ticket" href="/sellauth/commands/tickets">
+    Support ticket handling
+  </Card>
+  <Card title="Feedback" icon="star" href="/sellauth/commands/feedback">
+    Customer feedback
+  </Card>
+  <Card title="Analytics" icon="chart-line" href="/sellauth/commands/analytics">
+    Balance, overview, top performers
+  </Card>
+  <Card title="Insights" icon="magnifying-glass-chart" href="/sellauth/commands/insights">
+    Abandoned checkouts, logs, traffic
+  </Card>
+  <Card title="Monitoring" icon="heart-pulse" href="/sellauth/commands/monitoring">
+    Live SellAuth status monitor
+  </Card>
+  <Card title="Notifications" icon="bell" href="/sellauth/commands/notifications">
+    Sale/invoice/feedback/audit channels
+  </Card>
+  <Card title="Webhooks" icon="webhook" href="/sellauth/commands/webhooks">
+    Inbound webhook URL management
+  </Card>
+  <Card title="Permissions" icon="user-shield" href="/sellauth/commands/permissions">
+    Tier configuration per Discord role
+  </Card>
+  <Card title="Licensing" icon="id-card" href="/sellauth/commands/licensing">
+    Registering, connecting, delegating
+  </Card>
+  <Card title="Admin" icon="gear" href="/sellauth/commands/admin">
+    Health, help, servers list
+  </Card>
+  <Card title="Changelog" icon="clock-rotate-left" href="/sellauth/commands/changelog">
+    The bot's own changelog
+  </Card>
+  <Card title="Utility" icon="calculator" href="/sellauth/commands/utility">
+    Standalone helpers
+  </Card>
+</CardGroup>
+
+## Permission tiers
+
+Four tiers, least to most privileged:
+
+| Tier | Can do |
+| --- | --- |
+| `viewer` | Read-only: analytics, stock levels, status |
+| `support` | Order and customer lookup, tickets, controlled fulfilment |
+| `manager` | Products, inventory, coupons, orders, customers, storefront |
+| `owner` | Credentials, shop binding, delegation, permissions, notifications |
+
+By default the only gate is the licence check — anyone with a registered (or delegated) licence
+can run anything at any tier. The tier system is opt-in per server. See
+[Permissions](/sellauth/commands/permissions) to configure it, and
+[Introduction](/sellauth/introduction#permissions) for the full explanation of what each tier
+means and who is always `owner`.
+
+## Test coverage
+
+**143 of 143** commands are named by at least one test.
+
+A command is driven through its real callback by the test suite's command kit, which loads the
+module's actual `register()` and invokes the genuine function — never a re-implementation. Being
+named by a test is a floor, not a ceiling: it proves the command runs, not that every branch is
+checked. Every command is exercised, and the release check fails the build if that regresses.
+
+## Local by design
+
+Commands that reach no SellAuth endpoint on purpose:
+
+- `/leaveserver` — a Discord-side operation — the bot leaves a guild, nothing shop-side
+- `/permissions commands` — renders the static capability table from `core/capabilities.py`
+- `/setfeedback` — SellAuth exposes no automatic-feedback setting on `PUT /shops/{id}/update`;
+  the command says so rather than fabricating a toggle
+
+## What this does not tell you
+
+A command page listing an endpoint means the command *calls* it, not that every branch of the
+command's behaviour is covered end to end. It catches the command nobody tested at all, which is
+the failure worth catching automatically; depth of coverage still needs a person to judge.

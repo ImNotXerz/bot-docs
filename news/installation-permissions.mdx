@@ -1,0 +1,54 @@
+---
+title: "Installation & Permissions"
+description: "What News Bot asks Discord for, and who can run what once it's in your server."
+---
+
+## What the bot asks Discord for
+
+The invite uses the `bot` and `applications.commands` scopes, and requests:
+
+| Permission | Used for |
+| --- | --- |
+| Send Messages | Posting announcements and command responses |
+| Read Message History | Editing an already-sent announcement in place |
+| Mention Everyone | Only needed in a channel where you actually intend to use the `@everyone`/`@here` mention policy |
+
+<Note>
+  Classic embeds are never used — every surface renders with Components V2 — so **Embed Links**
+  isn't required.
+</Note>
+
+### No privileged intents required
+
+Unlike bots that need to read message content or maintain a member cache, News Bot doesn't
+need either privileged intent enabled in the Discord Developer Portal. Interaction payloads
+already carry the invoking member's roles, and every announcement is built and sent from slash
+commands and component interactions — the bot never reads ordinary message content.
+
+## Who can run what
+
+Every command's permission check runs when the command actually **executes**, not just when a
+panel is drawn — reopening a stale panel doesn't bypass it.
+
+| Policy | Who |
+| --- | --- |
+| Public | Anyone in the server |
+| Announcement Manager | Discord **Administrator**, **Manage Messages**, the role set via `/news config admin_role`, or the bot owner |
+| Bot Owner | Whoever operates this instance of the bot |
+
+Creating, editing, publishing, or deleting a draft; creating or deleting a template or channel
+preset; and changing server configuration all require **Announcement Manager**. Viewing and
+listing — `/news view`, `/news history`, `/news draft list`, `/news template list`,
+`/news preset list` — are open to anyone in the server. `/sync` is restricted to **Bot Owner**.
+See [Commands](/news/commands/announcements) for the exact permission each command checks.
+
+<Note>
+  `/news history`'s action buttons (View, Clone, Resend, Edit, Cancel Schedule, Delete) run as
+  soon as they're clicked from inside that panel — the panel itself has no permission gate
+  beyond being in the server. The equivalent top-level commands (`/news draft edit`,
+  `/news draft delete`, `/news draft publish`) do require Announcement Manager. Keep that in
+  mind if you'd rather not have every member browsing and acting on announcement history.
+</Note>
+
+There's no separate permission per action beyond Announcement Manager — every mutating command
+resolves to the same guild-manager check today.

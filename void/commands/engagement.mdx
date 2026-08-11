@@ -1,0 +1,366 @@
+---
+title: "Engagement"
+description: "Giveaways, applications, suggestions, starboard, leveling, economy."
+---
+
+Every command works with the `=` prefix. Where a slash entry point exists it opens the same
+Components V2 panel as the prefix command.
+
+<Info>
+  A command being listed here does not mean its module is enabled in your server. Turn modules on
+  with `=config`. See [Modules](/void/modules) for what each one needs.
+</Info>
+
+**30 commands across 7 modules.**
+
+## Giveaways
+
+<AccordionGroup>
+  <Accordion title="=giveaways">
+    Opens the giveaway panel. Staff see the management home with stats; everyone else sees the
+    list of currently active giveaways.
+
+    **Syntax:** `=giveaways` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** `/giveaway`
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=gstart">
+    Opens the giveaway home panel to start a new giveaway.
+
+    **Syntax:** `=gstart` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=gend">
+    Lists active giveaways so staff can pick one to end.
+
+    **Syntax:** `=gend` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=greroll">
+    Lists giveaways (any status) so staff can pick one to reroll a winner for.
+
+    **Syntax:** `=greroll` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+</AccordionGroup>
+
+## Applications
+
+<AccordionGroup>
+  <Accordion title="=application">
+    Opens the application forms panel. Staff see the management home with stats; everyone else
+    sees the public list of open forms.
+
+    **Syntax:** `=application` (opens a panel, no arguments)
+
+    **Aliases:** `=applications` · **Slash:** `/application`
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=apply">
+    Shows the public list of application forms available to apply to.
+
+    **Syntax:** `=apply` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=appreview">
+    Shows pending application submissions for staff to review.
+
+    **Syntax:** `=appreview` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+</AccordionGroup>
+
+## Suggestions
+
+<AccordionGroup>
+  <Accordion title="=suggest">
+    Submits a suggestion. Running it with no text opens the submission panel instead.
+
+    **Syntax:** `=suggest <idea>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=suggest Add a #resources channel for shared links`
+  </Accordion>
+
+  <Accordion title="=suggestions">
+    Opens the suggestions panel. Staff with suggestion-management access see settings; everyone
+    else sees the recent suggestions list.
+
+    **Syntax:** `=suggestions` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=setsuggestions">
+    Opens the suggestions settings panel.
+
+    **Syntax:** `=setsuggestions` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+</AccordionGroup>
+
+## Starboard
+
+<AccordionGroup>
+  <Accordion title="=starboard">
+    Opens the starboard panel. Staff with starboard-management access see settings; everyone
+    else sees the current top-messages list.
+
+    **Syntax:** `=starboard` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=setstarboard">
+    Opens the starboard settings panel.
+
+    **Syntax:** `=setstarboard` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+</AccordionGroup>
+
+## Leveling
+
+<AccordionGroup>
+  <Accordion title="=leveling">
+    Opens the leveling panel. Staff with leveling-management access see settings; everyone else
+    sees their own rank.
+
+    **Syntax:** `=leveling` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=rank">
+    Shows a member's level and XP card. Defaults to yourself.
+
+    **Syntax:** `=rank [user]`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=rank @user`
+  </Accordion>
+
+  <Accordion title="=leaderboard">
+    Shows the server's XP leaderboard.
+
+    **Syntax:** `=leaderboard` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=setlevelchannel">
+    Sets the channel you run it in as the level-up announcement channel.
+
+    **Syntax:** `=setlevelchannel` (run in the target channel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=levelrewards">
+    Lists configured level-up role rewards.
+
+    **Syntax:** `=levelrewards` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+</AccordionGroup>
+
+## Economy
+
+A fictional, per-server currency — nothing here touches real money. See
+[Premium](/void/features/premium) for the (unrelated) `payments` module, which is about members
+paying *you* outside of Discord.
+
+<AccordionGroup>
+  <Accordion title="=economy">
+    Opens the economy panel. Staff with economy-management access see settings; everyone else
+    sees their own balance.
+
+    **Syntax:** `=economy` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=balance">
+    Shows a wallet balance. Defaults to yourself.
+
+    **Syntax:** `=balance [user]`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=balance @user`
+  </Accordion>
+
+  <Accordion title="=daily">
+    Claims the daily currency reward. Cooldown-gated — check the reply for when it's next
+    available.
+
+    **Syntax:** `=daily` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=work">
+    Claims the work currency reward. Cooldown-gated, same as `=daily`.
+
+    **Syntax:** `=work` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=pay">
+    Transfers currency from your wallet to another member's.
+
+    **Syntax:** `=pay <user> <amount>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=pay @user 50`
+  </Accordion>
+
+  <Accordion title="=shop">
+    Lists items available to buy. Staff with shop-management access also see management
+    controls.
+
+    **Syntax:** `=shop` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=buy">
+    Buys an item from the shop by name. If the item grants a role reward, it's assigned
+    automatically after purchase.
+
+    **Syntax:** `=buy <item name>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=inventory">
+    Shows purchased shop items. Defaults to yourself.
+
+    **Syntax:** `=inventory [user]`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=richest">
+    Shows the top-balances leaderboard.
+
+    **Syntax:** `=richest` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+</AccordionGroup>
+
+## Birthdays
+
+<AccordionGroup>
+  <Accordion title="=birthday">
+    Shows your own birthday profile.
+
+    **Syntax:** `=birthday` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=setbirthday">
+    Sets your birthday. Staff with birthday-management access can instead run
+    `=setbirthday panel` to open the module's settings.
+
+    **Syntax:** `=setbirthday <MM/DD[/YYYY]> [private]` — add `private` to mark it not public.
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=setbirthday 04/12`
+  </Accordion>
+
+  <Accordion title="=removebirthday">
+    Clears your saved birthday.
+
+    **Syntax:** `=removebirthday` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=birthdays">
+    Shows upcoming birthdays.
+
+    **Syntax:** `=birthdays` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+</AccordionGroup>

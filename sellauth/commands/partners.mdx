@@ -1,0 +1,146 @@
+---
+title: "Affiliates & resellers"
+description: "The two partner programs SellAuth supports: affiliates (referral codes and commission tiers) and resellers (approval-gated reseller pricing)."
+---
+
+**17 commands.** The two partner programs SellAuth supports: affiliates (referral codes and commission tiers) and resellers (approval-gated reseller pricing).
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/affiliate code`">
+    **Tier:** `manager`
+
+    Sets or changes an affiliate's referral code.
+
+    **SellAuth endpoint:** `PUT /shops/{id}/affiliates/{id}/code`
+  </Accordion>
+
+  <Accordion title="`/affiliate list`">
+    **Tier:** `support`
+
+    Lists affiliates for the shop.
+
+    **SellAuth endpoint:** `GET /shops/{id}/affiliates`
+  </Accordion>
+
+  <Accordion title="`/affiliate restore`">
+    **Tier:** `manager`
+
+    Restores a previously suspended affiliate.
+
+    **SellAuth endpoint:** `POST /shops/{id}/affiliates/{id}/restore`
+  </Accordion>
+
+  <Accordion title="`/affiliate stats`">
+    **Tier:** `viewer`
+
+    Shows aggregate affiliate performance stats.
+
+    **SellAuth endpoint:** `GET /shops/{id}/affiliates/stats`
+  </Accordion>
+
+  <Accordion title="`/affiliate suspend`">
+    **Tier:** `manager`
+
+    Suspends an affiliate, blocking further commission accrual.
+
+    **SellAuth endpoint:** `POST /shops/{id}/affiliates/{id}/suspend`
+  </Accordion>
+
+  <Accordion title="`/affiliate tier`">
+    **Tier:** `manager`
+
+    Moves an affiliate to a different commission tier.
+
+    **SellAuth endpoint:** `PUT /shops/{id}/affiliates/{id}/tier`
+  </Accordion>
+
+  <Accordion title="`/affiliate tiers`">
+    **Tier:** `viewer`
+
+    Lists the shop's configured affiliate tiers.
+
+    **SellAuth endpoint:** `GET /shops/{id}/affiliate-tiers`
+  </Accordion>
+
+  <Accordion title="`/affiliate view`">
+    **Tier:** `support`
+
+    Shows details for a single affiliate.
+
+    **SellAuth endpoint:** `GET /shops/{id}/affiliates/{id}`
+  </Accordion>
+
+  <Accordion title="`/reseller approve`">
+    **Tier:** `manager`
+
+    Approves a pending reseller application.
+
+    **SellAuth endpoint:** `POST /shops/{id}/resellers/{id}/approve`
+  </Accordion>
+
+  <Accordion title="`/reseller list`">
+    **Tier:** `support`
+
+    Lists resellers for the shop.
+
+    **SellAuth endpoint:** `GET /shops/{id}/resellers`
+  </Accordion>
+
+  <Accordion title="`/reseller reject`">
+    **Tier:** `manager`
+
+    Rejects a pending reseller application.
+
+    **SellAuth endpoint:** `POST /shops/{id}/resellers/{id}/reject`
+  </Accordion>
+
+  <Accordion title="`/reseller restore`">
+    **Tier:** `manager`
+
+    Restores a previously suspended reseller.
+
+    **SellAuth endpoint:** `POST /shops/{id}/resellers/{id}/restore`
+  </Accordion>
+
+  <Accordion title="`/reseller stats`">
+    **Tier:** `viewer`
+
+    Shows aggregate reseller performance stats.
+
+    **SellAuth endpoint:** `GET /shops/{id}/resellers/stats`
+  </Accordion>
+
+  <Accordion title="`/reseller suspend`">
+    **Tier:** `manager`
+
+    Suspends a reseller, blocking further reseller-priced purchases.
+
+    **SellAuth endpoint:** `POST /shops/{id}/resellers/{id}/suspend`
+  </Accordion>
+
+  <Accordion title="`/reseller tier`">
+    **Tier:** `manager`
+
+    Moves a reseller to a different pricing tier.
+
+    **SellAuth endpoint:** `PUT /shops/{id}/resellers/{id}/tier`
+  </Accordion>
+
+  <Accordion title="`/reseller tiers`">
+    **Tier:** `viewer`
+
+    Lists the shop's configured reseller tiers.
+
+    **SellAuth endpoint:** `GET /shops/{id}/reseller-tiers`
+  </Accordion>
+
+  <Accordion title="`/reseller view`">
+    **Tier:** `support`
+
+    Shows details for a single reseller.
+
+    **SellAuth endpoint:** `GET /shops/{id}/resellers/{id}`
+  </Accordion>
+</AccordionGroup>

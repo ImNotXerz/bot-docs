@@ -1,0 +1,76 @@
+---
+title: "Tickets"
+description: "Close, add/remove participants, pin, and manage an open ticket."
+---
+
+Every command here runs **inside the ticket's own channel** — Ticket Bot looks up the ticket
+from the channel you're in, not from an argument. `close`, `close-all`, `add-user`, and
+`remove-user` also exist as flat compatibility aliases.
+
+**7 commands.**
+
+<AccordionGroup>
+  <Accordion title="/ticket close — Close this ticket">
+    ```
+    /ticket close [reason:<text>]
+    ```
+    **Aliases:** `/close [reason:<text>]`
+
+    **Permission:** The ticket's owner, or Staff
+  </Accordion>
+
+  <Accordion title="/ticket close-all — Close every open ticket in this server">
+    ```
+    /ticket close-all
+    ```
+    Shows a confirmation before closing anything. Each ticket closes independently — one
+    ticket failing to close doesn't stop the rest of the batch.
+
+    **Aliases:** `/closeall`
+
+    **Permission:** Admin
+  </Accordion>
+
+  <Accordion title="/ticket add-user — Add a user to this ticket">
+    ```
+    /ticket add-user user:<user>
+    ```
+    **Aliases:** `/adduser user:<user>`
+
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title="/ticket remove-user — Remove a user from this ticket">
+    ```
+    /ticket remove-user user:<user>
+    ```
+    **Aliases:** `/removeuser user:<user>`
+
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title="/ticket manage — Show the ticket control panel here, privately">
+    ```
+    /ticket manage
+    ```
+    **Permission:** Public — the ticket channel's own Discord permissions already limit who can
+    see it
+  </Accordion>
+
+  <Accordion title=";pinticket — Pin this ticket (prefix only)">
+    ```
+    ;pinticket
+    ```
+    Prefixes the channel name with 📌. The prefix (`;` by default) is configurable by whoever
+    operates your instance.
+
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title=";unpinticket — Unpin this ticket (prefix only)">
+    ```
+    ;unpinticket
+    ```
+    **Permission:** Staff
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,410 @@
+---
+title: "Commands"
+description: "AEGIS's slash and context-menu commands, grouped by what they do."
+---
+
+11 slash commands and 3 context-menu commands, sourced directly from the bot's command
+registry (`apps/bot/src/commands`). This page is maintained by hand, not generated — if a
+command here looks out of date, the source is the final authority.
+
+<Info>
+  **Permission** is the AEGIS RBAC permission checked when the command actually runs — see
+  [Installation & Permissions](/aegis/installation-permissions) for what each key grants.
+  Discord-side role settings only control whether you can *see* a command, not whether AEGIS
+  will let you run it. "None" means AEGIS doesn't gate the command at all (though it may still
+  require a Discord permission to appear, or only make sense for the person who triggered it).
+</Info>
+
+## Moderation actions
+
+All `/moderation` subcommands require `cases.create`, and every action creates a case (see
+[Moderation](/aegis/features/moderation)).
+
+<AccordionGroup>
+  <Accordion title="/moderation warn — Warn a member">
+    ```
+    /moderation warn member:<user> reason:<text>
+    ```
+    **Permission:** `cases.create`
+
+    **Example:** `/moderation warn member:@SomeUser reason:Repeated spam in #general`
+  </Accordion>
+  <Accordion title="/moderation note — Attach a staff-only note to a member">
+    ```
+    /moderation note member:<user> content:<text>
+    ```
+    **Permission:** `cases.create`
+
+    **Example:** `/moderation note member:@SomeUser content:Flagged by another server's staff`
+  </Accordion>
+  <Accordion title="/moderation timeout — Timeout a member">
+    ```
+    /moderation timeout member:<user> duration:<text> reason:<text>
+    ```
+    **Permission:** `cases.create`
+
+    **Example:** `/moderation timeout member:@SomeUser duration:1h reason:Spamming in general`
+  </Accordion>
+  <Accordion title="/moderation untimeout — Remove a member's timeout">
+    ```
+    /moderation untimeout member:<user> reason:<text>
+    ```
+    **Permission:** `cases.create`
+
+    **Example:** `/moderation untimeout member:@SomeUser reason:Timeout served, appeal accepted`
+  </Accordion>
+  <Accordion title="/moderation kick — Kick a member">
+    ```
+    /moderation kick member:<user> reason:<text>
+    ```
+    **Permission:** `cases.create`
+
+    **Example:** `/moderation kick member:@SomeUser reason:Repeated rule violations`
+  </Accordion>
+  <Accordion title="/moderation ban — Ban a user (confirmation required)">
+    ```
+    /moderation ban user:<user> reason:<text> [duration:<text>] [purge_hours:<0-168>]
+    ```
+    Supplying `duration` makes it a tempban instead of a permanent ban.
+
+    **Permission:** `cases.create`
+
+    **Example:** `/moderation ban user:@SomeUser reason:Ban evasion duration:7d`
+  </Accordion>
+  <Accordion title="/moderation softban — Ban + immediate unban to purge messages (confirmation required)">
+    ```
+    /moderation softban user:<user> reason:<text>
+    ```
+    **Permission:** `cases.create`
+
+    **Example:** `/moderation softban user:@SomeUser reason:Clearing spam messages`
+  </Accordion>
+  <Accordion title="/moderation unban — Unban a user by ID">
+    ```
+    /moderation unban user_id:<17-20 digit id> reason:<text>
+    ```
+    **Permission:** `cases.create`
+
+    **Example:** `/moderation unban user_id:123456789012345678 reason:Appeal approved`
+  </Accordion>
+  <Accordion title="/moderation quarantine — Apply the quarantine role">
+    ```
+    /moderation quarantine member:<user> reason:<text> [duration:<text>]
+    ```
+    **Permission:** `cases.create`
+
+    **Example:** `/moderation quarantine member:@SomeUser reason:Suspicious activity duration:24h`
+  </Accordion>
+  <Accordion title="/moderation unquarantine — Remove quarantine">
+    ```
+    /moderation unquarantine member:<user> reason:<text>
+    ```
+    **Permission:** `cases.create`
+
+    **Example:** `/moderation unquarantine member:@SomeUser reason:Cleared after review`
+  </Accordion>
+  <Accordion title="/moderation purge — Bulk-delete recent messages in this channel">
+    ```
+    /moderation purge count:<1-100> reason:<text>
+    ```
+    **Permission:** `cases.create`
+
+    **Example:** `/moderation purge count:50 reason:Clearing spam raid`
+  </Accordion>
+  <Accordion title="/moderation slowmode — Set channel slowmode">
+    ```
+    /moderation slowmode seconds:<0-21600> reason:<text>
+    ```
+    0 disables slowmode.
+
+    **Permission:** `cases.create`
+
+    **Example:** `/moderation slowmode seconds:30 reason:High traffic during event`
+  </Accordion>
+  <Accordion title="/moderation lock — Lock this channel for @everyone">
+    ```
+    /moderation lock reason:<text>
+    ```
+    **Permission:** `cases.create`
+
+    **Example:** `/moderation lock reason:Active raid, locking down`
+  </Accordion>
+  <Accordion title="/moderation unlock — Unlock this channel">
+    ```
+    /moderation unlock reason:<text>
+    ```
+    **Permission:** `cases.create`
+
+    **Example:** `/moderation unlock reason:Raid contained`
+  </Accordion>
+</AccordionGroup>
+
+## Case management
+
+<AccordionGroup>
+  <Accordion title="/case view — View a case">
+    ```
+    /case view number:<integer>
+    ```
+    **Permission:** `cases.read`
+
+    **Example:** `/case view number:42`
+  </Accordion>
+  <Accordion title="/case list — Recent cases, optionally for one member">
+    ```
+    /case list [member:<user>]
+    ```
+    **Permission:** `cases.read`
+
+    **Example:** `/case list member:@SomeUser`
+  </Accordion>
+  <Accordion title="/case note — Add an internal note to a case">
+    ```
+    /case note number:<integer> content:<text>
+    ```
+    **Permission:** `cases.read`
+
+    **Example:** `/case note number:42 content:Escalated to senior mod for review`
+  </Accordion>
+  <Accordion title="/case reverse — Reverse a case (unban/untimeout/unquarantine + mark reversed)">
+    ```
+    /case reverse number:<integer> reason:<text>
+    ```
+    Also subject to [separation of duties](/aegis/installation-permissions#separation-of-duties)
+    — the moderator who took the original action cannot reverse it alone.
+
+    **Permission:** `cases.reverse`
+
+    **Example:** `/case reverse number:42 reason:Appeal approved by second moderator`
+  </Accordion>
+</AccordionGroup>
+
+## Security & incident response
+
+<AccordionGroup>
+  <Accordion title="/security status — Current security posture">
+    ```
+    /security status
+    ```
+    **Permission:** `incidents.read`
+  </Accordion>
+  <Accordion title="/security containment set — Set the containment level">
+    ```
+    /security containment set level:<choice> reason:<text>
+    ```
+    `level` is one of: `observe`, `heightened_verification`, `quarantine_new_members`,
+    `restricted_messaging`, `emergency_lockdown`.
+
+    **Permission:** `lockdown.activate` (or `lockdown.release` when setting `level` back to
+    `observe`)
+
+    **Example:** `/security containment set level:quarantine_new_members reason:Suspected raid in progress`
+  </Accordion>
+  <Accordion title="/incident open — Open an incident manually">
+    ```
+    /incident open type:<choice> title:<text> severity:<choice> [room:<true|false>]
+    ```
+    `type` is one of: `raid`, `anti_nuke`, `compromised_staff`, `spam_campaign`,
+    `phishing_campaign`, `coordinated_abuse`, `custom`. `severity` is one of: `low`, `medium`,
+    `high`, `critical`. `room` defaults to `true` and creates a private incident channel.
+
+    **Permission:** `incidents.manage`
+
+    **Example:** `/incident open type:raid title:Coordinated join spike severity:high`
+  </Accordion>
+  <Accordion title="/incident list — Active incidents">
+    ```
+    /incident list
+    ```
+    **Permission:** `incidents.read`
+  </Accordion>
+  <Accordion title="/incident status — Move an incident through its lifecycle">
+    ```
+    /incident status number:<integer> to:<choice> [note:<text>]
+    ```
+    `to` is one of: `investigating`, `contained`, `monitoring`, `resolved`, `closed`,
+    `reopened`.
+
+    **Permission:** `incidents.manage`
+
+    **Example:** `/incident status number:7 to:contained note:Quarantine applied to all joiners`
+  </Accordion>
+</AccordionGroup>
+
+## Member intelligence
+
+<AccordionGroup>
+  <Accordion title="/member investigate — Full member record">
+    ```
+    /member investigate member:<user>
+    ```
+    **Permission:** `members.investigate`
+
+    **Example:** `/member investigate member:@SomeUser`
+  </Accordion>
+  <Accordion title="/member trust — Mark a member trusted (mitigates risk scoring)">
+    ```
+    /member trust member:<user> trusted:<true|false>
+    ```
+    **Permission:** `members.investigate`
+
+    **Example:** `/member trust member:@SomeUser trusted:true`
+  </Accordion>
+  <Accordion title="/member watchlist — Add/remove a member from the watchlist">
+    ```
+    /member watchlist member:<user> watchlisted:<true|false>
+    ```
+    **Permission:** `members.investigate`
+
+    **Example:** `/member watchlist member:@SomeUser watchlisted:true`
+  </Accordion>
+</AccordionGroup>
+
+## Context menu commands
+
+Right-click a member or message → **Apps** to reach these.
+
+<AccordionGroup>
+  <Accordion title="Investigate Member — same record as /member investigate">
+    User context menu command.
+
+    **Permission:** `members.investigate`
+  </Accordion>
+  <Accordion title="Quarantine Member — rapid-response quarantine (confirmation required)">
+    User context menu command. Opens the same confirmation panel as
+    `/moderation quarantine`, pre-filled for a 24-hour quarantine.
+
+    **Permission:** `cases.create`
+  </Accordion>
+  <Accordion title="Report Message — flag a message to the moderation queue">
+    Message context menu command. Stores a short content preview as evidence for the report
+    (see [Privacy](/aegis/privacy) for how that evidence is retained).
+
+    **Permission:** None — any member who can see the message can report it.
+  </Accordion>
+</AccordionGroup>
+
+## Platform & setup
+
+<AccordionGroup>
+  <Accordion title="/aegis panel — AEGIS control panel">
+    ```
+    /aegis panel
+    ```
+    **Permission:** None
+  </Accordion>
+  <Accordion title="/aegis setup — Guided setup checklist">
+    ```
+    /aegis setup
+    ```
+    **Permission:** None
+  </Accordion>
+  <Accordion title="/config view — Current configuration summary">
+    ```
+    /config view
+    ```
+    **Permission:** `config.read`
+  </Accordion>
+  <Accordion title="/config mode — Set the enforcement mode of a protection">
+    ```
+    /config mode protection:<choice> mode:<choice>
+    ```
+    `protection` is one of: `sentinel`, `raid`, `antiNuke`, `messageProtection`,
+    `linkProtection`. `mode` is one of: `off`, `dry_run`, `log_only`, `human_approval`,
+    `automatic`.
+
+    **Permission:** `config.publish`
+
+    **Example:** `/config mode protection:raid mode:human_approval`
+  </Accordion>
+  <Accordion title="/config set-channel — Set the log/alert channel">
+    ```
+    /config set-channel channel:<channel> purpose:<choice>
+    ```
+    `purpose` is one of: `log` (moderation log), `alert` (security alerts).
+
+    **Permission:** `config.publish`
+
+    **Example:** `/config set-channel channel:#mod-log purpose:log`
+  </Accordion>
+  <Accordion title="/config quarantine — Set the quarantine role">
+    ```
+    /config quarantine role:<role>
+    ```
+    Refuses roles that carry `Administrator` or `Manage Server`.
+
+    **Permission:** `config.publish`
+
+    **Example:** `/config quarantine role:@Quarantined`
+  </Accordion>
+  <Accordion title="/config roles — Map a Discord role to an AEGIS app role">
+    ```
+    /config roles role:<role> app_role:<choice>
+    ```
+    `app_role` is one of: `security_admin`, `incident_commander`, `senior_moderator`,
+    `moderator`, `investigator`, `appeals_reviewer`, `auditor`, `read_only`.
+
+    **Permission:** `config.publish`
+
+    **Example:** `/config roles role:@Moderator app_role:moderator`
+  </Accordion>
+  <Accordion title="/config rollback — Roll back to a previous config version">
+    ```
+    /config rollback version:<integer>
+    ```
+    **Permission:** `config.publish`
+
+    **Example:** `/config rollback version:3`
+  </Accordion>
+  <Accordion title="/config history — Configuration version history">
+    ```
+    /config history
+    ```
+    **Permission:** `config.read`
+  </Accordion>
+  <Accordion title="/audit search — Search audit events">
+    ```
+    /audit search [action:<text>] [actor:<user>] [hours:<1-720>]
+    ```
+    `hours` defaults to 24.
+
+    **Permission:** `audit.read`
+
+    **Example:** `/audit search action:config.publish hours:72`
+  </Accordion>
+  <Accordion title="/audit verify — Verify audit-chain integrity for this guild">
+    ```
+    /audit verify
+    ```
+    **Permission:** `audit.read`
+  </Accordion>
+  <Accordion title="/status — AEGIS operational status">
+    ```
+    /status
+    ```
+    **Permission:** None
+  </Accordion>
+  <Accordion title="/help — How to use AEGIS">
+    ```
+    /help
+    ```
+    **Permission:** None
+  </Accordion>
+  <Accordion title="/appeal submit — Submit an appeal">
+    ```
+    /appeal submit case_number:<integer> statement:<text>
+    ```
+    Only works for a case opened against you, and is subject to a per-guild cooldown between
+    appeals.
+
+    **Permission:** None (self-service)
+
+    **Example:** `/appeal submit case_number:42 statement:I was not the one posting those links`
+  </Accordion>
+  <Accordion title="/appeal status — Check your appeals">
+    ```
+    /appeal status
+    ```
+    **Permission:** None (self-service)
+  </Accordion>
+</AccordionGroup>

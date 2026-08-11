@@ -1,0 +1,60 @@
+---
+title: "Support"
+description: "Troubleshooting common issues, and how to get further help."
+---
+
+## If something is not working
+
+<AccordionGroup>
+  <Accordion title="Slash commands aren't showing up">
+    Command registration isn't automatic on every restart for this bot. Ask whoever operates
+    your Invoice Bot instance to run the owner-only `/sync` command — a global sync can take up
+    to an hour to fully propagate to every server. If this instance is set up to sync only to a
+    specific server for testing, commands will only appear there.
+  </Accordion>
+  <Accordion title='"Payment method unavailable" when attaching a method to an invoice'>
+    That provider isn't configured for this server yet. Check
+    [`/payment_config`](/invoice/commands/admin) and make sure the relevant field (`btc_address`,
+    `paypal_email`, etc.) is set — see [Configuration](/invoice/configuration) for the full list.
+  </Accordion>
+  <Accordion title='Verification says "underpaid" or "overpaid"'>
+    This is deliberate, not a bug — the transaction's amount to the configured address didn't
+    exactly match the quoted crypto amount. Underpaid leaves the invoice unpaid so you can follow
+    up with the customer; overpaid still completes the invoice and records the excess. Check the
+    expected vs. actual amounts shown in the response.
+  </Accordion>
+  <Accordion title='"This transaction has already been used to pay a different invoice"'>
+    A given blockchain transaction hash can only ever complete one invoice per asset. If you
+    believe this is wrong, check which invoice actually claimed it with
+    [`/crypto_lookup`](/invoice/commands/crypto) before assuming it's an error.
+  </Accordion>
+  <Accordion title="A crypto quote expired before the customer paid">
+    Quoted crypto amounts are only valid for a limited window. Run
+    [`/invoice payment`](/invoice/commands/invoices) again with the same method (or use the
+    **Refresh Quote** button on the invoice's payment panel) to issue a fresh quote and amount.
+  </Accordion>
+  <Accordion title="No PDF export or QR code showing up">
+    Both are optional features that may or may not be enabled on the particular bot instance
+    you're using. If **Export PDF** or a crypto payment's QR code isn't appearing, the rest of
+    the invoice still works fully — ask whoever operates your instance whether that optional
+    feature is turned on.
+  </Accordion>
+  <Accordion title="Can't delete an invoice">
+    Only invoices currently in **Draft** or **Void** can be deleted. Void it first with
+    [`/invoice void`](/invoice/commands/invoices) if it's in any other status — see
+    [Invoice lifecycle](/invoice/features/lifecycle).
+  </Accordion>
+</AccordionGroup>
+
+## Getting help
+
+There's no publicly documented Discord support server or contact address for Invoice Bot in the
+materials this documentation is built from. If something here doesn't cover your situation,
+contact whoever operates your Invoice Bot instance for your server — they're the ones who can
+look at the running bot directly.
+
+When reporting a problem, it helps to include:
+
+- The exact command you ran and what happened instead
+- The invoice number involved, if any
+- Whether the issue is specific to one payment method or affects everything

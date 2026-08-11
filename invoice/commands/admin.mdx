@@ -1,0 +1,45 @@
+---
+title: "Admin"
+description: "Server-wide configuration and bot-operator utility commands."
+---
+
+<Info>
+  **Permission** reflects who Invoice Bot lets actually run the command — see
+  [Installation & Permissions](/invoice/installation-permissions) for what "Admin" means.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="/payment_config — Configure payment methods and server settings">
+    ```
+    /payment_config [paypal_email:...] [paypal_me:...] [stripe_link:...] [revolut_link:...] [cashapp_tag:...] [applepay_contact:...] [btc_address:...] [ltc_address:...] [currency:<USD|EUR|GBP>] [invoice_prefix:...] [admin_role:<role>] [log_channel:<channel>] [payment_visibility:<public|customers|staff>] [payment_profiles_enabled:<true|false>]
+    ```
+    Every field is optional and only the ones you pass are changed — running it again updates in
+    place. See [Configuration](/invoice/configuration) for what each field does.
+
+    **Permission:** Admin
+
+    **Example:** `/payment_config paypal_email:you@example.com btc_address:bc1q... currency:USD invoice_prefix:INV admin_role:@Staff log_channel:#audit-log`
+  </Accordion>
+  <Accordion title="/remove_payment_method — Remove a payment method from this server">
+    ```
+    /remove_payment_method method:<PayPal Email|PayPal.me|Stripe|Revolut|CashApp|Apple Pay|Bitcoin|Litecoin>
+    ```
+    Clears that one field rather than requiring you to overwrite it manually.
+
+    **Permission:** Admin
+
+    **Example:** `/remove_payment_method method:PayPal Email`
+  </Accordion>
+  <Accordion title="/sync — Manually sync slash commands">
+    ```
+    /sync
+    ```
+    Registers this bot's current slash commands with Discord globally. Command sync doesn't
+    happen automatically on every restart — run this once after a command's signature changes.
+    A global sync can take up to an hour to fully propagate.
+
+    **Permission:** The bot's own operator only
+
+    **Example:** `/sync`
+  </Accordion>
+</AccordionGroup>

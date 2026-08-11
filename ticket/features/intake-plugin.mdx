@@ -1,0 +1,189 @@
+---
+title: "The Intake plugin"
+description: "Structured, multi-step client intake collected before a ticket opens, with deterministic scoring and routing."
+---
+
+Intake collects structured information from a client **before** their ticket opens, then scores
+and routes it. It's a plugin on top of the existing ticket system, not a replacement for it —
+and it's off by default everywhere.
+
+<Note>
+  Three things are true of every ticket Intake produces: it's created by the same
+  `provision_ticket()` engine Standard panels and the AIO funnel have always used; every
+  downstream system still applies unchanged (claiming, permissions, transcripts, auto-close,
+  payments, analytics); and if Intake is disabled, misconfigured, or its template is deactivated,
+  the ticket still opens through the normal path. **An intake that cannot run never blocks a
+  ticket that could otherwise be opened.**
+</Note>
+
+An option with no template attached behaves exactly as it did before this plugin existed.
+Nothing about it is opt-out — it's entirely opt-in, per option.
+
+## Quick start
+
+<Steps>
+  <Step title="Create a template">
+    ```
+    /intake create key:web-design name:Web Design Project
+    ```
+  </Step>
+  <Step title="Build it">
+    `/intake manage` opens the console — add sections, add fields, and toggle qualification and
+    routing.
+  </Step>
+  <Step title="Attach it to where clients click">
+    ```
+    /intake attach template:web-design panel:Support option:New Project
+    ```
+    That's the whole opt-in. Until an attach happens, the template is inert.
+  </Step>
+</Steps>
+
+See [Intake commands](/ticket/commands/intake) for the full command reference.
+
+## Concepts
+
+| Concept | What it is |
+| --- | --- |
+| Template | A reusable questionnaire. Attached to a panel or one ticket option. |
+| Section | One step of the template. Sections exist because a Discord modal holds at most 5 text inputs — they're the mechanism, not a workaround. |
+| Field | One question. 17 types (below). |
+| Condition | Shows a field only when an earlier answer satisfies a test. Multiple conditions on one field are ANDed. |
+| Qualification rule | `±N` to a score when an answer matches. Deterministic and explainable. |
+| Routing rule | Supplies inputs to the ticket engine — category, priority, role pings, tags, notification channels, team. |
+| Session | One person's in-progress draft. Lives in the database, so it survives a restart. |
+| Response | A finished submission. An immutable record of what was actually asked and answered. |
+| Answer | One field's value, stored raw *and* typed (number/bool/datetime/snowflake/list) so analytics can query it. |
+| Clarification | A staff follow-up question against a submitted response, kept as its own row so the original answer stays intact. |
+
+### Field types
+
+**Modal-answered** (typed into a text input): `Short Text` · `Long Text` · `Number` ·
+`Currency` · `Date` · `Date/Time` · `URL` · `Email` · `Range`
+
+**Component-answered** (picked from a menu): `Single Select` · `Multi Select` · `Boolean` ·
+`Confirmation` · `Discord User` · `Discord Role` · `Channel`
+
+**Deferred:** `Attachment` — Discord has no file input in a modal and no file-picker component,
+so the file is requested in the ticket channel once it opens. It's recorded as a pending answer,
+satisfied automatically when the ticket owner posts a file.
+
+Per-type validation is declarative: minimum/maximum length, required keywords, minimum/maximum
+value, currency, minimum/maximum selections, how far a date can be in the past or future, and
+whether a date must be in the future — all enforced server-side even though the same limits are
+shown to the client while they type.
+
+## Qualification
+
+Off by default — turn it on per template.
+
+```
+score = 50 (base) + the score_delta of every rule whose condition matched, clamped 0–100
+```
+
+| Score | Band |
+| --- | --- |
+| 80–100 | Excellent Fit |
+| 60–79 | Good Fit |
+| 40–59 | Manual Review |
+| 0–39 | Low Fit |
+
+There's no AI scoring and no opaque model — a staff member reading the rule list can predict any
+score by hand. The stored breakdown records every rule including the ones that didn't fire,
+because "why didn't this score higher" is the question staff actually ask, and a list of only
+the matches can't answer it.
+
+<Warning>
+  A score is advice, not a gate. Intake never refuses a ticket on the strength of a number —
+  low-fit submissions still open a ticket, just flagged.
+</Warning>
+
+## Routing
+
+Off by default. Rules with no field/operator are template-wide defaults; rules with one apply
+only when it matches.
+
+| Action | Effect |
+| --- | --- |
+| Set category | Which Discord category the ticket channel is created in |
+| Set priority | Low / Normal / High / Urgent |
+| Ping role | Roles mentioned in the new ticket |
+| Add tag | Tags applied to the ticket |
+| Notify channel | Channels notified of the submission |
+| Assign team | Recorded on the response for reporting |
+
+Single-valued actions (category, priority, team) are last-write-wins by the rules' display
+order — order rules general to specific. Multi-valued actions (pings, tags, notifications)
+accumulate and de-duplicate instead, since "ping the web team *and* the senior sales lead" is a
+legitimate outcome.
+
+Routing never creates anything itself — it produces a description of what the ticket should
+look like, and the ticket engine performs the actual creation.
+
+## Relationship to Forms and Smart Gate
+
+Per ticket option, exactly one collection path runs:
+
+| Option configuration | Behavior |
+| --- | --- |
+| A form is attached | The existing simple [form](/ticket/commands/forms), plus [Smart Gate](/ticket/commands/gate) screening if one is attached too. Unchanged by Intake existing. |
+| An Intake template is attached | Multi-step Intake runs; qualification replaces gate screening. |
+| Neither | A plain ticket. Unchanged. |
+
+They're mutually exclusive because Smart Gate evaluates form question answers — which an Intake
+option has none of — and Intake does its own scoring. Running both would mean two refusal
+engines on one submission with no defined precedence, so `/intake attach` refuses an option that
+already has a form or a gate rule set rather than letting one silently win at runtime.
+
+## Persistence and restarts
+
+Drafts live in the database, and every control is backed by state stored in its own component,
+not in memory — a deploy mid-intake is invisible to the client filling it in; their buttons keep
+working and their answers are still there.
+
+- **Draft lifetime** defaults to 24 hours and is inactivity-based — answering a question extends
+  it.
+- **Concurrent drafts per member** defaults to 1, enforced at the database level rather than in
+  process memory, so it holds across multiple bot instances.
+- A background sweep reclaims stale drafts every 5 minutes, freeing the member's slot.
+
+## Security
+
+| Concern | How it's handled |
+| --- | --- |
+| Someone else's session | Ownership and guild are checked on every interaction. |
+| Forged / cross-guild response ids | Lookups are guild-scoped, so a foreign id finds nothing. |
+| Editing a completed submission | Completed sessions fail the liveness check — resubmission is impossible. |
+| Client-side validation bypass | Every visible field is re-validated server-side at submit. |
+| Select values not on the list | Option membership is checked server-side. |
+| `@everyone` / `@here` in free text | Neutralized before answers are echoed into a staff summary in a live channel. |
+| Malicious links | URL fields accept `http`/`https` only — `javascript:`, `data:`, and `file:` are all clickable in Discord otherwise. |
+| Oversized input | Hard caps apply even with no configured maximum. |
+| Rule injection / ReDoS | The condition language is declarative — no expression evaluator, no regex, by design. |
+| Draft spam | Per-user concurrent-draft cap, enforced at the database level. |
+| Permission escalation | Intake only runs after the existing ticket-opening checks pass — someone who can't open a ticket type is never asked to fill anything in. |
+
+## Logging
+
+Intake writes to the systems that already exist — no new logging channel is created:
+
+- Submissions and cancellations land in the guild's audit log.
+- Notifications post to the existing ticket log channel, unless `/intake config` points
+  `log_channel` elsewhere.
+- Structured logs cover the plugin's internal events for whoever operates your instance.
+
+## Analytics — `/intake stats`
+
+- **Funnel** — started, completed, in progress, abandoned, expired, cancelled
+- **Conversion rate** — completed ÷ started (shown as "—", not 0%, when nothing has started yet —
+  those are different claims)
+- **Average completion time**
+- **Outcomes** — submissions, tickets created, qualified leads, rejected, average score, band
+  distribution
+- **Averages** — mean of every numeric/currency field, by field label
+- **Most requested** — most-picked value of every choice field, by field label
+- **Drop-off** — which section incomplete sessions were sitting on
+
+Nothing is hard-coded to a field called "budget" or "service" — the report aggregates *by
+field*, so a template asking about a "monthly retainer" gets a useful line without anyone
+renaming anything.

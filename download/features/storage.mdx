@@ -1,0 +1,49 @@
+---
+title: "Storage"
+description: "What 'external URL', 'local', and 'Cloudflare R2' mean for where a product's file actually lives."
+---
+
+Download Bot doesn't force one way of hosting the files it hands out. Every product records where
+its file (or link) lives, and the bot resolves that per product — not from one global setting —
+whenever someone downloads it.
+
+<Info>
+  Which provider a deployment has available, and how it's connected to Cloudflare R2 if it is, is
+  a decision made by whoever operates the bot — that's deployment-level setup, not something you
+  configure from inside Discord. This page covers the concept only.
+</Info>
+
+## The three kinds
+
+<CardGroup cols={2}>
+  <Card title="External URL" icon="link">
+    An admin pastes a link when adding the product. Nothing is stored by the bot at all — the
+    delivery message just hands back that same link. Zero setup, works on any deployment.
+  </Card>
+  <Card title="Local" icon="hard-drive">
+    An uploaded file is saved to disk wherever this deployment keeps its storage, and delivered
+    back to members as a Discord file attachment rather than a link, since there's no public URL
+    to hand out.
+  </Card>
+  <Card title="Cloudflare R2" icon="cloud">
+    An uploaded file goes to an R2 (or other S3-compatible) bucket. Delivery is either a direct
+    link, if the bucket is fronted with a public domain, or a temporary signed link that expires
+    on its own — whichever this deployment is set up to use.
+  </Card>
+</CardGroup>
+
+## Why it's per-product, not per-server
+
+A server's default storage kind only decides where a **new** upload goes. Switching that default
+later never moves anything that already exists — every product remembers the provider it was
+created under, permanently, and keeps working under that same provider even after the default
+changes. A product uploaded under Local is never silently rerouted through R2 just because the
+deployment's default changed, and vice versa.
+
+## When storage and the database disagree
+
+Replacing a product's file uploads and verifies the new copy before anything in the database
+changes, and removing a product hides it immediately but only deletes its stored file once that
+deletion actually succeeds — a failure is retried automatically rather than lost. If the two ever
+do drift apart (a stuck deletion, a leftover object from an interrupted operation), that's exactly
+what [`/downloads-reconcile`](/download/commands/administration) is for.

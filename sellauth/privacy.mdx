@@ -1,0 +1,129 @@
+---
+title: "Privacy Policy"
+description: "What SellAuth Bot stores, why, and for how long."
+---
+
+**Last updated:** 9 August 2026
+
+This policy describes what the SellAuth AIO Bot ("the Bot") stores, why, and for how long. It is
+a factual description of the Bot's behaviour, written against the code that implements it.
+
+<Note>
+  This document is a template for operators self-hosting the Bot. Replace the bracketed
+  placeholders below — `[OPERATOR NAME]`, `[CONTACT EMAIL]` — before publishing it for your own
+  instance. Everything else is accurate as written.
+</Note>
+
+The Bot is operated by **[OPERATOR NAME]** ("we"), self-hosted on infrastructure we control.
+Contact: **[CONTACT EMAIL]**.
+
+## 1. What the Bot does not collect
+
+The Bot requests **no privileged Discord gateway intents**. As a direct result it cannot and does
+not receive:
+
+- **Message content.** The Bot has no prefix commands and no message handler. It never sees what
+  anyone types in a channel.
+- **Member lists.** It does not enumerate members of any server.
+- **Presence or activity.** It does not receive online status, games, or rich presence.
+
+The Bot only receives data about a person at the moment that person interacts with it — running a
+slash command, pressing a button, or submitting a form.
+
+## 2. What the Bot stores
+
+### From Discord
+
+| Data | Why |
+| --- | --- |
+| Your Discord user ID | To link a shop, licence or claim to you |
+| Your Discord username | Recorded in the audit trail so actions are attributable |
+| Server (guild) IDs | Configuration is per-server |
+| Channel, message and role IDs | To post notifications, keep panels working, and grant roles |
+
+### From your shop, if you connect one
+
+| Data | Why |
+| --- | --- |
+| SellAuth API token | To act on your shop. **Encrypted at rest** |
+| KeyAuth licence key | To verify your access. **Encrypted at rest** |
+| Shop ID, product and variant IDs | To address the right shop and products |
+| Invoice IDs | Idempotency, role redemption, and lookups |
+| Webhook URL secret | To accept events from SellAuth. **Encrypted at rest** |
+| Product deliverables held mid-delivery | Crash recovery. **Encrypted at rest**, and cleared once delivered |
+
+### Customer data
+
+If you use the Bot to look up or act on your customers' orders, the Bot's audit records may
+contain **customer email addresses** and order details, because an audit trail exists to record
+who did what to which order and is not useful without naming the order.
+
+The Bot does not store customer payment details, card numbers, or addresses at any point.
+
+## 3. Encryption, and its limits
+
+Four values are encrypted at rest with AES-based Fernet encryption: your SellAuth API token, your
+KeyAuth licence, each server's webhook secret, and deliverables held mid-delivery. Everything else
+is stored in plain form so that routine operation and debugging do not require the encryption
+key.
+
+<Warning>
+  Encryption protects against a stolen database file or backup. It does not protect you from us.
+  The encryption key is held by the operator of this instance, on the same infrastructure as the
+  database. Anyone with administrative access to that host can decrypt stored tokens.
+</Warning>
+
+If that is not an acceptable trust boundary for you, the correct answer is to run your own
+instance of the Bot with your own key, not to rely on this one.
+
+## 4. Who else receives data
+
+The Bot sends data to three services, only as required to function:
+
+- **Discord** — messages, commands and responses, under
+  [Discord's Privacy Policy](https://discord.com/privacy).
+- **SellAuth** — shop API requests made on your behalf, under SellAuth's terms.
+- **KeyAuth** — your licence key and a session identifier, to verify access.
+
+We do not sell, rent, or share your data with anyone else. We do not use it for advertising. We
+do not use it to train machine learning or AI models.
+
+## 5. Retention
+
+- **Audit records are permanent.** The audit trail is insert-only; nothing updates or deletes a
+  row. That is deliberate — an audit log that can be edited is not an audit log.
+- **Credentials persist until you remove them.** Replace a token with `/settoken`, revoke
+  delegated access with `/deauthorize`, rotate a webhook secret with `/webhook regenerate`.
+- **Operational records** — processed-event ledgers, inventory transactions, panel and permission
+  configuration — persist while the relevant configuration exists, and are removed when you
+  delete it.
+- **Backups** are retained by the operator on a rolling basis and contain the same data, minus the
+  encryption key, which is never included in a backup.
+
+## 6. Your choices
+
+- **Stop using the Bot.** Removing it from your server stops all collection.
+- **Disconnect your shop.** `/settoken` with a new value replaces the stored token; ask us to
+  delete the record entirely.
+- **Request deletion.** Contact **[CONTACT EMAIL]** and we will delete your stored credentials,
+  shop links and configuration.
+
+One honest limitation: audit records naming an action you took may be retained after deletion of
+your credentials, because they also document the operator's own compliance. Tell us if you need
+those removed and we will discuss what is possible.
+
+## 7. Children
+
+The Bot is not directed at children and is intended for people operating a commercial storefront.
+Discord requires users to be at least 13, or older where local law sets a higher age.
+
+## 8. Changes
+
+Material changes to this policy will be reflected in the "Last updated" date above and, where
+they affect what is collected, announced through the Bot's changelog.
+
+---
+
+*This document describes data handling. It is not legal advice, and it has not been reviewed by a
+lawyer. If you operate commercially in a jurisdiction with specific privacy obligations — GDPR,
+CCPA, or similar — have counsel review it before relying on it.*

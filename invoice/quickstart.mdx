@@ -1,0 +1,44 @@
+---
+title: "Quickstart"
+description: "Invite Invoice Bot to your server and send your first invoice."
+---
+
+This starts from the point where Invoice Bot is already running and reachable — inviting it to
+a server and configuring it are the only things that happen from here on.
+
+<Steps>
+  <Step title="Invite the bot">
+    Generate an invite from the Discord Developer Portal's OAuth2 → URL Generator using the
+    `bot` and `applications.commands` scopes. See
+    [Installation & Permissions](/invoice/installation-permissions) for exactly which Discord
+    permissions to grant — Invoice Bot doesn't need Administrator, and it doesn't need any
+    privileged intent.
+  </Step>
+  <Step title="Configure at least one payment method">
+    Run `/payment_config` with whichever provider fields apply — for example
+    `paypal_email:`, `btc_address:`, or `stripe_link:`. You can also set `currency`,
+    `invoice_prefix`, `admin_role`, and `log_channel` in the same command. See
+    [Configuration](/invoice/configuration) for the full field list.
+  </Step>
+  <Step title="Create your first invoice">
+    Run `/invoice create` to open the staged builder — add items, tax, a discount, a payment
+    method, and notes, then confirm to post it. For a one-off flat charge, `/payment` creates
+    and sends a single-item invoice in one command instead.
+  </Step>
+  <Step title="Decide whether you need payment profiles">
+    By default every invoice bills to the server's own configured payment details. If more than
+    one staff member or team takes payments separately, turn on
+    `/payment_config payment_profiles_enabled:true` — see
+    [Configuration](/invoice/configuration#payment-profiles) before enabling it.
+  </Step>
+</Steps>
+
+## After setup
+
+Every invoice posts as a live panel with **Payment Details** and **Manage** buttons that keep
+working across restarts. `/invoice manage <number>` reopens the same management panel manually.
+The full command reference starts at [Invoices](/invoice/commands/invoices).
+
+<Info>
+  Something not working? [Support](/invoice/support) covers the common first-run issues.
+</Info>

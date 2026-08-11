@@ -1,0 +1,52 @@
+---
+title: "Templates"
+description: "The /news template subcommands — save, browse, and delete reusable announcement starting points."
+---
+
+3 commands under `/news template`, sourced directly from `NewsCog` (`src/cogs/news.py`).
+Templates define defaults, not locked-in content — using one just pre-fills the builder, which
+stays fully editable afterward.
+
+<Info>
+  **Permission** is the check News Bot enforces when the command actually runs — see
+  [Installation & Permissions](/news/installation-permissions) for how Announcement Manager
+  resolves.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="/news template create — Create a reusable announcement template">
+    ```
+    /news template create name:<text> [category:<choice>] [title:<text>] [body:<text>] [image_url:<url>] [thumbnail_url:<url>] [accent_color:<text>] [mention_policy:<choice>] [mention_role:<role>] [cta_label:<text>] [cta_url:<url>]
+    ```
+    Only `name` is required — everything else becomes the default for drafts created from this
+    template. `category` is one of `release`, `maintenance`, `update`, `promotion`, `incident`,
+    `event`, `custom` (defaults to `custom`). `mention_policy` is one of `No Ping`, `@here`,
+    `@everyone`, `Role`. `cta_label`/`cta_url` add a single default CTA button — for more than
+    one, add the rest from the builder after using the template. Template names must be unique
+    per server.
+
+    **Permission:** Announcement Manager
+
+    **Example:** `/news template create name:"Release Notes" category:release mention_policy:"@here"`
+  </Accordion>
+  <Accordion title="/news template list — Browse announcement templates">
+    ```
+    /news template list
+    ```
+    Opens a browser over saved templates. Selecting one shows **Use** (pre-fill a new draft from
+    it), **Clone** (save it under a new name), and **Delete**.
+
+    **Permission:** None — any member in the server can browse and use templates
+  </Accordion>
+  <Accordion title="/news template delete — Delete a template">
+    ```
+    /news template delete name:<name>
+    ```
+    Asks for confirmation first. This permanently removes the template — it cannot be undone.
+    Existing drafts created from it are unaffected.
+
+    **Permission:** Announcement Manager
+
+    **Example:** `/news template delete name:"Release Notes"`
+  </Accordion>
+</AccordionGroup>

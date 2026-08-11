@@ -1,0 +1,74 @@
+---
+title: "Role redemption"
+description: "Granular purchase-to-role rules — tied to any invoice, a specific product, or a specific variant — plus the public claim panel customers use. See Role claim for the simpler single-role version."
+---
+
+**8 commands.** Granular purchase-to-role rules — tied to any invoice, a specific product, or a specific variant — plus the public claim panel customers use. See Role claim for the simpler single-role version.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/role-redeem branding`">
+    **Tier:** `owner`
+
+    Sets the banner and footer branding shown on the public claim panel.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/role-redeem create`">
+    **Tier:** `owner`
+
+    Creates a role-redemption rule mapping an invoice, product or variant to a Discord role.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/role-redeem delete`">
+    **Tier:** `owner`
+
+    Deletes a role-redemption rule.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/role-redeem list`">
+    **Tier:** `owner`
+
+    Lists role-redemption rules configured for this server.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/role-redeem panel`">
+    **Tier:** `owner`
+
+    Posts the public claim panel customers use to redeem their role.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/role-redeem review`">
+    **Tier:** `owner`
+
+    Reviews pending role-redemption claims.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/role-redeem status`">
+    **Tier:** `owner`
+
+    Shows the status of role-redemption configuration and claims.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/role-redeem toggle`">
+    **Tier:** `owner`
+
+    Enables or disables a role-redemption rule.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+</AccordionGroup>

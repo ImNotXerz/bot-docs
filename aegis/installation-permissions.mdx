@@ -1,0 +1,94 @@
+---
+title: "Installation & Permissions"
+description: "Add AEGIS to your server, and how its role-based access control decides who can do what."
+---
+
+## Inviting AEGIS
+
+The invite uses the `bot` and `applications.commands` scopes. AEGIS asks for the Discord
+permissions its moderation and containment actions need — role and channel management,
+kick/ban/timeout, and audit log access (anti-nuke protections read the audit log to catch
+role, channel, and webhook abuse).
+
+Being able to **see** a command in Discord and being **allowed to run it** are two different
+things once AEGIS is in your server — see below.
+
+## AEGIS permissions are not Discord permissions
+
+AEGIS's permission system (RBAC) is first-class and independent of raw Discord permissions.
+Discord permission flags only affect whether you can **see** a command — every consequential
+action is re-checked against AEGIS permissions on the server side when it actually runs, not
+just when a panel is drawn. Reopening a stale panel does not bypass this.
+
+## Built-in roles
+
+| Role | Notes |
+| --- | --- |
+| `org_owner` | Wildcard — holds every permission across the organization |
+| `guild_owner` | Wildcard — holds every permission in the guild |
+| `security_admin` | Configures Sentinel and security-wide settings |
+| `incident_commander` | Runs incident response |
+| `senior_moderator` | Full moderation authority, including case reversal |
+| `moderator` | Standard moderation actions |
+| `investigator` | Investigates members and evidence |
+| `analyst` | Reviews signals and analytics |
+| `appeals_reviewer` | Decides appeals |
+| `auditor` | Reads and exports the audit log |
+| `read_only` | View-only access |
+
+The Discord server owner implicitly holds every permission, regardless of role mappings.
+Guilds can also define custom roles on top of the built-ins.
+
+## Permission keys
+
+Permissions are granted per key, not as a single blanket role. The built-in roles above are
+bundles of these:
+
+| Permission key | Grants |
+| --- | --- |
+| `cases.read` / `cases.create` / `cases.edit` / `cases.reverse` | View, open, edit, and reverse moderation cases |
+| `incidents.read` / `incidents.manage` | View incidents; open and manage their lifecycle |
+| `sentinel.configure` / `sentinel.simulate` | Change detection settings; dry-run them |
+| `members.investigate` | Pull a member's risk history and factors |
+| `evidence.reveal` | View captured evidence (see [Privacy](/aegis/privacy)) |
+| `appeals.review` | Decide member appeals |
+| `audit.read` / `audit.export` | Read and export the audit log |
+| `integrations.manage` | Manage connected integrations |
+| `billing.manage` | Manage billing |
+| `organization.manage` | Manage organization-level settings |
+| `config.read` / `config.publish` | View and publish AEGIS configuration |
+| `lockdown.activate` / `lockdown.release` | Trigger and release emergency containment |
+
+See [Commands](/aegis/commands) for exactly which permission each command checks.
+
+## How permissions resolve
+
+Your effective permissions are the union of any permissions assigned to you directly and any
+granted through a Discord role you hold that's been mapped with `/config roles` (see
+[Configuration](/aegis/configuration)). The dashboard adds one more check on top: it re-verifies
+your actual Discord guild membership (cached briefly) in addition to your AEGIS permission, so
+dashboard access always requires both.
+
+## Separation of duties
+
+By default, the highest-impact review actions — deciding an appeal and reversing a case —
+cannot be performed solely by the moderator who took the original action. A second qualified
+person has to be involved. This is on by default and applies to `/case reverse` and appeal
+decisions alike.
+
+## Hierarchy
+
+Independent of RBAC, every action targeting a member is checked against Discord-side hierarchy
+before it runs:
+
+| Rule | Behavior |
+| --- | --- |
+| Server owner | Can never be targeted — no configuration overrides this |
+| Bot's own role | Targets at or above AEGIS's highest role are refused before Discord would reject it |
+| Acting moderator's rank | Moderators cannot act on members at or above their own rank |
+| Protected staff roles | Shielded by default; a guild can opt in to allow actions on them |
+
+<Note>
+  The guild owner is exempt from rank comparison when acting directly, but never from the
+  server-owner protection above.
+</Note>

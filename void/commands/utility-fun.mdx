@@ -1,0 +1,513 @@
+---
+title: "Utility & Fun"
+description: "Lookups, polls, reminders, AFK, Last.fm, media, games."
+---
+
+Every command works with the `=` prefix. Where a slash entry point exists it opens the same
+Components V2 panel as the prefix command.
+
+<Info>
+  A command being listed here does not mean its module is enabled in your server. Turn modules on
+  with `=config`. See [Modules](/void/modules) for what each one needs.
+</Info>
+
+**42 commands across 8 modules.**
+
+## Utility
+
+<AccordionGroup>
+  <Accordion title="=utility">
+    Opens the utility tools home panel.
+
+    **Syntax:** `=utility` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** `/utility`
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=userinfo">
+    Shows a member's info panel. Defaults to yourself.
+
+    **Syntax:** `=userinfo [user]`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=userinfo @user`
+  </Accordion>
+
+  <Accordion title="=serverinfo">
+    Shows the server info panel.
+
+    **Syntax:** `=serverinfo` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=avatar">
+    Shows a member's avatar. Defaults to yourself.
+
+    **Syntax:** `=avatar [user]`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=avatar @user`
+  </Accordion>
+
+  <Accordion title="=banner">
+    Shows a member's profile banner. Defaults to yourself.
+
+    **Syntax:** `=banner [user]`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=servericon">
+    Shows the server's icon.
+
+    **Syntax:** `=servericon` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=timestamp">
+    Converts a value into Discord timestamp markup, shown in several display formats (short
+    time, long time, short date, long date, relative). Leave it empty for "now".
+
+    **Syntax:** `=timestamp [value]` — `value` can be empty, Unix seconds, Unix milliseconds, or
+    any date string JavaScript's `Date` parser accepts.
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=timestamp 2026-12-25`
+  </Accordion>
+
+  <Accordion title="=calc">
+    Evaluates a basic arithmetic expression — numbers, `+ - * / %`, and parentheses only (max
+    120 characters).
+
+    **Syntax:** `=calc <expression>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=calc (12 + 8) * 3`
+  </Accordion>
+
+  <Accordion title="=poll">
+    Posts a poll with a question and its options, separated by `|`. Needs at least a question
+    and two options; anything short of that opens the utility home panel instead.
+
+    **Syntax:** `=poll <question> | <option 1> | <option 2> [| <option 3> ...]`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+
+    **Example:** `=poll Which day works? | Friday | Saturday | Sunday`
+  </Accordion>
+
+  <Accordion title="=lookup">
+    Runs a staff lookup for the given query. The query text is redacted of token-like content
+    before being recorded; this command is a foundation for future Discord REST enrichment and
+    doesn't return external lookup data yet.
+
+    **Syntax:** `=lookup <query>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=snipe">
+    Shows a panel noting that message sniping isn't implemented yet.
+
+    **Syntax:** `=snipe` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=qr">
+    Registered but not yet wired to a provider — currently always replies that the feature isn't
+    configured, regardless of what you pass it.
+
+    **Syntax:** `=qr` (no confirmed argument syntax — provider not yet configured)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=shorten">
+    Registered but not yet wired to a provider — currently always replies that the feature isn't
+    configured, regardless of what you pass it.
+
+    **Syntax:** `=shorten` (no confirmed argument syntax — provider not yet configured)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=translate">
+    Registered but not yet wired to a provider — currently always replies that the feature isn't
+    configured, regardless of what you pass it.
+
+    **Syntax:** `=translate` (no confirmed argument syntax — provider not yet configured)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=weather">
+    Registered but not yet wired to a provider — currently always replies that the feature isn't
+    configured, regardless of what you pass it.
+
+    **Syntax:** `=weather` (no confirmed argument syntax — provider not yet configured)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+</AccordionGroup>
+
+## AFK
+
+<AccordionGroup>
+  <Accordion title="=afk">
+    Sets an AFK status. Running it with no message while you're already AFK clears your status;
+    otherwise it (re)sets it, defaulting the message to "AFK" if you don't give one.
+
+    **Syntax:** `=afk [status message]`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=afk Back in an hour`
+  </Accordion>
+</AccordionGroup>
+
+## Reminders
+
+<AccordionGroup>
+  <Accordion title="=remind">
+    Schedules a reminder. Running it with no valid duration shows your active reminders
+    instead.
+
+    **Syntax:** `=remind <amount><unit> <message>` (unit is `m`, `h`, or `d` for
+    minutes/hours/days) or `=remind tomorrow <message>`.
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=remind 30m Check on the giveaway`
+  </Accordion>
+
+  <Accordion title="=reminders">
+    Lists your active reminders.
+
+    **Syntax:** `=reminders` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=delreminder">
+    Cancels a reminder by ID, or your most recently created one if you don't give an ID.
+
+    **Syntax:** `=delreminder [reminderId]`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+</AccordionGroup>
+
+## Last.fm
+
+<AccordionGroup>
+  <Accordion title="=fmset">
+    Links your Last.fm username to your profile in this server.
+
+    **Syntax:** `=fmset <lastfm_username>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=fmset johndoe`
+  </Accordion>
+
+  <Accordion title="=lastfm">
+    Shows your linked Last.fm profile.
+
+    **Syntax:** `=lastfm` (no arguments)
+
+    **Aliases:** `=fm` · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=nowplaying">
+    Shows what's currently playing. With no argument, uses your own linked profile; you can also
+    pass a Last.fm username directly or mention a member to use theirs.
+
+    **Syntax:** `=nowplaying [lastfm_username | @user]`
+
+    **Aliases:** `=np` · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=recent">
+    Shows the most recently scrobbled track, using the same username/mention resolution as
+    `=nowplaying`.
+
+    **Syntax:** `=recent [lastfm_username | @user]`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=taste">
+    Compares your linked Last.fm profile side-by-side against another's.
+
+    **Syntax:** `=taste [lastfm_username | @user]`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+</AccordionGroup>
+
+## Media
+
+<AccordionGroup>
+  <Accordion title="=album">
+    Looks up album info. Give the artist and album title separated by ` - `.
+
+    **Syntax:** `=album <artist> - <title>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=album Daft Punk - Discovery`
+  </Accordion>
+
+  <Accordion title="=artist">
+    Looks up artist info.
+
+    **Syntax:** `=artist <artist name>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=artist Daft Punk`
+  </Accordion>
+
+  <Accordion title="=track">
+    Looks up track info. Give the artist and track title separated by ` - `.
+
+    **Syntax:** `=track <artist> - <title>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=track Daft Punk - One More Time`
+  </Accordion>
+
+  <Accordion title="=cover">
+    Looks up cover art, using the same artist/title split as `=album`.
+
+    **Syntax:** `=cover <artist> - <title>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=lyrics">
+    Opens the lyrics panel.
+
+    **Syntax:** `=lyrics` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+</AccordionGroup>
+
+## Fun
+
+Each fun command is guild-config gated and cooldown-limited, so it can stop working if the
+module's settings disable it or you're running commands too quickly.
+
+<AccordionGroup>
+  <Accordion title="=8ball">
+    Answers a yes/no question.
+
+    **Syntax:** `=8ball <question>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=8ball Will it rain tomorrow?`
+  </Accordion>
+
+  <Accordion title="=coinflip">
+    Flips a coin.
+
+    **Syntax:** `=coinflip` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=rps">
+    Plays rock-paper-scissors against the bot.
+
+    **Syntax:** `=rps <rock|paper|scissors>`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=rps rock`
+  </Accordion>
+
+  <Accordion title="=trivia">
+    Serves a trivia question.
+
+    **Syntax:** `=trivia` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=slots">
+    Spins a slot machine.
+
+    **Syntax:** `=slots` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+</AccordionGroup>
+
+## Roblox
+
+<AccordionGroup>
+  <Accordion title="=robloxset">
+    Links your Roblox account by username.
+
+    **Syntax:** `=robloxset <roblox_username>`
+
+    **Aliases:** `=linkroblox` · **Slash:** none — prefix only
+
+    **Permission:** Public
+
+    **Example:** `=robloxset builderman`
+  </Accordion>
+
+  <Accordion title="=roblox">
+    Shows your linked Roblox profile.
+
+    **Syntax:** `=roblox` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=unlinkroblox">
+    Unlinks your Roblox account.
+
+    **Syntax:** `=unlinkroblox` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+</AccordionGroup>
+
+## Status Rotation
+
+<AccordionGroup>
+  <Accordion title="=status">
+    Opens the status panel. Staff with bot-status management access see the management home;
+    everyone else sees bot health (uptime, latency placeholder).
+
+    **Syntax:** `=status` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** `/status`
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=status_bot">
+    Opens the status rotation management home panel — the rotating presence text the bot shows.
+
+    **Syntax:** `=status_bot` (opens a panel, no arguments)
+
+    **Aliases:** `=statuses`, `=botstatus`, `=live` · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=ping">
+    Replies with a ping panel.
+
+    **Syntax:** `=ping` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=uptime">
+    Shows how long the current bot process has been running.
+
+    **Syntax:** `=uptime` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=staff">
+    Shows an internal staff panel with status stats and uptime.
+
+    **Syntax:** `=staff` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+</AccordionGroup>

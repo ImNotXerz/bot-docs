@@ -1,0 +1,50 @@
+---
+title: "Admin"
+description: "Bot-level administration: health, help, which servers it's in, and leaving one."
+---
+
+**5 commands.** Bot-level administration: health, help, which servers it's in, and leaving one.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/health`">
+    **Tier:** `owner`
+
+    Reports the bot's own subsystem health — database, encryption, background workers.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/help`">
+    **Tier:** `viewer`
+
+    Shows available commands and what they do.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/leaveserver`">
+    **Tier:** `owner`
+
+    Makes the bot leave a Discord server.
+
+    **SellAuth endpoints:** none — local by design. A Discord-side operation — the bot leaves a guild; nothing shop-side is touched.
+  </Accordion>
+
+  <Accordion title="`/servers`">
+    **Tier:** `owner`
+
+    Lists the Discord servers the bot is currently in.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/setup`">
+    **Tier:** `owner`
+
+    Walks through initial setup for this server.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+</AccordionGroup>

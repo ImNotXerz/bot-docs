@@ -1,0 +1,74 @@
+---
+title: "Permissions"
+description: "Configuring the viewer/support/manager/owner tier system — who can run what, per Discord role. See Introduction for the full tier table."
+---
+
+**8 commands.** Configuring the viewer/support/manager/owner tier system — who can run what, per Discord role. See Introduction for the full tier table.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/permissions commands`">
+    **Tier:** `owner`
+
+    Shows which permission tier each command requires.
+
+    **SellAuth endpoints:** none — local by design. Renders the static capability table from `core/capabilities.py` — no SellAuth call needed to know which tier a command requires.
+  </Accordion>
+
+  <Accordion title="`/permissions import`">
+    **Tier:** `owner`
+
+    Imports role-to-tier mappings from `config.json` into the database.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/permissions remove`">
+    **Tier:** `owner`
+
+    Removes a role's permission-tier mapping.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/permissions reset`">
+    **Tier:** `owner`
+
+    Resets permission configuration for this server.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/permissions role`">
+    **Tier:** `owner`
+
+    Assigns a permission tier to a Discord role.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/permissions staff`">
+    **Tier:** `owner`
+
+    Toggles staff access — lends the shop for lookups and fulfilment to everyone with Discord Administrator in this server, without sharing your licence.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/permissions status`">
+    **Tier:** `owner`
+
+    Shows what permission configuration is active for this server.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/permissions user`">
+    **Tier:** `owner`
+
+    Shows what tier a specific member actually resolves to.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+</AccordionGroup>

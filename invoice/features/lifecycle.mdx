@@ -1,0 +1,61 @@
+---
+title: "Invoice Lifecycle"
+description: "The Draft, Sent, Pending, Paid, Overdue, Void, and Refunded states, and how an invoice moves between them."
+---
+
+Every invoice has a status, and that status only ever moves through a fixed, validated set of
+transitions — nothing in the bot changes an invoice's status ad hoc. Attempting an invalid move
+(marking a draft paid, voiding something already refunded) is rejected outright rather than
+silently accepted.
+
+## The states
+
+```
+Draft → Sent → Pending → Paid → Refunded
+  ↓       ↓        ↓
+ Void    Void     Void
+          ↓
+       Overdue → Paid / Void
+```
+
+**Void** and **Refunded** are terminal — nothing moves out of either state.
+
+## What each status means
+
+| Status | Meaning |
+| --- | --- |
+| **Draft** | Just created, not yet posted anywhere. In practice this is momentary — both `/invoice create`'s builder and `/payment` move a new invoice straight to Sent as part of creating it. |
+| **Sent** | Posted to a channel as a live invoice panel. This is where a newly created invoice normally lands. |
+| **Pending** | Sits between Sent and Paid for an invoice with payment in progress but not yet completed. |
+| **Paid** | Payment has been confirmed — either automatically (crypto, via `/invoice verify`) or manually (`/invoice mark-paid`). |
+| **Overdue** | The state for a Sent or Pending invoice that's passed its due date. It can still be voided or marked paid from here. |
+| **Void** | Cancelled. Terminal — a voided invoice never becomes anything else. |
+| **Refunded** | A previously Paid invoice that's since been refunded with `/invoice refund`. Terminal. |
+
+## How a transition actually happens
+
+Every status change goes through the same conditional update: it only applies if the invoice is
+still in the status it was expected to be in at that moment. If two admins act on the same
+invoice at nearly the same time — say, one voids it while another marks it paid — only the first
+one to land actually applies; the second gets a clear "this invoice already changed" error
+instead of silently overwriting the first.
+
+The commands and buttons that drive transitions:
+
+- **`/invoice create`** (via the builder's confirm step) or **`/payment`** — Draft → Sent, in
+  the same step that creates the invoice.
+- **`/invoice mark-paid`**, or a confirmed crypto verification via **`/invoice verify`** — →
+  Paid. See [Payment methods](/invoice/features/payment-methods) for what verification actually
+  checks before this happens.
+- **`/invoice void`** — → Void, from Draft, Sent, Pending, or Overdue.
+- **`/invoice refund`** — Paid → Refunded.
+
+Voiding an invoice also cancels any active, unpaid payment instructions attached to it (an
+in-flight crypto quote, for example), so nothing stays waiting on a payment that will never be
+accepted.
+
+## Deleting vs. voiding
+
+`/invoice delete` permanently removes an invoice, but only works on one that's currently Draft or
+Void — anything that's been Sent has to be voided first. This keeps a voided invoice's record
+around by default; delete is a separate, deliberate step.

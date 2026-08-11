@@ -1,0 +1,84 @@
+---
+title: "Commands"
+description: "The three commands Updater exposes: /games, /setchannel, and /status."
+---
+
+Updater's entire public surface is three slash commands. `/games` and
+`/setchannel` change how the bot behaves in your server, so Discord requires
+the **Manage Server** permission to run them. `/status` is read-only and open
+to everyone. See [Installation & Permissions](/updater/installation-permissions)
+for the full breakdown.
+
+<AccordionGroup>
+  <Accordion title="/games" icon="gamepad">
+    **Syntax:** `/games`
+
+    **Access:** Manage Server
+
+    Opens an ephemeral panel — only you can see it. The root screen shows how
+    many games are enabled out of the total, plus a row of category buttons:
+    **Featured**, **Steam**, **Tactical**, **Battle Royale**, and **Other**. A
+    category with no games in it is disabled.
+
+    Pick a category to see every game in it as a checklist, with a select
+    menu for turning them on or off. **Enable All** and **Disable All** apply
+    to the whole category in one click. Changes only take effect once you hit
+    **Save Changes** — the button stays disabled until you've actually
+    changed something, and closing the panel without saving discards your
+    selection.
+
+    Turning a game on doesn't back-fill past updates — the first check after
+    you enable it just establishes a starting point. You'll get a
+    notification the next time that game actually ships something new.
+
+    **Example:** Run `/games` → open **Steam** → enable **Counter-Strike 2**
+    and **Dota 2** → hit **Save Changes**.
+  </Accordion>
+
+  <Accordion title="/setchannel" icon="bullhorn">
+    **Syntax:** `/setchannel`
+
+    **Access:** Manage Server
+
+    Opens an ephemeral panel with a native Discord channel picker. Pick a
+    channel and hit **Save**. Updater validates the channel before accepting
+    it:
+
+    - If the channel no longer exists (it can happen if it's deleted
+      mid-flow), the panel says so.
+    - If Updater is missing **View Channel** or **Send Messages** in that
+      channel, the panel lists exactly which permission is missing instead
+      of saving anyway.
+
+    Once a channel is saved, **Send Test** posts a sample notification card
+    there — a quick way to confirm delivery works and to preview the message
+    layout before a real release triggers it. Test messages aren't tracked
+    or persisted the way real notifications are.
+
+    **Example:** Run `/setchannel` → pick **#game-updates** → **Save** →
+    **Send Test** to confirm delivery works end to end.
+  </Accordion>
+
+  <Accordion title="/status" icon="chart-line">
+    **Syntax:** `/status`
+
+    **Access:** Everyone
+
+    Open to every member, not just admins. Shows:
+
+    - Whether things are operating normally for your server.
+    - How many games are enabled and which channel notifications go to.
+    - Provider health for every monitored source (healthy, degraded,
+      rate-limited, not configured, and so on).
+    - The most recently detected update among your tracked games.
+    - Recent delivery activity: last successful delivery, failures in the
+      last 24 hours, and anything currently in flight or stuck.
+
+    A **Refresh** button re-pulls the snapshot without needing to run the
+    command again.
+
+    **Example:** Run `/status` to check provider health after a release you
+    expected hasn't shown up yet — then hit **Refresh** if you make a change
+    and want an updated read without re-running the command.
+  </Accordion>
+</AccordionGroup>

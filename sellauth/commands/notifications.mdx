@@ -1,0 +1,50 @@
+---
+title: "Notifications"
+description: "Configuring the four notification categories (sale, invoice, feedback, audit) and which channel each posts to. See the Integrations tab for polling vs. webhook delivery."
+---
+
+**5 commands.** Configuring the four notification categories (sale, invoice, feedback, audit) and which channel each posts to. See the Integrations tab for polling vs. webhook delivery.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/notifications disable`">
+    **Tier:** `owner`
+
+    Disables one notification category.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/notifications enable`">
+    **Tier:** `owner`
+
+    Enables one notification category.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/notifications set`">
+    **Tier:** `owner`
+
+    Points a notification category at a channel.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/notifications status`">
+    **Tier:** `owner`
+
+    Shows what's configured for each notification category.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/notifications test`">
+    **Tier:** `owner`
+
+    Sends a test message for a notification category.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+</AccordionGroup>

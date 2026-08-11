@@ -1,0 +1,47 @@
+---
+title: "/vouch"
+description: "Create, view, browse, and dispute reputation vouches."
+---
+
+<Info>
+  Vouch commands only work as expected once the vouch channel is configured. See
+  [Configuration](/vouch/configuration) for first-time server setup.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="/vouch create recipient rating">
+    **Who:** Anyone who passes the vouch eligibility checks — not blacklisted, meets the
+    server's minimum account/membership age, and isn't on cooldown with this recipient.
+
+    **What it does:** Opens a modal (product/service, amount, transaction reference, review,
+    proof URL) → confirmation preview → posts a public vouch card to the configured vouch
+    channel.
+
+    **Example:** `/vouch create recipient:@Jane rating:5`
+  </Accordion>
+  <Accordion title="/vouch view public_id">
+    **Who:** Anyone.
+
+    **What it does:** Ephemeral detail view of a single vouch by its public ID. Moderators
+    additionally see risk classification and moderation history.
+
+    **Example:** `/vouch view public_id:VCH-A8F4K2`
+  </Accordion>
+  <Accordion title="/vouch history [member] [role]">
+    **Who:** Anyone.
+
+    **What it does:** Paginated list of vouches received or given, in this server. `member`
+    defaults to yourself; `role` defaults to `received`.
+
+    **Example:** `/vouch history member:@Jane role:given`
+  </Accordion>
+  <Accordion title="/vouch dispute public_id">
+    **Who:** Only the two people involved in the vouch (voucher or recipient).
+
+    **What it does:** Opens the reason-select → description modal flow to dispute a vouch. Also
+    reachable via the **Dispute** button on any public vouch card. A vouch can only have one
+    open dispute at a time.
+
+    **Example:** `/vouch dispute public_id:VCH-A8F4K2`
+  </Accordion>
+</AccordionGroup>

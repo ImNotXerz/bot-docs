@@ -1,0 +1,60 @@
+---
+title: "Support"
+description: "Troubleshooting, getting help, requesting alpha access, and reporting problems."
+---
+
+## If something is not working
+
+<AccordionGroup>
+  <Accordion title="Commands do nothing">
+    Check the module is enabled in `=config`, and that V.O.I.D's role sits **above** any role it
+    has to manage. Discord refuses role changes from a lower role regardless of permissions.
+  </Accordion>
+  <Accordion title="Slash commands are missing">
+    Global slash registration can take up to an hour to propagate after the bot joins. Prefix
+    commands work immediately.
+  </Accordion>
+  <Accordion title="A panel says it expired">
+    Panels survive restarts, but individual actions expire after a while so a stale button
+    cannot act on state that has since changed. Reopen the panel and try again.
+  </Accordion>
+  <Accordion title="The bot left the server">
+    During the alpha, V.O.I.D leaves servers that are not on the access list, and posts the
+    reason before it goes. [Request access](https://void.oauth.fyi/support) and re-invite.
+  </Accordion>
+</AccordionGroup>
+
+## Request alpha access
+
+V.O.I.D only joins servers on the access list during the alpha. Ask for access **before**
+inviting the bot — otherwise it will explain why and leave.
+
+Include your **server ID** in the request. To copy it: enable Developer Mode in Discord
+(User Settings → Advanced), then right-click your server and choose *Copy Server ID*.
+
+<Card title="Request access" icon="envelope" href="https://void.oauth.fyi/support">
+  Ask for your server to be added to the alpha access list.
+</Card>
+
+## Reporting a problem
+
+Useful things to include:
+
+- What you ran and what happened instead
+- Your server ID and roughly when it happened
+- Whether the module involved is enabled in `=config`
+
+If a command failed with an error message, include it verbatim — errors carry a trace id that
+lets the operators find the exact request in the logs.
+
+## Checking whether it is us
+
+[void.oauth.fyi/status](https://void.oauth.fyi/status) reports live component health. If a
+dependency is degraded it says so there, which usually explains a bot that has gone quiet.
+
+Note that V.O.I.D can also be put into **maintenance mode** deliberately, during which commands
+are paused and the bot replies saying so.
+
+## Data requests
+
+See [Data & privacy](/void/privacy) for access and deletion requests.

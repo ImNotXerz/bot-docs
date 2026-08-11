@@ -1,0 +1,152 @@
+---
+title: "Invoices"
+description: "The /invoice command group — creating, viewing, and managing invoices."
+---
+
+Every subcommand here is a thin wrapper over the same service the invoice panel's buttons call —
+running a command and clicking the equivalent button produce the same result. Autocomplete on
+`invoice_number` lists your server's recent invoice numbers with their current status.
+
+<Info>
+  **Permission** reflects who Invoice Bot lets actually run the command — see
+  [Installation & Permissions](/invoice/installation-permissions) for what "Admin" means.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="/invoice create — Start the staged invoice builder">
+    ```
+    /invoice create [customer:<user>] [currency:<USD|EUR|GBP>] [due_in_days:<integer>]
+    ```
+    Opens a Components V2 panel where you add items, tax, a discount, a payment method, and
+    notes before confirming and sending. `customer`, `currency`, and `due_in_days` are set up
+    front because they come from the slash command itself; everything else is added through the
+    panel. If payment profiles are enabled, the invoice defaults to your own profile if you have
+    one — a picker in the panel lets you change it.
+
+    **Permission:** Admin
+
+    **Example:** `/invoice create customer:@SomeCustomer currency:USD due_in_days:14`
+  </Accordion>
+  <Accordion title="/invoice view — View an invoice">
+    ```
+    /invoice view invoice_number:<invoice number>
+    ```
+    Shows the same panel the invoice was posted with.
+
+    **Permission:** The invoice's own customer, or admin
+
+    **Example:** `/invoice view invoice_number:INV-0001`
+  </Accordion>
+  <Accordion title="/invoice list — List invoices for this server">
+    ```
+    /invoice list [status:<draft|sent|pending|paid|overdue|void|refunded>]
+    ```
+    Anyone can run this, but a non-admin only sees invoices where they're the customer; admins
+    see every invoice in the server, optionally filtered by status.
+
+    **Permission:** None — results are scoped to what you're allowed to see
+
+    **Example:** `/invoice list status:paid`
+  </Accordion>
+  <Accordion title="/invoice mark-paid — Manually mark an invoice as paid">
+    ```
+    /invoice mark-paid invoice_number:<invoice number>
+    ```
+    For payment methods that aren't verified automatically — confirm receipt yourself, then run
+    this instead of `/invoice verify`.
+
+    **Permission:** Admin
+
+    **Example:** `/invoice mark-paid invoice_number:INV-0001`
+  </Accordion>
+  <Accordion title="/invoice payment — Attach a payment method to an invoice">
+    ```
+    /invoice payment invoice_number:<invoice number> method:<paypal|stripe|revolut|cashapp|applepay|btc|ltc> [profile:<name>]
+    ```
+    Prepares (or refreshes) payment instructions for the invoice using the given method. For a
+    crypto method, this is also how you refresh an expired quote — running it again supersedes
+    the old instructions with a fresh quote and amount. `profile` (only meaningful once
+    [payment profiles](/invoice/commands/payment-profiles) are enabled) rebinds which
+    destination the invoice pays into; omit it to leave the current destination unchanged.
+
+    **Permission:** Admin
+
+    **Example:** `/invoice payment invoice_number:INV-0001 method:btc`
+  </Accordion>
+  <Accordion title="/invoice verify — Verify a crypto transaction against an invoice">
+    ```
+    /invoice verify invoice_number:<invoice number> txid:<transaction hash>
+    ```
+    Looks the transaction up on-chain and checks it against the invoice's quoted amount and
+    configured address before completing the invoice. See
+    [Payment methods → Crypto verification](/invoice/features/payment-methods) for exactly what
+    gets checked and what each outcome means.
+
+    **Permission:** Admin
+
+    **Example:** `/invoice verify invoice_number:INV-0001 txid:3a1b...`
+  </Accordion>
+  <Accordion title="/invoice void — Void an invoice">
+    ```
+    /invoice void invoice_number:<invoice number>
+    ```
+    Only valid from Draft, Sent, Pending, or Overdue — see
+    [Invoice lifecycle](/invoice/features/lifecycle). Voiding is terminal.
+
+    **Permission:** Admin
+
+    **Example:** `/invoice void invoice_number:INV-0001`
+  </Accordion>
+  <Accordion title="/invoice refund — Refund a paid invoice">
+    ```
+    /invoice refund invoice_number:<invoice number>
+    ```
+    Only valid from Paid. Refunding is terminal.
+
+    **Permission:** Admin
+
+    **Example:** `/invoice refund invoice_number:INV-0001`
+  </Accordion>
+  <Accordion title="/invoice resend — Repost an invoice to this channel">
+    ```
+    /invoice resend invoice_number:<invoice number>
+    ```
+    Posts a fresh copy of the invoice panel in the channel the command was run in, and points the
+    invoice's stored message reference at the new post.
+
+    **Permission:** Admin
+
+    **Example:** `/invoice resend invoice_number:INV-0001`
+  </Accordion>
+  <Accordion title="/invoice delete — Permanently delete a draft or void invoice">
+    ```
+    /invoice delete invoice_number:<invoice number>
+    ```
+    Only works on invoices currently in Draft or Void — void it first if it's in any other
+    status.
+
+    **Permission:** Admin
+
+    **Example:** `/invoice delete invoice_number:INV-0001`
+  </Accordion>
+  <Accordion title="/invoice customer — Set or change the customer on an invoice">
+    ```
+    /invoice customer invoice_number:<invoice number> user:<user>
+    ```
+    **Permission:** Admin
+
+    **Example:** `/invoice customer invoice_number:INV-0001 user:@SomeCustomer`
+  </Accordion>
+  <Accordion title="/invoice manage — Open the management panel for an invoice">
+    ```
+    /invoice manage invoice_number:<invoice number>
+    ```
+    Opens the same panel reachable from an invoice's **Manage** button — send, mark paid, verify,
+    void, refund, resend, delete, and export PDF, filtered to whichever actions are currently
+    valid for that invoice's status.
+
+    **Permission:** Admin
+
+    **Example:** `/invoice manage invoice_number:INV-0001`
+  </Accordion>
+</AccordionGroup>

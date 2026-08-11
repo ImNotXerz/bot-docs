@@ -1,0 +1,172 @@
+---
+title: "Drafting & Publishing"
+description: "Drafts, opt-in mentions, multi-channel fault-tolerant publishing, restart-safe scheduling, templates, and history."
+---
+
+This is the core of News Bot: a draft persists to the database at every step, mentions are
+opt-in rather than forced, publishing to several channels tolerates individual channel failures,
+and a schedule survives a restart. Nothing described here depends on the bot staying up
+continuously between two points in time.
+
+## Drafting
+
+`/news create` opens a staged builder. Each step opens a focused modal or select, and the
+result is written to the database the moment you submit it — there's no separate in-memory
+draft that could be lost if an interaction expires mid-flow. Reopening the draft (`/news draft
+edit`, or the history panel's Edit Draft) always rebuilds the builder from what's actually saved.
+
+<Steps>
+  <Step title="Title & Body">
+    Title up to 256 characters, body up to 3000 characters. Both are optional individually, but
+    an announcement needs at least some content before it's worth publishing.
+  </Step>
+  <Step title="Media">
+    An image URL (banner/artwork), a thumbnail URL (small logo), and an accent color — a named
+    color (`blurple`, `gold`, `red`, `green`, `orange`, `teal`, `gray`, `blue`, `purple`, `pink`,
+    `white`, `black`) or a hex code.
+  </Step>
+  <Step title="CTA buttons">
+    Up to 5 link buttons, each with a label (1-80 characters) and a URL that must start with
+    `http://` or `https://`. Added and removed one at a time from the builder.
+  </Step>
+  <Step title="Footer">
+    An optional custom footer up to 200 characters. Leave it blank for the default
+    "Published &lt;time&gt;" footer.
+  </Step>
+  <Step title="Mention policy">
+    No Ping, `@here`, `@everyone`, or a specific role. See [Mentions are opt-in](#mentions-are-opt-in)
+    below.
+  </Step>
+  <Step title="Target channels">
+    Discord's native multi-channel picker, optionally pre-filled from a saved preset or the "All
+    Configured News Channels" shortcut. See [Channel Presets](/news/commands/presets).
+  </Step>
+</Steps>
+
+From the builder you can **Preview** (renders through the exact same function used to actually
+publish), **Publish Now**, **Schedule** (enter how many minutes from now — there's a maximum
+horizon, so trying to schedule too far into the future is refused with a clear error rather than
+silently accepted), or **Discard** (permanently deletes the draft, after confirmation).
+
+## Mentions are opt-in
+
+The default is **No Ping**. A brand-new draft, and a guild that hasn't set a
+`default_mention_policy`, both start there.
+
+| Policy | What it does |
+| --- | --- |
+| No Ping | No mention is sent. Nothing to confirm. |
+| `@here` | Pings online members. Requires confirmation before publishing. |
+| `@everyone` | Pings everyone. Requires confirmation before publishing. |
+| Role | Pings a specific role you choose. Requires confirmation before publishing. |
+
+Choosing anything beyond No Ping — in the builder, via `/news config default_mention_policy`, or
+per-template — shows a confirmation screen naming exactly who gets notified and how many
+channels are targeted, before the publish actually happens.
+
+<Note>
+  The mention (if any) is a short, deliberately-chosen string that only ever goes into the
+  message's top-level content, gated by an explicit allowed-mentions setting. The title, body,
+  and footer render inside a Components V2 text block, which Discord has never parsed for
+  mention syntax — so an admin literally typing "@everyone" into the body cannot trigger a
+  notification. Only a mention policy someone actually chose can ever ping anyone.
+</Note>
+
+## Multi-channel, fault-tolerant publishing
+
+Publishing sends to every target channel independently. A missing-permissions or
+deleted-channel failure on one channel never stops delivery to the rest — the announcement ends
+up:
+
+| Status | Meaning |
+| --- | --- |
+| `published` | Every target succeeded |
+| `partial` | Some targets succeeded, some failed |
+| `failed` | Every target failed |
+
+The publish report names exactly which channels failed and why:
+
+| Error | Meaning |
+| --- | --- |
+| `missing_permissions` | The bot lacks Send Messages in that channel |
+| `channel_unavailable` | The channel isn't cached and couldn't be confirmed to exist |
+| `channel_deleted` | The channel no longer exists |
+| `discord_api_error` | A generic Discord API failure |
+| `rate_limited` | Discord rate-limited the request |
+
+A retryable failure (a transient Discord error, or rate limiting) is retried automatically with
+backoff, up to a bounded number of attempts, before it becomes terminally `failed`. Publishing
+never re-sends to a target that already succeeded — resend, retry, and crash recovery all reduce
+to calling publish again, and it always picks up only the work that's actually left. Once a
+target has exhausted its automatic retries, only an explicit **Resend / Retry** (from
+`/news history`) reclaims it.
+
+<Note>
+  Two publishers can never both deliver to the same target. Every send is claimed with a
+  conditional database update before Discord is ever called, and resolved with a separate write
+  only after that call returns — so a scheduler tick racing a manual resend (or two bot
+  processes sharing one database) can't double-post.
+</Note>
+
+## Restart-safe scheduling
+
+`/news draft` → Schedule, or the builder's **Schedule** button, saves a future publish time to
+the database — never an in-memory timer. A poll loop checks for due work on a short interval
+(about every 30 seconds by default), and **every cycle**, not just at startup:
+
+<Steps>
+  <Step title="Reconcile stale claims">
+    Any target whose send was claimed but never resolved — a crash mid-send — is reclaimed
+    automatically once it's been stuck for a couple of minutes. Nothing waits for a restart.
+  </Step>
+  <Step title="Reprocess in-flight announcements">
+    Anything still marked `publishing` (from a prior cycle, or a crash) is picked back up.
+    Calling publish again is always safe: it's idempotent per already-sent target.
+  </Step>
+  <Step title="Pick up newly-due schedules">
+    Announcements whose scheduled time has arrived are published, with bounded concurrency so
+    one slow channel can't delay unrelated announcements.
+  </Step>
+</Steps>
+
+If the bot was offline when a schedule came due, it's caught up automatically the next time the
+scheduler runs — no one has to notice and manually publish it. Scheduling never starts touching
+guild or channel data before the bot's own connection is actually ready.
+
+<Note>
+  If a scheduled announcement's guild looks missing, News Bot distinguishes a gateway cache
+  that just hasn't warmed up yet (retried automatically, no alarm) from an authoritative check
+  confirming the bot was actually removed from the server (logged and audited, but still
+  retried automatically in case the bot is re-added later — nothing is force-failed just because
+  a check came back negative once).
+</Note>
+
+## Editing and deleting a live announcement
+
+**Edit Live** (from `/news history`) updates the already-sent message's content, layout, and
+mentions together, so they can never drift out of sync with each other. It defaults to
+**suppressing** a fresh notification — a role, `@everyone`, or `@here` that already pinged once
+when the announcement was first published is never silently re-pinged just because the copy was
+edited. **Save & Notify Again** is a deliberate, separate choice, and goes through the same
+mass-notification confirmation as a first publish whenever the current mention policy would
+actually ping someone.
+
+**Delete** (from `/news history`) also removes the live messages, where they still exist. It
+distinguishes a message that's already gone, a channel that's gone or inaccessible, missing
+permissions, and a transient Discord failure — only the first two are treated as done; the rest
+leave the target in a state where a later delete attempt can simply try again.
+
+## Templates
+
+`/news template create` captures a reusable starting point — title, body, media, mention policy,
+CTAs. `/news create template:<name>`, or **Use** from the template browser, pre-fills a fresh
+draft from it. Using a template never locks anything: the result is an ordinary, fully-editable
+draft. See [Templates](/news/commands/templates).
+
+## History
+
+`/news history` browses every announcement regardless of status. Depending on status, the
+available actions are View, Clone (into a new draft), Resend/Retry (failed targets), Edit Draft
+or Edit Live, Cancel Schedule, and Delete. See [Commands → Announcements](/news/commands/announcements)
+and [Installation & Permissions](/news/installation-permissions) for exactly how those actions
+are permissioned.

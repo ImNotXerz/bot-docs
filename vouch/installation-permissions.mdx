@@ -1,0 +1,52 @@
+---
+title: "Installation & Permissions"
+description: "The invite scopes, Discord permissions, and gateway intents Vouch. needs in your server."
+---
+
+Vouch. doesn't have a single shared invite link — "installing" it means inviting your own bot
+application to your server with the right scopes and permissions. This page is the full
+reference; see the [Quickstart](/vouch/quickstart) for the condensed invite walkthrough.
+
+## Gateway intents
+
+Vouch. requests **no privileged intents** — only `discord.Intents.default()`. You don't need to
+enable the Server Members Intent or Message Content Intent for it in the Discord Developer
+Portal.
+
+This is possible because slash-command interaction payloads already carry a fully resolved
+member object (including `joined_at`) wherever Vouch. needs it — for example, the
+account-age/membership-age checks in the vouch integrity engine. There's no code path that
+requires a standing member cache, so the Members intent is never needed.
+
+## OAuth2 invite scopes
+
+When generating an invite URL from the Discord Developer Portal for your application, select:
+
+- `bot`
+- `applications.commands`
+
+## Bot permissions
+
+Grant these permissions on the invite (or via a role assigned to the bot after inviting it):
+
+| Permission | Why Vouch. needs it |
+| --- | --- |
+| Send Messages | Baseline — posting vouch cards, listing cards, leaderboards, and command responses. |
+| Embed Links | Rich link previews where relevant. |
+| Attach Files | Proof/evidence attachments on vouches, reports, and disputes. |
+| Create Public/Private Threads | Marketplace private-thread contact workflow. |
+| Manage Threads | Managing the private threads created for marketplace contact. |
+| Manage Channels | Only if you'll use the ticket-channel contact workflow for marketplace listings. |
+| Manage Messages | Editing persistent leaderboard, vouch, and listing cards in place instead of reposting them. |
+
+<Note>
+  Manage Channels and Manage Messages are the two permissions worth thinking about before you
+  invite the bot: skip Manage Channels if you don't plan to use the ticket-channel contact
+  workflow, but keep Manage Messages unless you're fine with persistent cards being reposted
+  instead of edited.
+</Note>
+
+## Next steps
+
+Once the bot is in your server, continue with [Configuration](/vouch/configuration) for
+first-time server setup.

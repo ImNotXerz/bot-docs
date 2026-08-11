@@ -1,0 +1,51 @@
+---
+title: "Quickstart"
+description: "Invite Ticket Bot and get a working ticket panel live."
+---
+
+<Steps>
+  <Step title="Invite the bot">
+    The invite uses the `bot` and `applications.commands` scopes. See
+    [Installation & Permissions](/ticket/installation-permissions) for the exact Discord
+    permissions and privileged intents it asks for.
+  </Step>
+  <Step title="Set up staff access">
+    Run `/staffrole set role:@Admins tier:ADMIN`. The server owner always has implicit full
+    authority, so this command can always be run first even before any roles are mapped — see
+    [Installation & Permissions](/ticket/installation-permissions) for the full staff tier
+    ladder.
+  </Step>
+  <Step title="Create and deploy a panel">
+    `/panel create name:support` creates an empty panel, then `/panel manage name:support` opens
+    the interactive editor — content, ticket options (buttons), layout, and deploy, all in one
+    place. Deploying posts the panel to a channel members can click.
+  </Step>
+  <Step title="Set a transcript channel">
+    `/settranscript channel:#transcripts`. An HTML transcript is generated on every close path
+    (manual, auto-close, close-on-leave) and stored independently of Discord's own message
+    history.
+  </Step>
+  <Step title="Optional: tune the basics">
+    `/setmax count:2` caps open tickets per member, `/automessage` and `/autoping` post a
+    message and ping roles when a ticket opens, and `/paymentmethod add` lists a way for members
+    to pay you. None of these are required to get a working ticket panel.
+  </Step>
+</Steps>
+
+## Setting up the AIO sales funnel (optional)
+
+The guided Category → Product → Duration purchase flow is a separate, optional mode that shares
+the same ticket engine. `/aio_manage` opens the console to toggle it on, deploy its panel, and
+build your catalog (categories → products → durations). See
+[The AIO sales funnel](/ticket/features/aio-sales-funnel) for how pricing, discounts, and key
+delivery fit together before you configure it.
+
+## After setup
+
+Ticket Bot has no built-in `/help` command — type `/` in Discord to see the slash commands
+available to you in that server, or use the [Commands](/ticket/commands/panels) tab here for the
+full reference with permissions and syntax.
+
+<Info>
+  Something not working? [Support](/ticket/support) covers the most common first-run issues.
+</Info>

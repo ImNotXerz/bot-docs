@@ -1,0 +1,58 @@
+---
+title: "Tickets"
+description: "Support ticket handling: list, claim by replying, close, reopen and archive."
+---
+
+**6 commands.** Support ticket handling: list, claim by replying, close, reopen and archive.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/tickets archive`">
+    **Tier:** `support`
+
+    Archives a support ticket.
+
+    **SellAuth endpoint:** `POST /shops/{id}/tickets/{id}/archive`
+  </Accordion>
+
+  <Accordion title="`/tickets close`">
+    **Tier:** `support`
+
+    Closes a support ticket.
+
+    **SellAuth endpoint:** `POST /shops/{id}/tickets/{id}/close`
+  </Accordion>
+
+  <Accordion title="`/tickets list`">
+    **Tier:** `support`
+
+    Lists support tickets for the shop.
+
+    **SellAuth endpoint:** `GET /shops/{id}/tickets`
+  </Accordion>
+
+  <Accordion title="`/tickets reopen`">
+    **Tier:** `support`
+
+    Reopens a closed ticket.
+
+    **SellAuth endpoint:** `POST /shops/{id}/tickets/{id}/reopen`
+  </Accordion>
+
+  <Accordion title="`/tickets reply`">
+    **Tier:** `support`
+
+    Replies to a support ticket.
+
+    **SellAuth endpoint:** `POST /shops/{id}/tickets/{id}/messages`
+  </Accordion>
+
+  <Accordion title="`/tickets view`">
+    **Tier:** `support`
+
+    Shows detail for a single ticket.
+
+    **SellAuth endpoint:** `GET /shops/{id}/tickets/{id}`
+  </Accordion>
+</AccordionGroup>

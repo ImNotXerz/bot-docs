@@ -1,0 +1,43 @@
+---
+title: "Data & privacy"
+description: "What V.O.I.D stores, for how long, and how to get it removed."
+---
+
+This page summarises how data is handled. The
+[Privacy Policy](https://void.oauth.fyi/privacy) is the authoritative document.
+
+## What is stored
+
+- **Server configuration** — your settings, roles, channels, and module state.
+- **Records the features you enable produce** — ticket metadata and transcripts, moderation
+  records, audit entries, level and economy state, and similar.
+- **An encrypted refresh token**, and only if a member explicitly opts in to member backup.
+
+Message content is not stored beyond what an enabled feature requires. Payment credentials are
+never stored.
+
+## Retention
+
+| Data | Kept for |
+| --- | --- |
+| Audit events | 365 days |
+| Event logs | 90 days |
+| Webhook delivery logs | 30 days |
+| Idempotency records | 14 days |
+| Interaction state | Until it expires |
+
+Cleanup runs automatically — retention is not a manual process that can be forgotten.
+
+## Encryption and logging
+
+Sensitive values are encrypted at rest. Logs are scrubbed before they are written: tokens,
+connection strings, cookies, keys, and payment values are replaced rather than recorded.
+
+## Access and deletion
+
+To request a copy of your server's data, or its deletion, [contact
+support](https://void.oauth.fyi/support) from an account with Manage Server on that server.
+
+Removing V.O.I.D from a server stops all collection immediately. Configuration is retained for a
+short period so that re-inviting the bot does not lose your setup; ask for deletion if you want
+it gone straight away.

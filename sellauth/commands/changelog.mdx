@@ -1,0 +1,26 @@
+---
+title: "Changelog"
+description: "The bot's own changelog — not SellAuth's. Posted by the bot owner, readable by anyone."
+---
+
+**2 commands.** The bot's own changelog — not SellAuth's. Posted by the bot owner, readable by anyone.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/addchangelog`">
+    **Tier:** `owner`
+
+    Posts a new entry to the bot's changelog. Restricted to the bot owner, not delegable through the permission layer.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/changelog`">
+    **Tier:** `viewer`
+
+    Shows the bot's changelog.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+</AccordionGroup>

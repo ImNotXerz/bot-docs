@@ -1,0 +1,99 @@
+---
+title: "Orders"
+description: "Changing an existing order: refunds, cancellations, shipping, delivery, notes and status. Commands that move money or reach a customer require retyping the invoice ID to confirm — see the Terms of Service."
+---
+
+**10 commands.** Changing an existing order: refunds, cancellations, shipping, delivery, notes and status. Commands that move money or reach a customer require retyping the invoice ID to confirm — see the Terms of Service.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/order archive`">
+    **Tier:** `manager`
+
+    Archives an order, removing it from default views.
+
+    **SellAuth endpoint:** `POST /shops/{id}/invoices/{id}/archive`
+  </Accordion>
+
+  <Accordion title="`/order cancel`">
+    **Tier:** `manager`
+
+    Cancels an order. Requires retyping the record’s ID to confirm before it runs.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}/invoices/{id}`
+    - `POST /shops/{id}/invoices/{id}/cancel`
+  </Accordion>
+
+  <Accordion title="`/order deliver`">
+    **Tier:** `support`
+
+    (Re)delivers an order's product to the customer. Requires retyping the record’s ID to confirm before it runs.
+
+    **SellAuth endpoint:** `POST /shops/{id}/invoices/{id}/deliver`
+  </Accordion>
+
+  <Accordion title="`/order note`">
+    **Tier:** `manager`
+
+    Sets an internal dashboard note on an order.
+
+    **SellAuth endpoint:** `PUT /shops/{id}/invoices/{id}/dashboard-note`
+  </Accordion>
+
+  <Accordion title="`/order refund`">
+    **Tier:** `manager`
+
+    Refunds an order. Requires retyping the record’s ID to confirm before it runs.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}/invoices/{id}`
+    - `POST /shops/{id}/invoices/{id}/refund`
+  </Accordion>
+
+  <Accordion title="`/order resend-email`">
+    **Tier:** `support`
+
+    Resends the order confirmation/delivery email.
+
+    **SellAuth endpoint:** `POST /shops/{id}/invoices/{id}/resend-email`
+  </Accordion>
+
+  <Accordion title="`/order ship`">
+    **Tier:** `support`
+
+    Marks a physical order as shipped.
+
+    **SellAuth endpoint:** `POST /shops/{id}/invoices/{id}/ship`
+  </Accordion>
+
+  <Accordion title="`/order status`">
+    **Tier:** `manager`
+
+    Changes an order's status.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}/invoices/{id}`
+    - `POST /shops/{id}/invoices/{id}/status`
+  </Accordion>
+
+  <Accordion title="`/order unarchive`">
+    **Tier:** `manager`
+
+    Restores an archived order to default views.
+
+    **SellAuth endpoint:** `POST /shops/{id}/invoices/{id}/unarchive`
+  </Accordion>
+
+  <Accordion title="`/order unrefund`">
+    **Tier:** `manager`
+
+    Reverses a refund on an order.
+
+    **SellAuth endpoint:** `POST /shops/{id}/invoices/{id}/unrefund`
+  </Accordion>
+</AccordionGroup>

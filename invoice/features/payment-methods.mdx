@@ -1,0 +1,82 @@
+---
+title: "Payment Methods"
+description: "The seven supported payment methods, and what actually happens when a customer pays each one."
+---
+
+Invoice Bot never implies a payment method is confirmed automatically when it isn't. Every method
+is labeled with what actually happens once someone pays — shown on `/payment_methods` and on
+each invoice's own payment details.
+
+## Capability labels
+
+| Capability | What it means |
+| --- | --- |
+| **Manual** | The customer pays outside Discord however that method normally works; an admin has to confirm receipt themselves and mark the invoice paid (`/invoice mark-paid`). |
+| **External checkout link** | The provider hosts a payment page, but there's no webhook wired up — an admin still confirms and marks it paid manually. |
+| **Automatic (on-chain)** | Verified against a real blockchain transaction once a hash is submitted — see below. |
+
+## The methods
+
+| Method | Configured via | Capability |
+| --- | --- | --- |
+| PayPal (PayPal.me link) | `paypal_me` | External checkout link |
+| PayPal (email only) | `paypal_email` | Manual |
+| Stripe | `stripe_link` | External checkout link (cards, Apple Pay, Google Pay) |
+| Revolut | `revolut_link` | External checkout link |
+| CashApp | `cashapp_tag` | Manual |
+| Apple Pay | `applepay_contact` | Manual — Apple Cash is a peer-to-peer send with no merchant API |
+| Bitcoin | `btc_address` | Automatic (on-chain) |
+| Litecoin | `ltc_address` | Automatic (on-chain) |
+
+Every non-link method still gets a **Copy** button on the invoice panel so the customer (or an
+admin) can grab the exact configured value without retyping it.
+
+## How crypto verification works
+
+Bitcoin and Litecoin are the only methods verified without a human eyeballing a screenshot.
+
+<Steps>
+  <Step title="A quote is locked in">
+    When BTC or LTC is attached to an invoice (through the builder, `/invoice payment`, or
+    `/payment`), the bot converts the invoice's total into a crypto amount using a live rate and
+    **locks that quote** for a limited time (15 minutes by default). Even if the market moves
+    before the customer pays, the quoted amount doesn't change out from under them.
+  </Step>
+  <Step title="The customer pays the quoted amount">
+    They send exactly that amount of BTC or LTC to the address shown on the invoice — as text,
+    or scanned from a QR code if this bot instance has that optional feature installed.
+  </Step>
+  <Step title="An admin submits the transaction hash">
+    Via `/invoice verify` or the **Verify Payment** button on the invoice's Manage panel. The
+    bot looks the transaction up on-chain and checks, in order: that it exists, that the
+    configured address actually received funds, that the amount matches the quoted amount within
+    a small tolerance (absorbing network fees and dust — Bitcoin and Litecoin each have their
+    own tolerance), and that there are enough confirmations (2 for Bitcoin, 6 for Litecoin by
+    default — roughly a 15–20 minute settlement window either way). A quote that's already
+    expired is rejected; refresh it first.
+  </Step>
+  <Step title="The invoice completes — or doesn't">
+    An exact or **overpaid** amount both mark the invoice paid (any excess is recorded on the
+    payment, never silently dropped). **Underpaid** leaves the invoice exactly as it was so you
+    can follow up with the customer.
+  </Step>
+</Steps>
+
+A given blockchain transaction can never pay two different invoices on the same asset — trying to
+reuse one is rejected outright. Re-verifying the *same* transaction against the *same* invoice is
+safe to repeat and just returns the same result instead of erroring.
+
+<Note>
+  `/crypto_lookup` runs the same on-chain lookup for ad-hoc inspection when a transaction isn't
+  tied to any invoice — see [Crypto commands](/invoice/commands/crypto).
+</Note>
+
+## QR codes and PDF export
+
+Where this bot instance has the optional QR feature available, crypto payment panels include a
+locally-generated, scannable QR code for the address and amount — nothing is sent to a
+third-party image service to produce it. Where it isn't available, the panel still works, just
+as text only.
+
+The **Export PDF** button on an invoice's Manage panel produces a PDF copy of the invoice for
+offline records, when this bot instance has that optional feature available.

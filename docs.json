@@ -1,0 +1,463 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Bot documentation",
+  "description": "Documentation for the Discord bots — V.O.I.D and friends.",
+  "colors": {
+    "primary": "#8b7cf6",
+    "light": "#b3a7ff",
+    "dark": "#0a0a0c"
+  },
+  "appearance": {
+    "default": "dark"
+  },
+  "navigation": {
+    "products": [
+      {
+        "product": "V.O.I.D",
+        "description": "Discord community and operations bot",
+        "icon": "circle-dot",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": ["void/introduction", "void/quickstart", "void/installation-permissions", "void/configuration"]
+              }
+            ]
+          },
+          {
+            "tab": "Commands",
+            "groups": [
+              {
+                "group": "Categories",
+                "pages": [
+                  "void/commands/moderation-safety",
+                  "void/commands/tickets",
+                  "void/commands/members-roles",
+                  "void/commands/content-messaging",
+                  "void/commands/engagement",
+                  "void/commands/utility-fun",
+                  "void/commands/setup-admin"
+                ]
+              },
+              {
+                "group": "Reference",
+                "pages": ["void/modules", "void/variables"]
+              }
+            ]
+          },
+          {
+            "tab": "Features",
+            "groups": [
+              { "group": "Features", "pages": ["void/features/premium"] }
+            ]
+          },
+          {
+            "tab": "Support",
+            "groups": [
+              { "group": "Help", "pages": ["void/support"] },
+              { "group": "Legal", "pages": ["void/privacy"] }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "AEGIS",
+        "description": "Discord security platform — detection, raid/anti-nuke protection, case management, and incident response.",
+        "icon": "shield-halved",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": ["aegis/introduction", "aegis/quickstart", "aegis/installation-permissions", "aegis/configuration"]
+              }
+            ]
+          },
+          {
+            "tab": "Commands",
+            "groups": [
+              { "group": "Reference", "pages": ["aegis/commands"] }
+            ]
+          },
+          {
+            "tab": "Features",
+            "groups": [
+              { "group": "Deep dives", "pages": ["aegis/features/sentinel", "aegis/features/moderation", "aegis/features/incidents"] }
+            ]
+          },
+          {
+            "tab": "Support",
+            "groups": [
+              { "group": "Help", "pages": ["aegis/support"] },
+              { "group": "Legal", "pages": ["aegis/privacy"] }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "SellAuth Bot",
+        "description": "Self-hosted Discord bot for running a SellAuth shop — orders, inventory, tickets and purchase panels.",
+        "icon": "cart-shopping",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": ["sellauth/introduction", "sellauth/quickstart", "sellauth/installation-permissions", "sellauth/configuration"]
+              }
+            ]
+          },
+          {
+            "tab": "Commands",
+            "groups": [
+              { "group": "Overview", "pages": ["sellauth/commands/overview"] },
+              {
+                "group": "Categories",
+                "pages": [
+                  "sellauth/commands/orders",
+                  "sellauth/commands/invoices",
+                  "sellauth/commands/inventory",
+                  "sellauth/commands/shop",
+                  "sellauth/commands/customers",
+                  "sellauth/commands/blacklist",
+                  "sellauth/commands/coupons",
+                  "sellauth/commands/groups",
+                  "sellauth/commands/partners",
+                  "sellauth/commands/panels",
+                  "sellauth/commands/role-claim",
+                  "sellauth/commands/role-redeem",
+                  "sellauth/commands/storefront",
+                  "sellauth/commands/tickets",
+                  "sellauth/commands/feedback",
+                  "sellauth/commands/analytics",
+                  "sellauth/commands/insights",
+                  "sellauth/commands/monitoring",
+                  "sellauth/commands/notifications",
+                  "sellauth/commands/webhooks",
+                  "sellauth/commands/permissions",
+                  "sellauth/commands/licensing",
+                  "sellauth/commands/admin",
+                  "sellauth/commands/changelog",
+                  "sellauth/commands/utility"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Features",
+            "groups": [
+              { "group": "Deep dives", "pages": ["sellauth/features/instances"] }
+            ]
+          },
+          {
+            "tab": "Integrations",
+            "groups": [
+              { "group": "API", "pages": ["sellauth/integrations/sellauth-api"] }
+            ]
+          },
+          {
+            "tab": "Support",
+            "groups": [
+              { "group": "Help", "pages": ["sellauth/support"] },
+              { "group": "Legal", "pages": ["sellauth/privacy", "sellauth/terms"] }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Vouch Bot",
+        "description": "Discord reputation, vouching, marketplace, and trust platform.",
+        "icon": "handshake",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": ["vouch/introduction", "vouch/quickstart", "vouch/installation-permissions", "vouch/configuration"]
+              }
+            ]
+          },
+          {
+            "tab": "Commands",
+            "groups": [
+              {
+                "group": "Categories",
+                "pages": ["vouch/commands/vouch", "vouch/commands/profile", "vouch/commands/market", "vouch/commands/leaderboard", "vouch/commands/report", "vouch/commands/vouch-admin"]
+              }
+            ]
+          },
+          {
+            "tab": "Features",
+            "groups": [
+              { "group": "Deep dives", "pages": ["vouch/features/marketplace", "vouch/features/trust-safety"] }
+            ]
+          },
+          {
+            "tab": "Support",
+            "groups": [
+              { "group": "Help", "pages": ["vouch/support"] }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Updater Bot",
+        "description": "Discord game-update intelligence — one correlated, deduplicated notification per release across Steam, Epic, EA, Activision, Ubisoft, Riot, Bungie, Roblox, and more.",
+        "icon": "arrows-rotate",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": ["updater/introduction", "updater/quickstart", "updater/installation-permissions"]
+              }
+            ]
+          },
+          {
+            "tab": "Commands",
+            "groups": [
+              { "group": "Commands", "pages": ["updater/commands"] }
+            ]
+          },
+          {
+            "tab": "Features",
+            "groups": [
+              { "group": "Deep dives", "pages": ["updater/features/notifications"] }
+            ]
+          },
+          {
+            "tab": "Support",
+            "groups": [
+              { "group": "Help", "pages": ["updater/support"] }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Ticket Bot",
+        "description": "Enterprise dual-mode Discord ticket platform — standard support desks and a guided AIO sales funnel.",
+        "icon": "ticket",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": ["ticket/introduction", "ticket/quickstart", "ticket/installation-permissions", "ticket/configuration"]
+              }
+            ]
+          },
+          {
+            "tab": "Commands",
+            "groups": [
+              {
+                "group": "Categories",
+                "pages": [
+                  "ticket/commands/panels",
+                  "ticket/commands/tickets",
+                  "ticket/commands/forms",
+                  "ticket/commands/permissions",
+                  "ticket/commands/automation",
+                  "ticket/commands/transcripts",
+                  "ticket/commands/payments",
+                  "ticket/commands/aio",
+                  "ticket/commands/intake",
+                  "ticket/commands/gate",
+                  "ticket/commands/feedback-translations-analytics"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Features",
+            "groups": [
+              { "group": "Deep dives", "pages": ["ticket/features/aio-sales-funnel", "ticket/features/intake-plugin"] }
+            ]
+          },
+          {
+            "tab": "Support",
+            "groups": [
+              { "group": "Help", "pages": ["ticket/support"] }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "KeyAuth Bot",
+        "description": "Discord bot fronting KeyAuth licensing — key redemption, subscription self-service, and a staff License Operations control plane.",
+        "icon": "key",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": ["keyauth/introduction", "keyauth/quickstart", "keyauth/installation-permissions", "keyauth/configuration"]
+              }
+            ]
+          },
+          {
+            "tab": "Commands",
+            "groups": [
+              { "group": "Categories", "pages": ["keyauth/commands/self-service", "keyauth/commands/support-operations"] }
+            ]
+          },
+          {
+            "tab": "Features",
+            "groups": [
+              { "group": "Deep dives", "pages": ["keyauth/features/license-operations"] }
+            ]
+          },
+          {
+            "tab": "Support",
+            "groups": [
+              { "group": "Help", "pages": ["keyauth/support"] }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Invoice Bot",
+        "description": "Discord invoicing and payment-management bot — persistent invoices, a full status lifecycle, and multi-method payment support.",
+        "icon": "file-invoice-dollar",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": ["invoice/introduction", "invoice/quickstart", "invoice/installation-permissions", "invoice/configuration"]
+              }
+            ]
+          },
+          {
+            "tab": "Commands",
+            "groups": [
+              {
+                "group": "Categories",
+                "pages": ["invoice/commands/invoices", "invoice/commands/payments", "invoice/commands/payment-profiles", "invoice/commands/crypto", "invoice/commands/admin"]
+              }
+            ]
+          },
+          {
+            "tab": "Features",
+            "groups": [
+              { "group": "Deep dives", "pages": ["invoice/features/lifecycle", "invoice/features/payment-methods"] }
+            ]
+          },
+          {
+            "tab": "Support",
+            "groups": [
+              { "group": "Help", "pages": ["invoice/support"] }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "News Bot",
+        "description": "Discord announcement-publishing bot — drafts, opt-in mentions, and fault-tolerant multi-channel publishing.",
+        "icon": "bullhorn",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": ["news/introduction", "news/quickstart", "news/installation-permissions", "news/configuration"]
+              }
+            ]
+          },
+          {
+            "tab": "Commands",
+            "groups": [
+              {
+                "group": "Categories",
+                "pages": ["news/commands/announcements", "news/commands/drafts", "news/commands/templates", "news/commands/presets", "news/commands/administration"]
+              }
+            ]
+          },
+          {
+            "tab": "Features",
+            "groups": [
+              { "group": "Deep dives", "pages": ["news/features/drafting-publishing"] }
+            ]
+          },
+          {
+            "tab": "Support",
+            "groups": [
+              { "group": "Help", "pages": ["news/support"] }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Download Bot",
+        "description": "Discord bot for running a private, categorized download center with per-role access control and pluggable storage.",
+        "icon": "download",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": ["download/introduction", "download/quickstart", "download/installation-permissions", "download/configuration"]
+              }
+            ]
+          },
+          {
+            "tab": "Commands",
+            "groups": [
+              {
+                "group": "Categories",
+                "pages": ["download/commands/downloads", "download/commands/administration", "download/commands/configuration"]
+              }
+            ]
+          },
+          {
+            "tab": "Features",
+            "groups": [
+              { "group": "Deep dives", "pages": ["download/features/download-center", "download/features/storage"] }
+            ]
+          },
+          {
+            "tab": "Support",
+            "groups": [
+              { "group": "Help", "pages": ["download/support"] }
+            ]
+          }
+        ]
+      },
+      {
+        "product": "Sources",
+        "description": "Setting up a bot from purchased source code, self-hosted.",
+        "icon": "code",
+        "tabs": [
+          {
+            "tab": "Guide",
+            "groups": [
+              {
+                "group": "Getting started",
+                "pages": ["sources/introduction", "sources/prerequisites", "sources/installation"]
+              },
+              {
+                "group": "Running it",
+                "pages": ["sources/database", "sources/hosting"]
+              },
+              {
+                "group": "Terms",
+                "pages": ["sources/license-support"]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+---
+title: "Download Center"
+description: "The category → product browse flow, and how a delivery reaches a member privately."
+---
+
+The download center is one persistent panel message per server, built around a single button:
+**📥 Browse Downloads**. Everything else — categories, products, search, delivery — happens in a
+private, ephemeral session only the clicking member can see. The shared panel message itself
+never changes when someone browses it.
+
+## The flow
+
+<Steps>
+  <Step title="Click Browse Downloads">
+    Discord checks the member's access on the spot — Public, Roles, or Admin Only, whichever this
+    server has set. A denied member sees a private "Access denied" message; nothing else happens.
+  </Step>
+  <Step title="Pick a category">
+    Enabled products are grouped by category and shown as a dropdown, each option labeled with its
+    product count. This stage is paginated at 25 categories per page, so it looks and behaves the
+    same whether a server has two categories or fifty.
+  </Step>
+  <Step title="Pick a product">
+    Products in the chosen category appear as a dropdown, each with its name and (if set) a short
+    description. Also paginated at 25 per page — a catalog of 10,000 products works exactly the
+    same as one with a handful.
+  </Step>
+  <Step title="Receive it privately">
+    The bot resolves the product's storage location and replies with a private delivery message:
+    the product's name, description, filename, version if set, who requested it, and either a
+    **Download File** link button or the file itself as a Discord attachment — never both, and
+    never visible to anyone but the requester.
+  </Step>
+</Steps>
+
+## Search
+
+**🔍 Search** opens a modal for a name query and searches across every category at once, skipping
+the category-picking step entirely. Results page the same way category and product lists do.
+
+## Rate limiting
+
+Delivery is throttled per member — a short burst limit plus a longer rolling window — to deter
+scripted abuse of the panel. Limits are enforced durably (not just in memory), so they hold across
+a bot restart and can't be bypassed by hammering the button faster than the UI updates. Managers
+and the bot owner are exempt. A throttled attempt shows a brief "you're downloading too quickly"
+message and does not count against the limit itself.
+
+## What happens when something goes wrong
+
+A product that's been disabled, removed, or is missing its file mid-download fails cleanly with a
+private error message rather than a broken button — nothing crashes the session, and the member
+can back up and try something else. Every attempt, successful or not, is recorded for
+[analytics](/download/commands/administration), and mirrored to your log channel if you've
+configured one.

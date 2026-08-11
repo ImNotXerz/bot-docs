@@ -1,0 +1,106 @@
+---
+title: "Insights"
+description: "Abandoned-checkout recovery, raw activity/blacklist/webhook logs, and storefront traffic — the read-heavy analytics-adjacent commands that don't fit under Analytics itself."
+---
+
+**12 commands.** Abandoned-checkout recovery, raw activity/blacklist/webhook logs, and storefront traffic — the read-heavy analytics-adjacent commands that don't fit under Analytics itself.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/abandoned dismiss`">
+    **Tier:** `support`
+
+    Marks one abandoned checkout as dismissed so it stops showing in the recovery queue.
+
+    **SellAuth endpoint:** `POST /shops/{id}/abandoned-checkouts/{id}/dismiss`
+  </Accordion>
+
+  <Accordion title="`/abandoned list`">
+    **Tier:** `support`
+
+    Lists abandoned checkouts for the shop, most recent first.
+
+    **SellAuth endpoint:** `GET /shops/{id}/abandoned-checkouts`
+  </Accordion>
+
+  <Accordion title="`/abandoned recover`">
+    **Tier:** `support`
+
+    Sends a one-off recovery message for a single abandoned checkout. Requires retyping the record’s ID to confirm before it runs.
+
+    **SellAuth endpoint:** `POST /shops/{id}/abandoned-checkouts/{id}/recover`
+  </Accordion>
+
+  <Accordion title="`/abandoned stats`">
+    **Tier:** `viewer`
+
+    Shows abandoned-checkout totals and recovery rate for the shop.
+
+    **SellAuth endpoint:** `GET /shops/{id}/abandoned-checkouts/stats`
+  </Accordion>
+
+  <Accordion title="`/abandoned undismiss`">
+    **Tier:** `support`
+
+    Reverses a dismissal, returning the checkout to the recovery queue.
+
+    **SellAuth endpoint:** `POST /shops/{id}/abandoned-checkouts/{id}/undismiss`
+  </Accordion>
+
+  <Accordion title="`/logs activity`">
+    **Tier:** `support`
+
+    Shows the shop's SellAuth activity log.
+
+    **SellAuth endpoint:** `GET /shops/{id}/activity-logs`
+  </Accordion>
+
+  <Accordion title="`/logs blacklist`">
+    **Tier:** `support`
+
+    Shows the history of blacklist additions and removals.
+
+    **SellAuth endpoint:** `GET /shops/{id}/blacklist-logs`
+  </Accordion>
+
+  <Accordion title="`/logs webhooks`">
+    **Tier:** `support`
+
+    Shows recent inbound webhook deliveries SellAuth has sent this shop.
+
+    **SellAuth endpoint:** `GET /shops/{id}/webhook-logs`
+  </Accordion>
+
+  <Accordion title="`/traffic active`">
+    **Tier:** `viewer`
+
+    Shows currently active visitors on the storefront.
+
+    **SellAuth endpoint:** `GET /shops/{id}/analytics/traffic/active`
+  </Accordion>
+
+  <Accordion title="`/traffic metrics`">
+    **Tier:** `viewer`
+
+    Shows traffic volume metrics over time.
+
+    **SellAuth endpoint:** `GET /shops/{id}/analytics/traffic/metrics`
+  </Accordion>
+
+  <Accordion title="`/traffic sources`">
+    **Tier:** `viewer`
+
+    Shows traffic broken down by UTM source and campaign.
+
+    **SellAuth endpoint:** `GET /shops/{id}/analytics/traffic/utm`
+  </Accordion>
+
+  <Accordion title="`/traffic stats`">
+    **Tier:** `viewer`
+
+    Shows aggregate traffic statistics for the shop.
+
+    **SellAuth endpoint:** `GET /shops/{id}/analytics/traffic/stats`
+  </Accordion>
+</AccordionGroup>

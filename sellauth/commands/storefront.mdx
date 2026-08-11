@@ -1,0 +1,90 @@
+---
+title: "Storefront"
+description: "Payment methods, customer subscriptions, and the purchase whitelist that gates who is allowed to buy."
+---
+
+**10 commands.** Payment methods, customer subscriptions, and the purchase whitelist that gates who is allowed to buy.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/paymentmethods list`">
+    **Tier:** `viewer`
+
+    Lists payment methods enabled on the shop.
+
+    **SellAuth endpoint:** `GET /shops/{id}/payment-methods`
+  </Accordion>
+
+  <Accordion title="`/paymentmethods toggle`">
+    **Tier:** `manager`
+
+    Enables or disables a payment method.
+
+    **SellAuth endpoint:** `POST /shops/{id}/payment-methods/{id}/toggle`
+  </Accordion>
+
+  <Accordion title="`/paymentmethods top`">
+    **Tier:** `viewer`
+
+    Shows the shop's most-used payment methods.
+
+    **SellAuth endpoint:** `GET /shops/{id}/analytics/top-payment-methods`
+  </Accordion>
+
+  <Accordion title="`/subscriptions cancel`">
+    **Tier:** `manager`
+
+    Cancels a customer subscription. Requires retyping the record’s ID to confirm before it runs.
+
+    **SellAuth endpoint:** `POST /shops/{id}/subscriptions/{id}/cancel`
+  </Accordion>
+
+  <Accordion title="`/subscriptions list`">
+    **Tier:** `support`
+
+    Lists subscriptions for the shop.
+
+    **SellAuth endpoint:** `GET /shops/{id}/subscriptions`
+  </Accordion>
+
+  <Accordion title="`/subscriptions view`">
+    **Tier:** `support`
+
+    Shows detail for a single subscription.
+
+    **SellAuth endpoint:** `GET /shops/{id}/subscriptions/{id}`
+  </Accordion>
+
+  <Accordion title="`/whitelist add`">
+    **Tier:** `manager`
+
+    Adds an identifier to the shop's purchase whitelist.
+
+    **SellAuth endpoint:** `POST /shops/{id}/whitelist`
+  </Accordion>
+
+  <Accordion title="`/whitelist list`">
+    **Tier:** `manager`
+
+    Lists whitelisted identifiers.
+
+    **SellAuth endpoint:** `GET /shops/{id}/whitelist`
+  </Accordion>
+
+  <Accordion title="`/whitelist remove`">
+    **Tier:** `manager`
+
+    Removes an entry from the whitelist.
+
+    **SellAuth endpoint:** `DELETE /shops/{id}/whitelist/{id}`
+  </Accordion>
+
+  <Accordion title="`/whitelist toggle`">
+    **Tier:** `manager`
+
+    Enables or disables a whitelist entry without deleting it.
+
+    **SellAuth endpoint:** `POST /shops/{id}/whitelist/{id}/toggle`
+  </Accordion>
+</AccordionGroup>

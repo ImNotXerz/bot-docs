@@ -1,0 +1,55 @@
+---
+title: "Coupons"
+description: "Shop-wide and product-scoped discount coupons."
+---
+
+**4 commands.** Shop-wide and product-scoped discount coupons.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/coupon_create`">
+    **Tier:** `manager`
+
+    Creates a shop-wide coupon.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}`
+    - `POST /shops/{id}/coupons`
+  </Accordion>
+
+  <Accordion title="`/coupon_create_product`">
+    **Tier:** `manager`
+
+    Creates a coupon scoped to one or more specific products.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}/products`
+    - `GET /shops/{id}/products/{id}`
+    - `POST /shops/{id}/coupons`
+  </Accordion>
+
+  <Accordion title="`/coupon_delete`">
+    **Tier:** `manager`
+
+    Deletes an existing coupon.
+
+    **SellAuth endpoints:**
+
+    - `DELETE /shops/{id}/coupons/{id}`
+    - `GET /shops/{id}/coupons`
+  </Accordion>
+
+  <Accordion title="`/coupon_list`">
+    **Tier:** `manager`
+
+    Lists coupons configured for the shop.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}`
+    - `GET /shops/{id}/coupons`
+  </Accordion>
+</AccordionGroup>

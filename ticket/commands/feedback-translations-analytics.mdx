@@ -1,0 +1,84 @@
+---
+title: "Feedback, Translations & Analytics"
+description: "Post-close ratings, per-viewer translated panels, and the reporting dashboard."
+---
+
+**7 commands.**
+
+## Feedback
+
+<AccordionGroup>
+  <Accordion title="/feedbacksettings — Configure automated feedback requests">
+    ```
+    /feedbacksettings [enabled:<true|false>] [delay_seconds:<0-604800>]
+      [vouch_integration_enabled:<true|false>] [vouch_channel:<#channel>]
+    ```
+    A star-rating request is sent after `delay_seconds` of a ticket closing. Vouch integration
+    is an optional hand-off to a Vouch bot the guild already runs — Ticket Bot never requires it
+    to function.
+
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/feedbacklist — View submitted feedback ratings">
+    ```
+    /feedbacklist
+    ```
+    **Permission:** Staff
+  </Accordion>
+</AccordionGroup>
+
+## Translations
+
+<AccordionGroup>
+  <Accordion title="/translation mode — Set the translation mode">
+    ```
+    /translation mode mode:<All 15|Top 5|Custom|Dropdown> [locales:<comma-separated codes>]
+    ```
+    `locales` is only used for `Custom`/`Dropdown` modes, e.g. `en,es,fr`. Because a single
+    Discord message can't show different text to different viewers, translated panels render as
+    an ephemeral per-viewer response using their picked locale.
+
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/translation disable — Disable translations">
+    ```
+    /translation disable
+    ```
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/translation locales — List available locale codes">
+    ```
+    /translation locales
+    ```
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="/translation setcontent — Set a manual translation for a piece of content">
+    ```
+    /translation setcontent content_key:<text> locale:<code> value:<text>
+    ```
+    `content_key` follows the format shown in-app, e.g. `panel:general-support:title`.
+
+    **Permission:** Manager
+
+    **Example:** `/translation setcontent content_key:panel:general-support:title locale:es value:Soporte General`
+  </Accordion>
+</AccordionGroup>
+
+## Analytics
+
+<AccordionGroup>
+  <Accordion title="/analytics — View the ticket/AIO analytics dashboard">
+    ```
+    /analytics
+    ```
+    Volume, per-staff workload, SLA (first response / resolution time), auto-closed count, AIO
+    purchase-request value vs. confirmed-fulfillment value (never conflated with "revenue" —
+    nothing here is payment-verified), inventory levels, and feedback.
+
+    **Permission:** Staff
+  </Accordion>
+</AccordionGroup>

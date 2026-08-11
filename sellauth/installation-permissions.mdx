@@ -1,0 +1,84 @@
+---
+title: "Installation & permissions"
+description: "What Discord's Request Intents form is asking, and how to answer it for this bot."
+---
+
+## The short answer: leave all three unchecked
+
+<Note>
+  This bot needs **no privileged gateway intents**. If the boxes are ticked when you open the
+  form — they often are by default — untick all three and submit nothing else.
+</Note>
+
+`bot.py` builds the client with `discord.Intents.default()`, which excludes all three privileged
+intents. The structural test harness asserts it on every release:
+
+```
+PASS  message_content intent not requested
+PASS  no on_message handler
+```
+
+Requesting an intent you do not use is not free. It slows verification, invites questions you have
+no screenshots to answer, and grants your process access to data you then have to disclose in your
+privacy policy and defend in a breach.
+
+## Why each one is unnecessary here
+
+### Server Members Intent
+
+Grants the full member list of every server, and member join/leave events.
+
+This bot never enumerates members. Everything it does with a person happens because that person
+just interacted with it: `interaction.user` on a slash command, a button, or a modal, all of which
+Discord supplies without the intent. Role granting uses `interaction.user`, who is by definition
+present.
+
+### Presence Intent
+
+Grants every member's online status, activity and rich presence.
+
+Nothing in this bot reads presence. There is no "who is online" feature and no plan for one.
+
+### Message Content Intent
+
+Grants the text of every message in every server it is in.
+
+This bot has **no prefix commands** — only slash commands and component interactions, which
+deliver their arguments as structured data, not as message text. There is no `on_message` handler
+at all.
+
+The `command_prefix` is `when_mentioned` specifically so discord.py does not warn about the
+missing intent. A string prefix like `"!"` makes it log "Privileged message content intent is
+missing, commands may not work as expected" on every startup — true about prefix commands,
+irrelevant here, and exactly the kind of warning that teaches operators to ignore warnings.
+
+## Filling in the form
+
+| Field | Answer |
+| --- | --- |
+| Application Details | Describe what the bot does — a short description of the command surface is enough |
+| Do you have a public Privacy Policy? | Yes — host [Privacy](/sellauth/privacy) at a public URL and link it under **App → General Information → Privacy Policy URL** |
+| Terms of Service URL | [Terms](/sellauth/terms) |
+| Privileged Gateway Intents | Leave blank |
+
+Everything below that heading in the form — the per-intent justification, screenshots, and
+off-platform storage questions — only applies to intents you request. With none requested, none of
+it needs answering.
+
+## If you ever do need one
+
+The likeliest candidate is Server Members, if you later add something that acts on people who have
+not just interacted — bulk role syncing, or granting a role to everyone who bought before a date.
+
+You would need to:
+
+1. Add it in `bot.py` **before** the client is constructed. discord.py reads intents when the
+   client is built, so mutating `intents` afterwards silently does nothing.
+2. Enable it in the Developer Portal under **Bot → Privileged Gateway Intents**.
+3. Apply through this form once you pass 100 servers, with a screen recording of the feature
+   working.
+4. Update [Privacy](/sellauth/privacy) — the data you collect would have changed, and the policy
+   is a factual description of that.
+
+Below 100 servers you can simply toggle it on in the portal; the application is only required for
+verification.

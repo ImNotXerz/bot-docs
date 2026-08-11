@@ -1,0 +1,77 @@
+---
+title: "Configuration"
+description: "Configuring SellAuth Bot day to day from inside Discord — shop connection, permissions, notifications and webhooks."
+---
+
+SellAuth Bot is self-hosted: each operator runs their own instance. Once that instance is online,
+everything you configure from day to day happens from inside Discord, through slash commands —
+nothing on this page requires touching the host it runs on.
+
+<Note>
+  Getting an instance online in the first place is a one-time setup step, covered separately from
+  this documentation. This page is about what an operator configures afterwards.
+</Note>
+
+## Connecting your SellAuth shop
+
+Each operator connects their own shop from Discord — nobody shares a credential:
+
+```
+/register <license>  claim your KeyAuth licence
+/settoken <token>     connect your SellAuth API token
+/setshopid            pick which shop this account manages
+```
+
+See [Connecting to SellAuth](/sellauth/integrations/sellauth-api) for what each step does and how
+the connection is used, and [Licensing](/sellauth/commands/licensing) for the full command
+reference.
+
+## Permissions
+
+By default the only gate is having a registered licence — anyone who's registered can run
+anything. For a shop with staff, four tiers can be assigned per Discord role, least to most
+privileged: `viewer`, `support`, `manager`, `owner`.
+
+```
+/permissions status     what's configured here
+/permissions role       give a Discord role a tier
+/permissions user       what a member can actually do
+/permissions commands   which tier each command needs
+```
+
+See [Introduction](/sellauth/introduction#permissions) for the full tier table and [Permissions](/sellauth/commands/permissions)
+for every command.
+
+## Notifications
+
+Four independent categories, each with its own channel and enabled state, configured per guild:
+sale, invoice, feedback, and audit (staff actions taken through the bot).
+
+```
+/notifications status          what's configured
+/notifications set             point a category at a channel
+/notifications enable|disable  toggle one category
+/notifications test            send a test message
+```
+
+See [Notifications](/sellauth/commands/notifications) for the full command reference.
+
+## Webhooks (optional)
+
+Sale, invoice and feedback events reach the bot by polling automatically — nothing to configure.
+Some instances additionally turn on webhooks, so SellAuth pushes events instead of waiting to be
+polled:
+
+```
+/webhook url         show this server's URL (ephemeral, only to you)
+/webhook status      whether SellAuth is actually reaching the bot
+/webhook regenerate  revoke a leaked URL and issue a new one
+```
+
+See [Connecting to SellAuth](/sellauth/integrations/sellauth-api#webhooks-vs-polling) for how the
+two delivery paths relate, and [Webhooks](/sellauth/commands/webhooks) for the full command
+reference.
+
+## If something's not working
+
+See [Support](/sellauth/support) for common permission and webhook problems.

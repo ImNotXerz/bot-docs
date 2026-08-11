@@ -1,0 +1,26 @@
+---
+title: "Configuration"
+description: "/downloads-setup — post or move the download panel."
+---
+
+<AccordionGroup>
+  <Accordion title="/downloads-setup — Post (or move) the download panel into a channel">
+    ```
+    /downloads-setup channel:<#channel>
+    ```
+    Posts a new panel message in the given channel. If a panel already exists somewhere else, the
+    new one is posted and confirmed first, and only then is the old message best-effort deleted —
+    so a failed post never leaves you without a working panel.
+
+    **Permission:** Manage
+
+    **Example:** `/downloads-setup channel:#downloads`
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  Everything else configurable — access mode, roles, panel text/appearance, log channel — lives
+  behind `/downloads` → **⚙️ Configuration** rather than its own slash command. See
+  [Configuration](/download/configuration) for what each setting does, or
+  [Administration](/download/commands/administration) for the full `/downloads` console.
+</Note>

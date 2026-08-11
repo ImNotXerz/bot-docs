@@ -1,0 +1,30 @@
+---
+title: "/leaderboard"
+description: "Ad-hoc leaderboard lookups."
+---
+
+<Info>
+  This command only works if leaderboards are enabled in this server (toggle from
+  `/vouch-admin` → Configuration).
+</Info>
+
+<AccordionGroup>
+  <Accordion title="/leaderboard category time_range">
+    **Who:** Anyone.
+
+    **What it does:** Ad-hoc, ephemeral leaderboard lookup for one category × time-range
+    combination. `category` defaults to `Most Valid Vouches`; `time_range` defaults to
+    `All-Time`.
+
+    Categories: `Most Valid Vouches`, `Highest Rated`, `Most Unique Customers`,
+    `Highest Reported Volume`, `Fastest Growing`. Rating-based leaderboards apply a
+    minimum-sample-size threshold before a member is eligible to appear.
+
+    Time ranges: `Daily`, `Weekly`, `Monthly`, `All-Time`.
+
+    **Example:** `/leaderboard category:"Highest Rated" time_range:Monthly`
+  </Accordion>
+</AccordionGroup>
+
+Persistent, auto-refreshing leaderboards posted to a channel — the kind that survive a restart —
+are deployed from `/vouch-admin` → Leaderboards instead of this command.

@@ -1,0 +1,61 @@
+---
+title: "Drafts"
+description: "The /news draft subcommands — list, edit, delete, and publish a draft directly."
+---
+
+4 commands under `/news draft`, sourced directly from `NewsCog` (`src/cogs/news.py`).
+
+<Info>
+  **Permission** is the check News Bot enforces when the command actually runs — see
+  [Installation & Permissions](/news/installation-permissions) for how Announcement Manager
+  resolves.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="/news draft list — List draft announcements">
+    ```
+    /news draft list
+    ```
+    Lists up to 25 drafts with their id and title. Use the id (or the autocomplete suggestions on
+    the other draft commands) to act on a specific one.
+
+    **Permission:** None — any member in the server can list drafts
+  </Accordion>
+  <Accordion title="/news draft edit — Edit a draft">
+    ```
+    /news draft edit draft:<draft>
+    ```
+    Reopens the staged builder on an existing draft, exactly like `/news create` but starting
+    from what's already saved.
+
+    **Permission:** Announcement Manager
+
+    **Example:** `/news draft edit draft:Season 4 Is Live`
+  </Accordion>
+  <Accordion title="/news draft delete — Delete a draft">
+    ```
+    /news draft delete draft:<draft>
+    ```
+    Asks for confirmation first. This permanently removes the draft — it cannot be undone.
+
+    **Permission:** Announcement Manager
+
+    **Example:** `/news draft delete draft:Season 4 Is Live`
+  </Accordion>
+  <Accordion title="/news draft publish — Publish a draft now">
+    ```
+    /news draft publish draft:<draft>
+    ```
+    Publishes immediately to every configured target channel. Refuses if the draft has no target
+    channels selected yet. If the draft's mention policy would actually ping `@here`,
+    `@everyone`, or a role, a mass-notification confirmation screen shows first, naming exactly
+    who gets pinged and how many channels are targeted. Either way, you get a publish report
+    showing which channels succeeded and which failed and why. See
+    [Drafting & Publishing](/news/features/drafting-publishing) for how multi-channel delivery
+    and retries work.
+
+    **Permission:** Announcement Manager
+
+    **Example:** `/news draft publish draft:Season 4 Is Live`
+  </Accordion>
+</AccordionGroup>

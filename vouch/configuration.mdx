@@ -1,0 +1,34 @@
+---
+title: "Configuration"
+description: "First-time server setup through the /vouch-admin console."
+---
+
+Vouch. is configured through the `/vouch-admin` console once it's running in your server. This
+page walks through first-time setup.
+
+## First-time server setup
+
+<Steps>
+  <Step title="Open the admin console">
+    Invite the bot (see [Installation & Permissions](/vouch/installation-permissions)), then
+    run `/vouch-admin` as a server admin.
+  </Step>
+  <Step title="Set channels">
+    Under **Channels**, set at least a vouch channel; set modlog/marketplace/report channels
+    for the features you're using.
+  </Step>
+  <Step title="Assign roles">
+    Under **Roles**, assign admin/moderator/seller roles if you don't want to rely solely on
+    Discord's native Administrator permission.
+  </Step>
+  <Step title="Review configuration">
+    Under **Configuration**, review vouch integrity thresholds (minimum account age, minimum
+    membership age, cooldown) for your community's risk tolerance.
+  </Step>
+  <Step title="Deploy a leaderboard">
+    Optional. Deploy one from **Leaderboards** if you want a persistent, auto-refreshing
+    leaderboard posted to a channel.
+  </Step>
+</Steps>
+
+See [`/vouch-admin`](/vouch/commands/vouch-admin) for the full console reference.

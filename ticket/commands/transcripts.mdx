@@ -1,0 +1,40 @@
+---
+title: "Transcripts"
+description: "Where transcripts are posted, and what happens if generating one fails."
+---
+
+An HTML transcript is generated on every close path — manual close, auto-close, and
+close-on-leave alike — and stored independently of Discord's own message history.
+
+**3 commands.**
+
+<AccordionGroup>
+  <Accordion title="/transcript set-channel — Set the channel where ticket transcripts are posted">
+    ```
+    /transcript set-channel channel:<#channel>
+    ```
+    **Aliases:** `/settranscript channel:<#channel>`
+
+    **Permission:** Admin
+  </Accordion>
+
+  <Accordion title="/transcript set-policy — Choose what happens when a transcript fails to generate">
+    ```
+    /transcript set-policy policy:<Allow|Block|Queue Retry>
+    ```
+    **Allow** (default) closes the ticket anyway and flags it. **Block** refuses to close a
+    ticket without a successful transcript — including tickets the auto-close sweep tries to
+    close. **Queue Retry** closes the ticket and retries transcript generation in the
+    background with bounded attempts and backoff.
+
+    **Permission:** Admin — this can stop every ticket in the guild from closing if transcript
+    storage breaks, so it sits at the same tier as `/setmax` and `/panel delete`
+  </Accordion>
+
+  <Accordion title="/transcript status — Show transcript settings and background retry-queue health">
+    ```
+    /transcript status
+    ```
+    **Permission:** Staff
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,136 @@
+---
+title: "Permissions"
+description: "Staff tiers, who may open a ticket type, and who can act inside one."
+---
+
+Three independent systems live here: staff authority tiers, **opening** permissions (who may
+click a button), and **channel** permissions (who can act inside the resulting ticket). See
+[Installation & Permissions](/ticket/installation-permissions) for how the tiers themselves
+resolve.
+
+**14 commands.**
+
+## Staff tiers
+
+<AccordionGroup>
+  <Accordion title="/staffrole set — Grant a Discord role a staff authority tier">
+    ```
+    /staffrole set role:<@role> tier:<Reseller|Sales|Support|Staff|Manager|Admin>
+    ```
+    **Permission:** Admin
+  </Accordion>
+
+  <Accordion title="/staffrole remove — Remove a role's staff authority grant">
+    ```
+    /staffrole remove role:<@role>
+    ```
+    **Permission:** Admin
+  </Accordion>
+
+  <Accordion title="/staffrole list — List staff authority role grants">
+    ```
+    /staffrole list
+    ```
+    **Permission:** Staff
+  </Accordion>
+</AccordionGroup>
+
+## Opening permissions — who may open a ticket type
+
+<AccordionGroup>
+  <Accordion title="/buttonperms create — Create an opening-permission rule">
+    ```
+    /buttonperms create name:<text> rule_type:<Everyone|Any Role|All Roles|Denied Roles|Customer Role|Staff Role>
+      [roles:<role mentions>] [denied_roles:<role mentions>]
+    ```
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/buttonperms list — List opening-permission rules">
+    ```
+    /buttonperms list
+    ```
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title="/buttonperms attach — Attach a rule to a panel's ticket option">
+    ```
+    /buttonperms attach panel:<text> option:<text> rule_name:<text>
+    ```
+    **Permission:** Manager
+  </Accordion>
+</AccordionGroup>
+
+## Channel permissions — who can act inside a ticket
+
+<AccordionGroup>
+  <Accordion title="/ticketperms create — Create a ticket-channel permission rule">
+    ```
+    /ticketperms create name:<text> [viewer_roles:<role mentions>] [manager_roles:<role mentions>]
+    ```
+    Leave `viewer_roles` empty and set `manager_roles` for a staff-only channel.
+
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/ticketperms list — List ticket-channel permission rules">
+    ```
+    /ticketperms list
+    ```
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title="/ticketperms attach — Attach a rule to a panel's ticket option">
+    ```
+    /ticketperms attach panel:<text> option:<text> rule_name:<text>
+    ```
+    **Permission:** Manager
+  </Accordion>
+</AccordionGroup>
+
+## Ticket blacklist
+
+<AccordionGroup>
+  <Accordion title="/ticket_blacklist add — Block a user from opening tickets">
+    ```
+    /ticket_blacklist add user:<user> [reason:<text>] [expires_in:<e.g. 7d, 24h>]
+    ```
+    **Permission:** Staff
+
+    **Example:** `/ticket_blacklist add user:@user reason:Repeated abuse expires_in:7d`
+  </Accordion>
+
+  <Accordion title="/ticket_blacklist remove — Unblock a user">
+    ```
+    /ticket_blacklist remove user:<user>
+    ```
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title="/ticket_blacklist list — View the ticket blacklist">
+    ```
+    /ticket_blacklist list
+    ```
+    **Permission:** Staff
+  </Accordion>
+</AccordionGroup>
+
+## Ticket caps
+
+<AccordionGroup>
+  <Accordion title="/setmax — Set the guild-wide max open tickets per user">
+    ```
+    /setmax count:<1-50>
+    ```
+    **Permission:** Admin
+  </Accordion>
+
+  <Accordion title="/optionmax — Override max open tickets for one ticket option">
+    ```
+    /optionmax panel:<text> option:<text> [count:<1-50>]
+    ```
+    Omit `count` to clear the override and fall back to the guild default.
+
+    **Permission:** Admin
+  </Accordion>
+</AccordionGroup>

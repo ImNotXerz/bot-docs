@@ -1,0 +1,234 @@
+---
+title: "Setup & Admin"
+description: "Configuration, modules, premium, payments."
+---
+
+Every command works with the `=` prefix. Where a slash entry point exists it opens the same
+Components V2 panel as the prefix command. Most of these are panel commands — they don't take
+arguments, the settings are changed through buttons and selects once the panel opens.
+
+<Info>
+  A command being listed here does not mean its module is enabled in your server. Turn modules on
+  with `=config`. See [Modules](/void/modules) for what each one needs.
+</Info>
+
+**19 commands across 3 modules.**
+
+## Core
+
+<AccordionGroup>
+  <Accordion title="=config">
+    Opens the config overview panel.
+
+    **Syntax:** `=config` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** `/config`
+
+    **Permission:** Configured Admin
+  </Accordion>
+
+  <Accordion title="=setup">
+    Opens the guided first-run setup panel.
+
+    **Syntax:** `=setup` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** `/setup`
+
+    **Permission:** Manage Server
+  </Accordion>
+
+  <Accordion title="=help">
+    Opens the permission-aware help panel — it only shows what you can run in the current
+    server.
+
+    **Syntax:** `=help` (no arguments)
+
+    **Aliases:** `=h` · **Slash:** `/help`
+
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="=modules">
+    Opens the module on/off panel.
+
+    **Syntax:** `=modules` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Admin
+  </Accordion>
+
+  <Accordion title="=setadmin">
+    Opens the panel to choose which role counts as Configured Admin.
+
+    **Syntax:** `=setadmin` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Admin
+  </Accordion>
+
+  <Accordion title="=setstaff">
+    Opens the panel to choose which role counts as Configured Staff.
+
+    **Syntax:** `=setstaff` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Admin
+  </Accordion>
+
+  <Accordion title="=setlog">
+    Opens the panel to choose the moderation/config log channel.
+
+    **Syntax:** `=setlog` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Admin
+  </Accordion>
+
+  <Accordion title="=setwelcomechannel">
+    Opens the panel to choose the welcome channel.
+
+    **Syntax:** `=setwelcomechannel` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Admin
+  </Accordion>
+
+  <Accordion title="=settranscript">
+    Opens the panel to choose the ticket transcript channel.
+
+    **Syntax:** `=settranscript` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Admin
+  </Accordion>
+
+  <Accordion title="=setlanguage">
+    Opens the locale panel.
+
+    **Syntax:** `=setlanguage` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Admin
+  </Accordion>
+
+  <Accordion title="=settimezone">
+    Opens the timezone panel. Affects anything scheduled — birthdays, reminders, giveaway end
+    times.
+
+    **Syntax:** `=settimezone` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Admin
+  </Accordion>
+
+  <Accordion title="=setbranding">
+    Opens the branding name panel.
+
+    **Syntax:** `=setbranding` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Admin
+  </Accordion>
+</AccordionGroup>
+
+## Premium
+
+<AccordionGroup>
+  <Accordion title="=premium">
+    Shows the server's premium status. See [Premium](/void/features/premium) for what it
+    unlocks.
+
+    **Syntax:** `=premium` (no arguments)
+
+    **Aliases:** none · **Slash:** `/premium`
+
+    **Permission:** Public
+  </Accordion>
+</AccordionGroup>
+
+## Payments
+
+The `payments` module lets a server show its members how to pay staff — it doesn't process
+payments itself. See [Premium](/void/features/premium) for how this differs from the premium
+tier.
+
+<AccordionGroup>
+  <Accordion title="=payment">
+    Non-staff see the server's public payment methods. Staff see the payment home panel, or can
+    build a payment request directly by passing a method, amount, and optionally a currency,
+    description, and target member (in any order after the amount).
+
+    **Syntax:** `=payment <method> <amount> [currency] [description] [@user]` — `method` is one
+    of `paypal_email`, `paypal_me`, `stripe_link`, `revolut_link`, `cashapp_tag`, `zelle_email`,
+    `apple_pay_email`, `btc_address`, `ltc_address`, `sol_address` (or the method's display
+    name). Currency defaults to the server's configured default.
+
+    **Aliases:** none · **Slash:** `/payment`
+
+    **Permission:** Public
+
+    **Example:** `=payment paypal_email 25 USD Server boost perk @user`
+  </Accordion>
+
+  <Accordion title="=payment_config">
+    Opens the payments config panel.
+
+    **Syntax:** `=payment_config` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Admin
+  </Accordion>
+
+  <Accordion title="=payment_methods">
+    Lists the server's configured payment methods.
+
+    **Syntax:** `=payment_methods` (no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=remove_payment_method">
+    Opens the payments config panel — removing a method is done from there.
+
+    **Syntax:** `=remove_payment_method` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Admin
+  </Accordion>
+
+  <Accordion title="=purchasebutton">
+    Opens the purchase-button manager panel.
+
+    **Syntax:** `=purchasebutton` (opens a panel, no arguments)
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+  </Accordion>
+
+  <Accordion title="=crypto_lookup">
+    Looks up a crypto payment method's configured address. Defaults to BTC if you don't specify
+    one.
+
+    **Syntax:** `=crypto_lookup [BTC|LTC|SOL]`
+
+    **Aliases:** none · **Slash:** none — prefix only
+
+    **Permission:** Configured Staff
+
+    **Example:** `=crypto_lookup SOL`
+  </Accordion>
+</AccordionGroup>

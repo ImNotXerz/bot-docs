@@ -1,0 +1,69 @@
+---
+title: "Forms"
+description: "Short intake modals asked before a Standard ticket opens."
+---
+
+A form is a short modal a member fills in before their ticket is created, attached to a panel's
+ticket option. This is the simple path — for multi-step, conditional, scored intake see
+[The Intake plugin](/ticket/features/intake-plugin) instead; an option uses one or the other,
+never both.
+
+<Note>
+  Question types are `Short Text`, `Long Text`, `Select`, and `Multi Select`. An earlier
+  file-upload question type was removed from the codebase because Discord modals have no file
+  input — it never actually recorded an answer. File collection today happens through the
+  Intake plugin's dedicated attachment field instead.
+</Note>
+
+**6 commands.**
+
+<AccordionGroup>
+  <Accordion title="/addform — Create a new ticket intake form">
+    ```
+    /addform name:<text> [description:<text>]
+    ```
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/viewforms — List this server's ticket intake forms">
+    ```
+    /viewforms
+    ```
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title="/removeform — Delete a ticket intake form">
+    ```
+    /removeform name:<text>
+    ```
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/listquestions — List a form's questions in order">
+    ```
+    /listquestions form:<text>
+    ```
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title="/removequestion — Remove a question from a form">
+    ```
+    /removequestion form:<text> label:<text>
+    ```
+    `label` must match the question's exact text — check `/listquestions` first.
+
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/addquestion — Add a question to a form">
+    ```
+    /addquestion form:<text> type:<Short Text|Long Text|Select|Multi Select> label:<text>
+      [required:<true|false>] [options:<comma-separated>]
+    ```
+    `required` defaults to `true`. `options` is only used for `Select`/`Multi Select` questions.
+
+    **Permission:** `CAN_MANAGE_PANEL`
+
+    **Example:** `/addquestion form:support type:Short Text label:What's your order number? required:true`
+  </Accordion>
+</AccordionGroup>

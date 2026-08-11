@@ -1,0 +1,59 @@
+---
+title: "Configuration"
+description: "How server settings work, and where to change them."
+---
+
+Everything is configured from inside Discord with `=config` (or `=setup` for the guided
+first-run panel). Settings are scoped to your server — nothing is shared between servers.
+
+## The panels
+
+| Panel | What it holds |
+| --- | --- |
+| Identity | Prefix, locale, timezone, branding name |
+| Channel routing | Log channel, welcome channel, transcript channel |
+| Staff access | Which roles count as admin and staff |
+| Modules | Which features are enabled |
+
+## Identity
+
+`=setbranding`, `=setlanguage`, `=settimezone`. Timezone affects anything scheduled —
+birthdays, reminders, and giveaway end times — so set it before relying on those.
+
+## Channel routing
+
+`=setlog`, `=setwelcomechannel`, `=settranscript`.
+
+The **log channel** receives moderation and configuration events. The **transcript channel**
+receives ticket transcripts when a ticket closes. If a destination is unset, the feature that
+needs it stays quiet rather than guessing a channel.
+
+## Staff access
+
+`=setadmin` and `=setstaff`. See [Installation & Permissions](/void/installation-permissions) for
+how these resolve.
+
+## Modules
+
+Only `core` is on by default. Enable the rest from `=config` → **Modules**.
+
+A module can need something before it will work — a privileged intent, an API key, or the
+background worker. [Modules](/void/modules) lists the requirement for each one.
+
+<Note>
+  Disabling a module stops its commands and background behaviour but does not delete its data.
+  Re-enabling picks up where you left off.
+</Note>
+
+## Audit log
+
+Configuration changes and staff actions are recorded with who did it and when. Review them from
+the dashboard under your server's **Audit** tab.
+
+## The dashboard
+
+Sign in with Discord at [void.oauth.fyi/dashboard](https://void.oauth.fyi/dashboard) to review
+configuration, module state, tickets, payments, templates, social sources, safety counters, and
+the audit log for any server where you have Manage Server.
+
+It is a review surface, not a control panel — settings change in Discord.

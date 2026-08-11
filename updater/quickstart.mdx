@@ -1,0 +1,44 @@
+---
+title: "Quickstart"
+description: "Invite Updater, set a delivery channel, and choose which games to track."
+---
+
+<Steps>
+  <Step title="Invite the bot">
+    Ask whoever manages Updater for your server's invite link. See
+    [Installation & Permissions](/updater/installation-permissions) for the
+    exact scopes and channel permissions it needs.
+  </Step>
+  <Step title="Run /setchannel">
+    Run `/setchannel` and pick a channel from the native channel picker, then
+    hit **Save**. Updater checks its own permissions in that channel before
+    accepting it — if it's missing **View Channel** or **Send Messages**
+    there, the panel tells you exactly what's missing instead of failing
+    silently later.
+
+    Once it's saved, hit **Send Test** to have Updater post a sample
+    notification card into the channel. It isn't a real release — just
+    confirmation that delivery works end to end.
+  </Step>
+  <Step title="Choose which games to track">
+    Nothing is tracked by default. Run `/games` to open the tracking panel,
+    pick a category — **Featured**, **Steam**, **Tactical**, **Battle
+    Royale**, or **Other** — and use the select menu to turn on the games you
+    want, or use **Enable All** / **Disable All** for the whole category.
+    Hit **Save Changes** before leaving a category; unsaved selections don't
+    stick.
+  </Step>
+</Steps>
+
+## What happens next
+
+The first check after you enable a game just establishes a starting point —
+it won't post anything for updates that already happened. You'll see your
+first notification the next time one of your tracked games actually ships
+something new.
+
+## If something is not working
+
+See [Support](/updater/support) for the most common causes — missing channel
+permissions, a channel that was never set, or games that were just enabled
+and haven't had a fresh release yet.

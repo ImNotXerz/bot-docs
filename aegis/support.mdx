@@ -1,0 +1,35 @@
+---
+title: "Support"
+description: "Troubleshooting common issues, and how to get further help."
+---
+
+## If something is not working
+
+<AccordionGroup>
+  <Accordion title="Moderation commands are refused">
+    Check role hierarchy first: AEGIS will never act on the server owner, and it refuses any
+    target at or above its own highest role, or at or above the acting moderator's rank. This
+    is enforced before Discord would reject the action anyway — it's not a bug.
+  </Accordion>
+  <Accordion title="Anti-nuke protections aren't triggering">
+    Confirm the bot has **View Audit Log** — the role, channel, webhook, and permission-grant
+    protections all read Discord's audit log to detect what happened and who did it.
+  </Accordion>
+  <Accordion title="Sentinel flagged something but nothing happened">
+    That's expected if the relevant protection is in `log_only` or `human_approval` mode.
+    Check `/security status` for current modes, and look for a pending approval panel in your
+    alert channel if the mode is `human_approval`.
+  </Accordion>
+  <Accordion title="A confirmation panel isn't responding">
+    Panels survive bot restarts, but each button is consumed once it's used — a stale click
+    can't fire twice. Reopen the panel (`/case view`, the original command, or the alert) and
+    try again.
+  </Accordion>
+</AccordionGroup>
+
+## Getting help
+
+There's no publicly documented Discord support server or contact address for AEGIS in the
+materials this documentation is built from. If something here doesn't cover your situation,
+contact whoever operates your AEGIS instance for your server — they're the ones who can reach
+the team that deployed it for you.

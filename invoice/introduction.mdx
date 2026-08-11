@@ -1,0 +1,73 @@
+---
+title: "Introduction"
+description: "What Invoice Bot does, and whether it's the right bot for your server."
+---
+
+Invoice Bot is a lightweight invoicing and payment-management bot for Discord. It creates real,
+numbered invoices with a proper status lifecycle, precise integer-cents money handling, and
+hardened crypto payment verification — all rendered with Discord's **Components V2** UI system.
+No classic embeds anywhere.
+
+## Is Invoice Bot for you?
+
+Invoice Bot is built for servers that sell something and want to bill for it without leaving
+Discord. It's a good fit if you:
+
+- Want persisted, numbered invoices that survive a bot restart instead of a one-off payment
+  message
+- Take payment through PayPal, Stripe, Revolut, CashApp, Apple Pay, Bitcoin, or Litecoin, and
+  want one place customers go to see how to pay
+- Want crypto payments actually verified on-chain instead of trusting a bare transaction ID
+- Have more than one staff member or team taking payments, each with their own payment details
+
+It's less of a fit if you just need a single "send money to this address" message — Invoice
+Bot's builder, status tracking, and verification are more machinery than a one-off request needs.
+
+## What it does
+
+<CardGroup cols={2}>
+  <Card title="Invoices" icon="file-invoice">
+    A staged builder for line items, tax, discount, payment method, and notes, producing a real
+    numbered invoice with a persistent panel.
+  </Card>
+  <Card title="Quick payments" icon="bolt">
+    `/payment` creates and sends a single-item invoice for a flat amount in one step, for when
+    the full builder is overkill.
+  </Card>
+  <Card title="Payment methods" icon="credit-card">
+    PayPal, Stripe, Revolut, CashApp, Apple Pay, Bitcoin, and Litecoin, each labeled honestly by
+    what actually happens when a customer pays.
+  </Card>
+  <Card title="Crypto verification" icon="bitcoin">
+    A quoted BTC/LTC amount is checked against a real on-chain transaction — address, amount,
+    and confirmations — before an invoice is ever marked paid.
+  </Card>
+  <Card title="Payment profiles" icon="users">
+    Optional: let multiple staff members or teams each register their own payment details, so
+    different invoices can bill to different destinations.
+  </Card>
+  <Card title="Exports" icon="qrcode">
+    Optional PDF invoice export and locally-generated QR codes for crypto payments — nothing is
+    sent to a third-party QR service.
+  </Card>
+</CardGroup>
+
+## How it is built
+
+**Money is never a float.** Every stored amount is an integer number of minor units (cents) —
+`$149.99` is stored as `14999`. A user-typed amount is parsed through a strict decimal check
+before it ever becomes money, so a typo like `14.99.99` or scientific notation is rejected
+outright instead of becoming a rounding surprise later.
+
+**Status changes happen in one place.** An invoice's status only ever moves through a validated
+transition table — nothing else in the bot mutates it directly. See
+[Invoice lifecycle](/invoice/features/lifecycle) for the full picture.
+
+**A bare transaction ID is never enough.** Marking a crypto payment as paid requires the
+configured address to have actually received funds, the amount to match the quoted amount
+within tolerance, and enough confirmations — checked against a real blockchain lookup, not
+taken on trust.
+
+<Card title="Start here" icon="rocket" href="/invoice/quickstart">
+  Get Invoice Bot invited and configured in your server.
+</Card>

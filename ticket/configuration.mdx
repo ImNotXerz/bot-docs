@@ -1,0 +1,84 @@
+---
+title: "Configuration"
+description: "Panels, categories, staff roles, and everything else configured per server."
+---
+
+Everything is configured from inside Discord with slash commands — nothing is shared between
+servers, and there's no dashboard. Full command syntax lives in [Commands](/ticket/commands/panels);
+this page is about how the pieces fit together.
+
+## Staff access
+
+`/staffrole set role:<role> tier:<tier>` maps a Discord role onto a staff tier (`Staff`,
+`Manager`, `Admin`, or one of the peer tiers `Reseller`/`Sales`/`Support`). The server owner
+always has full authority, so you can bootstrap the rest with `/staffrole set` at any time. See
+[Installation & Permissions](/ticket/installation-permissions) for the full tier breakdown.
+
+## Panels and ticket options
+
+A **panel** is the message members click to open a ticket; each **ticket option** on it is one
+button (or dropdown entry). `/panel create` makes an empty panel, and `/panel manage` opens the
+interactive editor for content, ticket options, layout order, and deploying it to a channel.
+`/addbutton` and friends manage options directly if you'd rather not use the editor.
+
+An option can optionally have:
+
+- **A form** (`/addform`, `/addquestion`) — a short intake modal asked before the ticket opens
+- **A Smart Gate rule set** (`/gate attach`) — screens the form's answers and can deny opening
+  the ticket entirely
+- **An Intake template** (`/intake attach`) — a multi-step, scored questionnaire instead of a
+  simple form
+
+A form/gate pairing and an Intake template are mutually exclusive per option — attaching one
+where the other is already set is refused rather than letting one silently win. See
+[The Intake plugin](/ticket/features/intake-plugin) for why.
+
+## Permissions on panels and tickets
+
+Two separate rule systems govern access, and they're deliberately not merged:
+
+| System | Governs | Command |
+| --- | --- | --- |
+| Opening permissions | Who may click a given ticket option to **open** a ticket | `/buttonperms` |
+| Ticket permissions | Who can view/send/manage **inside** an already-open ticket channel | `/ticketperms` |
+
+Both are created as named rules, then attached to a panel or a single option with
+`/buttonperms attach` / `/ticketperms attach`. `/ticket_blacklist` blocks a specific member from
+opening tickets at all, independent of either rule system. `/setmax` and `/optionmax` cap how
+many open tickets one member can have, guild-wide or per option.
+
+## Automation
+
+`/automessage` and `/autoping` set what posts and who gets pinged when a ticket opens, scoped to
+the guild default, a panel, or a single option (most specific wins). `;autocloseticket` and
+`;ticketcloseonleave` are per-ticket prefix commands run **inside** the ticket channel they
+configure — auto-close fires only after staff have replied and then gone quiet for the
+configured period; a ticket staff never responded to is never auto-closed.
+
+## Transcripts
+
+`/settranscript channel:<channel>` sets where HTML transcripts are posted; they're generated on
+every close path (manual, auto-close, close-on-leave). `/transcript set-policy` decides what
+happens if generation fails: allow the ticket to close anyway (flagged), block the close
+entirely, or queue a background retry. `/transcript status` shows current settings and the
+retry queue's health.
+
+## Payments
+
+`/paymentmethod add` lists a way for members to pay you (PayPal, crypto addresses, Stripe Link,
+or a custom method) — Ticket Bot only **presents** these, it never processes a payment or sees
+card data. `/autosendpayment` toggles whether they're posted automatically when an AIO ticket
+opens.
+
+## AIO catalog and discounts
+
+`/aio_manage` opens the console for the sales-funnel side: toggling the system on, deploying its
+entry panel, and building the catalog (categories → products → durations). `/discount` manages
+pricing discounts on top of that catalog, and `/keys` manages the encrypted stock each duration
+delivers. See [The AIO sales funnel](/ticket/features/aio-sales-funnel) for how a purchase
+actually resolves to a price and a delivered key.
+
+<Note>
+  Categories, products, and durations are configured through the `/aio_manage` console rather
+  than their own top-level commands — there's no `/category create` or similar.
+</Note>

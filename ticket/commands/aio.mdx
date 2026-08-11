@@ -1,0 +1,133 @@
+---
+title: "AIO (Sales Funnel)"
+description: "Catalog, discounts, stock, and fulfillment for the guided purchase funnel."
+---
+
+Categories, products, and durations don't have their own top-level commands — they're built
+through the `/aio_manage` console. This page covers everything else: the console itself, staff
+routing, discounts, stock, and delivery. See
+[The AIO sales funnel](/ticket/features/aio-sales-funnel) for how a purchase actually resolves
+to a final price and a delivered key.
+
+**12 commands.**
+
+## Console and routing
+
+<AccordionGroup>
+  <Accordion title="/aio_manage — Open the AIO sales funnel management console">
+    ```
+    /aio_manage
+    ```
+    Toggle the system on/off, deploy its entry panel, edit panel settings, and manage the
+    catalog (categories → products → durations).
+
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/aiostaffroles — Set which roles are added to every new AIO ticket">
+    ```
+    /aiostaffroles roles:<role mentions>
+    ```
+    **Permission:** Manager
+  </Accordion>
+</AccordionGroup>
+
+## Discounts
+
+<AccordionGroup>
+  <Accordion title="/discount create — Create a discount">
+    ```
+    /discount create name:<text> scope:<Product|Category|Global> type:<Percentage|Fixed> amount:<int>
+      [category:<text>] [product:<text>] [minimum_subtotal_cents:<int>] [maximum_discount_cents:<int>]
+    ```
+    `amount` is a percentage (0–100) for `Percentage`, or a minor-unit (cents) amount for
+    `Fixed`. `category` is required for `Category` scope, `product` for `Product` scope. When
+    multiple discounts apply, the one producing the lowest legitimate final price wins; ties
+    break `Product` > `Category` > `Global`.
+
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/discount list — List configured discounts">
+    ```
+    /discount list
+    ```
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title="/discount delete — Delete a discount">
+    ```
+    /discount delete name:<text>
+    ```
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/discount schedule — Set a discount's start/end time">
+    ```
+    /discount schedule name:<text> [starts_in_hours:<int>] [ends_in_hours:<int>]
+    ```
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/discount toggle — Enable/disable a discount">
+    ```
+    /discount toggle name:<text>
+    ```
+    **Permission:** Manager
+  </Accordion>
+</AccordionGroup>
+
+## Stock (keys)
+
+<AccordionGroup>
+  <Accordion title="/keys add — Paste keys (one per line) into a product variant's stock">
+    ```
+    /keys add product:<text> variant:<text>
+    ```
+    Opens a modal to paste the keys — they aren't passed as a command argument. Values are
+    Fernet-encrypted at rest and never appear in logs.
+
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/keys view — View stock levels (and a masked preview) for a variant">
+    ```
+    /keys view product:<text> variant:<text>
+    ```
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/keys remove — Remove a specific key by its id">
+    ```
+    /keys remove item_id:<int>
+    ```
+    Get the id from `/keys view`.
+
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/keys clear — Clear all available stock for a variant">
+    ```
+    /keys clear product:<text> variant:<text>
+    ```
+    Shows a confirmation before clearing — this cannot be undone.
+
+    **Permission:** Admin
+  </Accordion>
+</AccordionGroup>
+
+## Fulfillment
+
+<AccordionGroup>
+  <Accordion title=";confirm — Deliver the next available key for this ticket (prefix only)">
+    ```
+    ;confirm
+    ```
+    Run inside an AIO ticket. Reserves and DMs the next available key for the ticket's
+    product/variant — concurrency-safe, so two staff running this at once can never receive the
+    same key. If the DM fails, staff get Retry / Secure Reveal / Mark Manual / Release
+    Reservation controls instead; a failed DM never silently consumes stock.
+
+    **Permission:** `CAN_FULFILL` (Staff, or Sales)
+  </Accordion>
+</AccordionGroup>

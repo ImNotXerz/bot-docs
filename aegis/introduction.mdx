@@ -1,0 +1,82 @@
+---
+title: "Introduction"
+description: "What AEGIS protects your server against, and whether it's the right fit."
+---
+
+AEGIS is a Discord security platform, not a generic moderation bot. It runs on one operating
+loop: **Observe → Detect → Contain → Investigate → Enforce → Audit → Improve.** Every step of
+that loop is backed by durable state and an append-only, hash-chained audit log — nothing lives
+only in memory, and nothing enforces without a record of why.
+
+## Is AEGIS for you?
+
+AEGIS is built for servers that need more than "ban the obvious troll." It's a good fit if:
+
+- You've had — or worry about — coordinated raids, mass-ping floods, or invite spam.
+- You want protection against a compromised staff account or a webhook being used to nuke
+  channels and roles, not just protection against ordinary members.
+- You need moderation actions to leave a real record: who did what, why, and whether it actually
+  applied — even when Discord itself rejected it.
+- You want an incident-response process for anything bigger than a single warn or ban.
+- Your team is more than one person, and who can approve what actually matters to you.
+
+If you just want a lightweight warn/ban command with no audit trail, configuration surface, or
+detection engine behind it, AEGIS is more machinery than you need.
+
+## What it protects against
+
+<CardGroup cols={2}>
+  <Card title="Raids" icon="people-group">
+    Tracks join activity for coordinated bursts and escalates containment in stages instead of
+    jumping straight to a lockdown.
+  </Card>
+  <Card title="Anti-nuke" icon="shield-halved">
+    Per-actor action budgets catch mass channel/role destruction, webhook abuse, and unauthorized
+    permission grants — including from a compromised staff account.
+  </Card>
+  <Card title="Malicious links & spam" icon="link-slash">
+    Catches malicious/impersonating links, spam, mention floods, and invite spam with a
+    progressive response, not an instant ban.
+  </Card>
+</CardGroup>
+
+## What it gives your team
+
+<CardGroup cols={2}>
+  <Card title="Case management" icon="folder-open">
+    Warnings, notes, and every moderation action land in a durable, sequential case record —
+    even when Discord itself rejects the action.
+  </Card>
+  <Card title="Incident response" icon="triangle-exclamation">
+    Raids, anti-nuke events, and other security incidents get a timeline, a commander, and
+    optionally a private incident room.
+  </Card>
+  <Card title="Dashboard" icon="gauge">
+    A web command center for cases, incidents, detection signals, audit search, and
+    configuration — read access mirrors your AEGIS permissions.
+  </Card>
+</CardGroup>
+
+## What it deliberately does not do
+
+- No opaque ML risk scores — every score is a visible, deterministic list of factors, shown to
+  moderators alongside the flag.
+- No mass bans purely from join velocity — raids need corroborating signals, and lockdown
+  defaults to a human approving it first.
+- No identity correlation, doxxing, or tracking beyond what Discord already exposes.
+- No claims of perfection: detection is tunable, and new protections start in a
+  log-only or approval-required mode so your team can review before anything enforces.
+
+## How it is built
+
+**Detection explains itself.** Sentinel's risk scoring is deterministic, not a black-box model.
+Every contributing factor is a plain-language reason, and the factor list — not just a number —
+is what moderators see when they investigate a member or review an approval panel.
+
+**Nothing escalates without permission.** Every protection has an enforcement mode, set per
+guild, and new protections start cautious rather than enforcing immediately. See
+[Configuration](/aegis/configuration) for how that works.
+
+<Card title="Start here" icon="rocket" href="/aegis/quickstart">
+  Add AEGIS to your server and run the first-time setup.
+</Card>

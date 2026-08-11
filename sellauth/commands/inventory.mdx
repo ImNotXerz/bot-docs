@@ -1,0 +1,75 @@
+---
+title: "Inventory"
+description: "Stock levels, restocking, key delivery, and recovery of deliverables interrupted by a crash mid-delivery."
+---
+
+**7 commands.** Stock levels, restocking, key delivery, and recovery of deliverables interrupted by a crash mid-delivery.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/inventory pending`">
+    **Tier:** `manager`
+
+    Shows deliverables held mid-delivery, pending crash recovery.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/inventory resolve`">
+    **Tier:** `manager`
+
+    Resolves a pending, interrupted inventory transaction.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/inventory restore`">
+    **Tier:** `manager`
+
+    Restores a held deliverable back into stock.
+
+    **SellAuth endpoint:** `PUT /shops/{id}/products/{id}/deliverables/append/{id}`
+  </Accordion>
+
+  <Accordion title="`/inventory show`">
+    **Tier:** `manager`
+
+    Shows the inventory transaction log for a product or variant.
+
+    **SellAuth endpoints:** none — this command works entirely from the bot's own database.
+  </Accordion>
+
+  <Accordion title="`/restock`">
+    **Tier:** `manager`
+
+    Adds new stock (keys or deliverables) to a product.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}/products`
+    - `GET /shops/{id}/products/{id}/deliverables/{id}`
+    - `PUT /shops/{id}/products/{id}/deliverables/append/{id}`
+    - `PUT /shops/{id}/products/{id}/deliverables/overwrite/{id}`
+  </Accordion>
+
+  <Accordion title="`/sendkey`">
+    **Tier:** `manager`
+
+    Manually sends a specific key or deliverable to a customer.
+
+    **SellAuth endpoints:**
+
+    - `GET /shops/{id}/products`
+    - `GET /shops/{id}/products/{id}/deliverables/{id}`
+    - `PUT /shops/{id}/products/{id}/deliverables/overwrite/{id}`
+  </Accordion>
+
+  <Accordion title="`/stock`">
+    **Tier:** `viewer`
+
+    Shows current stock levels across products.
+
+    **SellAuth endpoint:** `GET /shops/{id}/products`
+  </Accordion>
+</AccordionGroup>

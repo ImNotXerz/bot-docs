@@ -1,0 +1,31 @@
+---
+title: "Configuration"
+description: "Map Discord roles onto AEGIS permissions, and control what each protection is allowed to do."
+---
+
+## Role mapping
+
+AEGIS's permission system (RBAC) is independent of raw Discord permissions — Discord
+permission flags only control command *visibility*, not what actually executes. Use
+`/config roles` to map your Discord roles onto AEGIS roles like `moderator` or
+`security_admin`. The server owner always holds every permission implicitly, so you're
+never locked out.
+
+See [Installation & Permissions](/aegis/installation-permissions) for the full list of built-in
+roles and what each one grants.
+
+## Enforcement modes
+
+Every protection — raid, anti-nuke, message/link — has its own enforcement mode:
+`off`, `dry_run`, `log_only`, `human_approval`, or `automatic`. New guilds start with safe
+defaults (message and link protection log only; raid and anti-nuke require a human to
+approve containment), so nothing takes action on your server until you decide it should.
+Adjust modes per protection once you've seen what AEGIS would have done, with `/config mode`.
+
+Full automatic lockdown can't be configured at all — raid and anti-nuke containment always stop
+short of the most disruptive response without a human approving it.
+
+<Note>
+  See [Commands](/aegis/commands) for the exact `/config` subcommands, and
+  [Sentinel](/aegis/features/sentinel) for what each protection actually does once it's on.
+</Note>

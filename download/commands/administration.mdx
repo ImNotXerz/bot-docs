@@ -1,0 +1,56 @@
+---
+title: "Administration"
+description: "/downloads, /downloads-reconcile, and /sync — the admin console and its utilities."
+---
+
+<AccordionGroup>
+  <Accordion title="/downloads — Manage the download panel, loaders, and settings">
+    ```
+    /downloads
+    ```
+    Opens the admin console, a private Components V2 screen with five actions:
+
+    - **➕ Add Loader** — add a product by pasting a link, or by uploading a file
+    - **🗂️ Manage Loaders** — browse the same category → product flow members use, but selecting
+      a product opens edit/enable/disable/replace/remove instead of downloading it
+    - **⚙️ Configuration** — panel text, appearance, access mode, roles, and log channel; see
+      [Configuration](/download/commands/configuration)
+    - **📊 Analytics** — total downloads, unique users, most-downloaded products, and recent
+      activity
+    - **🔁 Regenerate Panel** — reposts the panel in the current channel and removes the old
+      message
+
+    **Permission:** Manage
+
+    See [Download Center](/download/features/download-center) for what members see on the other
+    side of this.
+  </Accordion>
+
+  <Accordion title="/downloads-reconcile — Detect (and optionally fix) storage/database inconsistencies">
+    ```
+    /downloads-reconcile [mode:<choice>]
+    ```
+    `mode` is one of **Dry run (report only)** (default) or **Apply (also fix what's safe)**.
+
+    Reports stale pending deletions, unresolved cleanup tasks, products whose stored file can no
+    longer be verified, products recorded against a storage provider this deployment can't
+    currently use, and storage objects with no owning product. Apply mode retries the two safe,
+    idempotent fixes — finishing a stuck deletion and retrying a pending cleanup task — everything
+    else is reported for you to act on manually.
+
+    **Permission:** Manage
+
+    **Example:** `/downloads-reconcile mode:apply`
+  </Accordion>
+
+  <Accordion title="/sync — Manually sync slash commands (bot owner only)">
+    ```
+    /sync
+    ```
+    Forces an immediate global command sync, independent of however the bot is configured to sync
+    on startup. Useful right after a command's shape changes, without waiting for (or enabling)
+    sync-on-restart. Global syncs can still take up to an hour to propagate to every server.
+
+    **Permission:** Bot Owner
+  </Accordion>
+</AccordionGroup>

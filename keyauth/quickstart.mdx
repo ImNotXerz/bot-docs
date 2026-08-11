@@ -1,0 +1,59 @@
+---
+title: "Quickstart"
+description: "Connect KeyAuth Bot to your KeyAuth application and Discord server."
+---
+
+This assumes the bot is already deployed and running. It walks through connecting it to your
+KeyAuth application and Discord server, then getting License Operations turned on.
+
+<Steps>
+  <Step title="Gather your KeyAuth credentials">
+    From your **application** settings, note the app name and owner ID. From **Seller
+    Settings** (a different page) copy your seller key.
+
+    These are two different credentials with very different blast radii — see
+    [Configuration](/keyauth/configuration) before you paste either one anywhere.
+  </Step>
+  <Step title="Whitelist your server's IP">
+    Every seller API call sends the seller key as a URL query parameter — KeyAuth documents no
+    POST form — so IP whitelisting in **Seller Settings** is the main control you have over that
+    credential.
+  </Step>
+  <Step title="Create the Discord application">
+    Create a bot at the [Discord Developer Portal](https://discord.com/developers/applications).
+    No privileged intents are required. Invite it with the `bot` and `applications.commands`
+    scopes, plus **Manage Roles** if you want `/key redeem` to assign a role automatically — see
+    [Installation & Permissions](/keyauth/installation-permissions) for the full list.
+  </Step>
+  <Step title="Confirm HWID checking is enabled">
+    On your KeyAuth application, confirm **HWID checking** is turned on. With it off, KeyAuth
+    runs no HWID logic and a reset changes nothing — the bot logs a warning at startup and says
+    so in the command response rather than reporting a success that isn't one. Check any time
+    with `/licops status`.
+  </Step>
+  <Step title="Turn on License Operations (optional)">
+    Self-service, key management, and the support control plane all require the seller key to
+    be configured. Once it is:
+
+    - `/licops permissions preset role:@Support preset:Support` grants a sensible starting set
+      of staff capabilities — see [Support Operations](/keyauth/commands/support-operations)
+    - `/licops policy set` configures the HWID reset quota before you enable self-service
+    - `/licops roles map` connects a KeyAuth subscription to a Discord role
+    - `/licops reconcile limit:50` populates the local mirror once, in batches, before setting a
+      scheduled sweep
+
+    Full detail: [License Operations](/keyauth/features/license-operations).
+  </Step>
+</Steps>
+
+## After setup
+
+There's no bot-wide `/help` command — the command reference starts at
+[Self-Service](/keyauth/commands/self-service) for what any member can run, and
+[Support Operations](/keyauth/commands/support-operations) for the staff-facing License
+Operations commands.
+
+<Info>
+  Something not working? [Support](/keyauth/support) covers the common failure modes and what
+  KeyAuth's API can't do.
+</Info>

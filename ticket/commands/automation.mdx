@@ -1,0 +1,51 @@
+---
+title: "Automation"
+description: "Auto-message, auto-ping, auto-close, and close-on-leave."
+---
+
+`/automessage` and `/autoping` are scoped — guild default, a panel, or a single ticket option —
+and the most specific scope that applies wins. `;autocloseticket` and `;ticketcloseonleave` are
+prefix commands run **inside the ticket channel** they configure, per ticket rather than per
+panel.
+
+**4 commands.**
+
+<AccordionGroup>
+  <Accordion title="/automessage — Set the message auto-posted when a ticket opens">
+    ```
+    /automessage scope:<Guild default|Panel|Ticket option> message:<text> [panel:<text>] [option:<text>]
+    ```
+    `panel` is required for the `Panel` scope; `panel` and `option` are both required for
+    `Ticket option`.
+
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/autoping — Set roles to ping when a ticket opens">
+    ```
+    /autoping scope:<Guild default|Panel|Ticket option> roles:<role mentions> [panel:<text>] [option:<text>]
+    ```
+    Same scoping rules as `/automessage`.
+
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title=";autocloseticket — Configure auto-close for this ticket (prefix only)">
+    ```
+    ;autocloseticket [<duration>|run|off]
+    ```
+    Run with no argument to see the current setting. A duration like `1min`, `24h`, `1d`, `1w`,
+    or `1mo` sets the staff-side inactivity threshold; `off` disables it; `run` triggers an
+    immediate sweep. Auto-close only fires once staff have replied and then gone quiet for the
+    configured period — a ticket staff never responded to is never auto-closed.
+
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title=";ticketcloseonleave — Close this ticket automatically if its owner leaves (prefix only)">
+    ```
+    ;ticketcloseonleave <enable|disable>
+    ```
+    **Permission:** Staff
+  </Accordion>
+</AccordionGroup>

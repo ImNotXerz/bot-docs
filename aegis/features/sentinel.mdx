@@ -1,0 +1,55 @@
+---
+title: "Sentinel"
+description: "What AEGIS's detection engine does for your server, at a high level."
+---
+
+Sentinel is the detection engine behind AEGIS. It watches server activity — joins, messages,
+links, invites, and administrative changes like role, channel, and webhook edits — and turns
+what it sees into a risk assessment your moderators can act on.
+
+<Info>
+  This page intentionally stays high-level. The exact signals, weights, and thresholds Sentinel
+  uses aren't published, because doing so would make it easier to deliberately stay under the
+  radar. What follows is enough to understand what Sentinel does and how to work with it — not
+  how to game it.
+</Info>
+
+## Deterministic, explainable scoring
+
+Sentinel does not use an opaque machine-learning model. Every score it produces is built from a
+list of specific, named reasons — things like account age, link reputation, or unusual message
+velocity — and that list is shown to your moderators alongside the score itself. When
+Sentinel flags something, the explanation is the score; there's no black box to trust blindly.
+
+## Raid protection
+
+Sentinel watches join activity for patterns that look like a coordinated raid rather than
+normal server growth, and looks for corroborating signals before escalating. Containment
+increases in stages — from heightened verification, to quarantining new joins, to restricting
+messaging, up to a full lockdown — rather than jumping straight to the most disruptive
+response. Containment never quietly stands down on its own; a moderator releases it once
+things are safe.
+
+## Anti-nuke
+
+Sentinel tracks destructive or high-impact actions per staff member or compromised account —
+things like mass channel deletion, unauthorized permission grants, or unexpected webhook
+creation — against limits your guild controls. Depending on your configured enforcement mode,
+a violation can range from an alert to automatically quarantining the actor and stripping
+dangerous roles. The guild owner and AEGIS itself are always exempt, and AEGIS never attempts a
+role change Discord itself wouldn't allow.
+
+## Enforcement modes
+
+Every protection Sentinel powers — raid, anti-nuke, message and link protection — has its own
+enforcement mode, set per guild: `off`, `dry_run`, `log_only`, `human_approval`, or
+`automatic`. New protections start cautious (logging or requiring approval) rather than
+enforcing immediately, so your team can see what Sentinel would have done before letting it act
+on its own. See [Quickstart](/aegis/quickstart) for how to review and change these.
+
+## Tuning
+
+Sentinel supports per-guild exemptions — excluded channels, exempt or trusted roles and
+members, and a watchlist — plus cooldowns so the same rule doesn't fire repeatedly for the same
+situation. Rejecting a Sentinel approval panel is recorded as a false positive, which feeds
+back into tuning over time.

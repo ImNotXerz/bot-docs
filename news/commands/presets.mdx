@@ -1,0 +1,54 @@
+---
+title: "Channel Presets"
+description: "The /news preset subcommands — save, list, and delete reusable sets of target channels."
+---
+
+3 commands under `/news preset`, sourced directly from `NewsCog` (`src/cogs/news.py`). A preset
+is a named, saved set of channels that pre-fills the target-channel picker — it's a shortcut, not
+a lock; the selection can still be adjusted before confirming.
+
+<Info>
+  **Permission** is the check News Bot enforces when the command actually runs — see
+  [Installation & Permissions](/news/installation-permissions) for how Announcement Manager
+  resolves.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="/news preset create — Save a set of channels as a reusable preset">
+    ```
+    /news preset create name:<text>
+    ```
+    Opens the native channel picker; whatever you select is saved under `name`. Requires at
+    least one channel. Preset names must be unique per server.
+
+    **Permission:** Announcement Manager
+
+    **Example:** `/news preset create name:"Product Updates"`
+  </Accordion>
+  <Accordion title="/news preset list — List saved channel presets">
+    ```
+    /news preset list
+    ```
+    Lists each saved preset and how many channels it holds.
+
+    **Permission:** None — any member in the server can list presets
+  </Accordion>
+  <Accordion title="/news preset delete — Delete a saved channel preset">
+    ```
+    /news preset delete name:<name>
+    ```
+    Asks for confirmation first. This permanently removes the preset — it cannot be undone.
+    Announcements already targeting those channels are unaffected.
+
+    **Permission:** Announcement Manager
+
+    **Example:** `/news preset delete name:"Product Updates"`
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  There's also an **All Configured News Channels** shortcut inside the target-channel picker
+  (in the builder, and in `/news preset create`) that pre-fills every channel across every
+  saved preset, deduplicated — useful when you want the widest reach without picking presets one
+  at a time.
+</Note>

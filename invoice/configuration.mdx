@@ -1,0 +1,64 @@
+---
+title: "Configuration"
+description: "Set up payment methods, roles, and server-wide invoice settings from inside Discord."
+---
+
+Everything is configured from inside Discord with `/payment_config` — no dashboard, no separate
+setup site. Settings are scoped to your server.
+
+## Payment methods
+
+Run `/payment_config` with the field for whichever provider you use — each one is independent,
+so configure only what applies:
+
+| Provider | Field(s) | Notes |
+| --- | --- | --- |
+| PayPal | `paypal_email`, `paypal_me` | Either or both; a PayPal.me link gets the invoice amount appended automatically |
+| Stripe | `stripe_link` | A Stripe Payment Link |
+| Revolut | `revolut_link` | A `revolut.me/...` link; the tag is extracted automatically for display |
+| CashApp | `cashapp_tag` | With or without the leading `$` |
+| Apple Pay | `applepay_contact` | Phone number or Apple ID email for an Apple Cash send |
+| Bitcoin | `btc_address` | Used for both display and `/invoice verify` |
+| Litecoin | `ltc_address` | Same |
+
+Remove a single method with `/remove_payment_method` instead of clearing it manually — see
+[Admin commands](/invoice/commands/admin) for both commands' exact syntax.
+
+## Server settings
+
+The same `/payment_config` command also sets:
+
+- **`currency`** — the default invoice currency (`USD`, `EUR`, or `GBP`) used when a command
+  doesn't specify one.
+- **`invoice_prefix`** — the prefix used for invoice numbers, e.g. `INV`.
+- **`admin_role`** — the Discord role that counts as admin for managing invoices and
+  configuration, on top of Discord's own Administrator permission. See
+  [Installation & Permissions](/invoice/installation-permissions) for exactly what admin access
+  covers.
+- **`log_channel`** — where audit events (invoice created, status changes, configuration
+  changes) are posted.
+- **`payment_visibility`** — who can run `/payment_methods`: `public` (anyone), `customers`
+  (admins plus anyone who's been attached to an invoice as a customer), or `staff` (admins
+  only). Admins can always see it regardless of this setting.
+
+Only the fields you pass are changed — anything left out keeps its current value, and running
+the command again updates in place rather than requiring a reset first.
+
+## Payment profiles
+
+Off by default. A server that never touches this sees no behavior change — every invoice bills
+to the payment methods configured above. Turning it on with
+
+```
+/payment_config payment_profiles_enabled:true
+```
+
+lets individual staff members or named teams register their own payment details, so different
+invoices can bill to different destinations instead of always the server default. See
+[Payment profile commands](/invoice/commands/payment-profiles) for the full command set once
+it's on.
+
+<Warning>
+  Turning payment profiles off again doesn't delete existing profiles, but every invoice that
+  isn't explicitly bound to one falls back to the server's own configured payment methods above.
+</Warning>

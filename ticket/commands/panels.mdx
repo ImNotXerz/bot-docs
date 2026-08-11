@@ -1,0 +1,112 @@
+---
+title: "Panels"
+description: "Create, edit, and deploy the panels members click to open a Standard ticket."
+---
+
+A **panel** is the message members click to open a ticket; each **ticket option** on it is one
+button. `create`/`update`/`delete`/`list`/`send` also exist as flat compatibility aliases
+(`/createpanel`, `/updatepanel`, `/deletepanel`, `/listpanels`, `/sendpanel`) — both forms take
+the same arguments and do the same thing.
+
+**11 commands** (plus 5 flat aliases).
+
+<AccordionGroup>
+  <Accordion title="/panel create — Create a new ticket panel">
+    ```
+    /panel create name:<text>
+    ```
+    **Aliases:** `/createpanel name:<text>`
+
+    **Permission:** `CAN_MANAGE_PANEL`
+
+    **Example:** `/panel create name:support`
+  </Accordion>
+
+  <Accordion title="/panel update — Quick-update a panel's content">
+    ```
+    /panel update name:<text> [title:<text>] [body:<text>] [footer:<text>] [enabled:<true|false>]
+    ```
+    **Aliases:** `/updatepanel` (identical arguments)
+
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/setpanelmsg — Set a panel's V2 presentation content directly">
+    ```
+    /setpanelmsg name:<text> [title:<text>] [body:<text>] [footer:<text>]
+    ```
+    Same effect as `/panel update`, minus the `enabled` toggle.
+
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/panel delete — Delete a ticket panel">
+    ```
+    /panel delete name:<text>
+    ```
+    Shows a confirmation before deleting.
+
+    **Aliases:** `/deletepanel name:<text>`
+
+    **Permission:** Admin
+  </Accordion>
+
+  <Accordion title="/panel list — List this server's ticket panels">
+    ```
+    /panel list
+    ```
+    **Aliases:** `/listpanels`
+
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title="/panel send — Deploy a panel to a channel">
+    ```
+    /panel send name:<text> channel:<#channel>
+    ```
+    **Aliases:** `/sendpanel name:<text> channel:<#channel>`
+
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/panel manage — Open the interactive panel editor (preferred)">
+    ```
+    /panel manage name:<text>
+    ```
+    Content, ticket options, layout order, and deploy, all from one Components V2 editor.
+
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/addbutton — Add a ticket option/button to a panel">
+    ```
+    /addbutton panel:<text> name:<text> label:<text> [emoji:<emoji>] [description:<text>]
+    ```
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/updatebutton — Update a panel's ticket option/button">
+    ```
+    /updatebutton panel:<text> option:<text> [label:<text>] [emoji:<emoji>] [description:<text>]
+      [enabled:<true|false>] [duplicate_rule:<choice>]
+    ```
+    `duplicate_rule` is one of **Allow duplicates** or **Block a second open ticket of this
+    type**.
+
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/removebutton — Remove a panel's ticket option/button">
+    ```
+    /removebutton panel:<text> option:<text>
+    ```
+    **Permission:** `CAN_MANAGE_PANEL`
+  </Accordion>
+
+  <Accordion title="/listbuttons — List a panel's ticket options/buttons">
+    ```
+    /listbuttons panel:<text>
+    ```
+    **Permission:** Staff
+  </Accordion>
+</AccordionGroup>

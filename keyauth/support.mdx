@@ -1,0 +1,96 @@
+---
+title: "Support"
+description: "Troubleshooting, what KeyAuth's API can't do, and how to get help."
+---
+
+## If something is not working
+
+<AccordionGroup>
+  <Accordion title="Slash commands don't appear">
+    Global command sync can take up to an hour to propagate after the bot joins a server or a
+    command changes. This is expected Discord behavior, not a bug — give it time before assuming
+    something is broken.
+  </Accordion>
+  <Accordion title="Couldn't assign role — bot needs Manage Roles">
+    Either the **Manage Roles** permission is missing, or the bot's own role sits **below** the
+    role it's trying to assign in your server's role list. Discord blocks assigning any role at
+    or above the bot's highest role — move the bot's role higher in **Server Settings → Roles**.
+  </Accordion>
+  <Accordion title="This command needs a seller key">
+    The bot's seller key isn't configured. Account commands, key management, and every License
+    Operations command that mutates a license need it — see
+    [Configuration](/keyauth/configuration).
+  </Accordion>
+  <Accordion title="Response failed its security check">
+    Ed25519 verification of a KeyAuth response failed. This is usually clock drift between your
+    server and real time — check NTP. If the clock is correct, treat it as a genuine failure and
+    investigate rather than retrying blindly.
+  </Accordion>
+  <Accordion title="Being rate limited by KeyAuth">
+    The 30-requests-per-30-seconds ceiling was hit. Recovery takes 30–60 minutes — this is why
+    reconciliation stops immediately on a rate limit instead of continuing to spend budget.
+  </Accordion>
+  <Accordion title="Reset succeeds but nothing changes">
+    HWID checking is disabled on the KeyAuth application. With it off, KeyAuth runs no hardware
+    ID logic at all, so a reset has no observable effect even though it reports success. Check
+    with `/licops status`.
+  </Accordion>
+  <Accordion title="You don't have permission (License Operations)">
+    The capability the command checks hasn't been granted to any of your roles. Review
+    `/licops permissions list`, and see
+    [License Operations](/keyauth/features/license-operations) for what each capability grants.
+  </Accordion>
+  <Accordion title='"Applied, not verified"'>
+    KeyAuth accepted the call, but a re-read afterward couldn't confirm the change took effect.
+    This is normal and expected for **Disable** specifically — `userdata` exposes no paused
+    flag, so that one operation can never be verified this way.
+  </Accordion>
+  <Accordion title="/license search returns nothing">
+    The local mirror is empty. Run `/licops reconcile` to populate it — search runs against the
+    mirror rather than a live KeyAuth call, since `fetchallkeys` has no filter or cursor.
+  </Accordion>
+  <Accordion title="Reconciliation stops early">
+    It hit KeyAuth's rate limit and stopped deliberately rather than spending remaining budget.
+    It resumes where it left off on the next run.
+  </Accordion>
+  <Accordion title="HWID search finds nothing">
+    KeyAuth cannot search by hardware ID at all — this only ever covers mirrored licenses. Run
+    `/licops reconcile` if the account in question hasn't been mirrored yet.
+  </Accordion>
+</AccordionGroup>
+
+## What KeyAuth's API can't do
+
+Before relying on set-expiry, transfer, reset allowances, or authentication history, read
+[License Operations → What KeyAuth cannot
+do](/keyauth/features/license-operations#what-keyauth-cannot-do) in full. In short:
+
+- There's no authentication history — only a single last-known-activity data point
+- There's no absolute expiry setter — "Set Expiration" computes a delta, and is not atomic
+- There's no real license transfer — only the Discord association moves
+- KeyAuth enforces no HWID reset quota of its own — the bot's reset policy is the only real
+  enforcement
+
+Each of these is labelled in the bot's own responses at the point where it matters, not only in
+the docs.
+
+## Notes and limitations
+
+- **The API 1.3 auto-rebind behavior is documented and confirmed in KeyAuth's 1.2 server
+  source, but 1.3 itself is closed-source.** The startup preflight reads the application's
+  `hwidcheck` setting to catch a configuration that would silently break this. Verify the full
+  reset-and-rebind flow on a test account before relying on it in production.
+- **`/account register` is the one place a secret is typed into Discord.** If that doesn't fit
+  your threat model, KeyAuth's hosted customer panel is the alternative, and the bot's role
+  there would shrink to issuing links to it.
+- **The seller key cannot be scoped.** IP whitelisting is the only real control KeyAuth offers
+  over it.
+
+## Getting help
+
+This project doesn't document a public support server or ticket system — support runs through
+whoever operates the bot for your server. If you're a member of a server running KeyAuth Bot,
+start with that server's own staff or support channel rather than looking for one here.
+
+If you operate the bot yourself, its separate deployment documentation covers the support
+control plane in full and is the fastest path to a fix beyond what's on this page.

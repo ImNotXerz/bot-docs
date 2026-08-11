@@ -1,0 +1,42 @@
+---
+title: "Analytics"
+description: "Shop-wide performance numbers: balance, overview, and top performers. See Insights for traffic and abandoned-checkout analytics."
+---
+
+**4 commands.** Shop-wide performance numbers: balance, overview, and top performers. See Insights for traffic and abandoned-checkout analytics.
+
+Tiers (least to most privileged) and what each can do are explained on the [Commands overview](/sellauth/commands/overview#permission-tiers).
+
+<AccordionGroup>
+  <Accordion title="`/balance`">
+    **Tier:** `viewer`
+
+    Shows the shop's current payout balance.
+
+    **SellAuth endpoint:** `GET /shops/{id}/payouts/balances`
+  </Accordion>
+
+  <Accordion title="`/overview`">
+    **Tier:** `viewer`
+
+    Shows a high-level analytics overview for the shop.
+
+    **SellAuth endpoint:** `GET /shops/{id}/analytics`
+  </Accordion>
+
+  <Accordion title="`/top_customers`">
+    **Tier:** `viewer`
+
+    Lists the top customers by spend.
+
+    **SellAuth endpoint:** `GET /shops/{id}/analytics/top-customers`
+  </Accordion>
+
+  <Accordion title="`/top_products`">
+    **Tier:** `viewer`
+
+    Lists the shop's best-selling products.
+
+    **SellAuth endpoint:** `GET /shops/{id}/analytics/top-products`
+  </Accordion>
+</AccordionGroup>

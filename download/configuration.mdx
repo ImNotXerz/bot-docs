@@ -1,0 +1,57 @@
+---
+title: "Configuration"
+description: "Access control, roles, panel appearance, and categories — all set from inside Discord."
+---
+
+Everything here lives behind `/downloads` → **⚙️ Configuration**, or inline on the loader forms
+when you add or edit a product. There is no separate settings file to edit — every setting is a
+per-guild database row, changed through Discord and mirrored to your log channel if you've set
+one.
+
+## Access mode
+
+Controls who sees anything behind the **Browse Downloads** button. Managers (Administrator, the
+configured admin role, or the bot owner) can always use the panel regardless of this setting.
+
+| Mode | Who can download |
+| --- | --- |
+| Public | Anyone in the server |
+| Roles | Only members holding one of the configured access roles |
+| Admin Only | Only managers |
+
+New servers start on **Roles** with no roles configured, which means nobody but a manager can
+download until you either add access roles or switch to Public.
+
+## Roles
+
+Two separate role settings, both set from the Configuration screen:
+
+- **Admin role** — a single role (in addition to Discord Administrator and the bot owner) that
+  counts as a manager. Leave the select empty and submit to clear it.
+- **Download access roles** — up to 25 roles that count as "allowed" under Roles access mode.
+  This only matters when access mode is set to Roles.
+
+## Panel appearance
+
+**📝 Panel Text** sets the panel's title and description. **🖼️ Panel Appearance** sets a logo
+URL, a banner URL, and an accent color (a name like `blurple` or a hex code like `#5865F2`).
+Changing any of these re-renders the live panel message in place — no need to repost it.
+
+## Log channel
+
+Optional. When set, configuration changes, loader changes, deliveries, rate-limit hits, and
+permission denials are all mirrored there as they happen, in addition to the bot's own logs.
+
+## Categories
+
+There's no separate "create category" step — a category is just whatever you type into a
+product's **Category** field when you add or edit it (it defaults to `general` if left blank).
+The category list members see on the panel is generated from whatever categories your enabled
+products currently use.
+
+<Note>
+  See [Commands → Configuration](/download/commands/configuration) and
+  [Commands → Administration](/download/commands/administration) for the exact commands, and
+  [Download Center](/download/features/download-center) for how the category → product flow
+  looks to a member.
+</Note>

@@ -1,0 +1,48 @@
+---
+title: "Database"
+description: "SQLite vs PostgreSQL, and how migrations work."
+---
+
+Which database a bot uses isn't a choice you make — it's built into that bot. Check its
+`.env.example` (a `DATABASE_URL` starting with `postgres://` means Postgres; a `DB_PATH` or
+similar pointing at a `.db` file means SQLite) if you're not sure which you have.
+
+## SQLite bots
+
+Nothing to set up. The bot creates its database file on first run, at the path set in `.env`
+(or a sensible default if unset). Back it up by copying that one file — stop the bot first so
+you're not copying mid-write.
+
+## PostgreSQL bots
+
+You need a running Postgres server (13+) before the bot will start.
+
+<Steps>
+  <Step title="Start Postgres">
+    Easiest via the `docker-compose.yml` most of these bots ship with:
+    ```bash
+    docker compose up -d postgres
+    ```
+    Or point `DATABASE_URL` at any Postgres server you already run.
+  </Step>
+  <Step title="Set DATABASE_URL">
+    In `.env`: `DATABASE_URL=postgresql://user:password@host:5432/dbname`
+  </Step>
+  <Step title="Run migrations">
+    The Python bots that use Postgres manage schema with Alembic:
+    ```bash
+    alembic upgrade head
+    ```
+    Do this once before the first start, and again after every update that changes the schema —
+    check that update's release notes.
+  </Step>
+</Steps>
+
+<Warning>
+  Never run migrations against a production database without a recent backup. `alembic upgrade
+  head` applies every pending migration in order — if one has a bug, you want a way back.
+</Warning>
+
+<Card title="Next: hosting" icon="server" href="/sources/hosting">
+  Keep it running past your terminal session.
+</Card>

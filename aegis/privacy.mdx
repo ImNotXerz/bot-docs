@@ -1,0 +1,51 @@
+---
+title: "Privacy & retention"
+description: "What AEGIS stores, for how long, and who can see it."
+---
+
+## Defaults are privacy-conscious
+
+- Message **content is not stored** for ordinary messages. Sentinel keeps content *hashes* for
+  duplicate-spam detection, held only in memory for a short window — not the messages
+  themselves. Detection signals store normalized metadata (counts, hostnames, rule names), not
+  full text.
+- The only deliberate content capture is a staff member using **Report Message**, which stores
+  a short preview as evidence for that report. This kind of message-snapshot evidence is
+  governed by your guild's retention policy and is off by default below the `standard` tier.
+- Logs are redacted at the source — tokens, cookies, message content, and evidence bodies never
+  reach application logs.
+- Risk factors reference behavior ("posted a suspicious link"), never inferred identity. AEGIS
+  does not do identity correlation, IP collection on members, or off-platform tracking.
+
+## Retention classes
+
+| Class | Signals | Message evidence |
+| --- | --- | --- |
+| Minimal | 30 days | References only, 30 days |
+| Standard (default) | 180 days | 90 days |
+| Extended | 365 days | Configurable, up to 730 days |
+| Custom | Set per guild | Set per guild |
+
+An hourly job purges expired signals and hard-deletes evidence 30 days after it's soft-deleted.
+Aggregated analytics (hourly counts, with no member identifiers beyond ids that already exist
+in cases) are kept longer than raw signals — the dashboard notes this wherever it shows
+aggregated data.
+
+## Access control & logging
+
+Viewing captured evidence requires the `evidence.reveal` permission, and every reveal is
+written to an access log — who accessed it, how, and when. Exports and reveals are always
+audited; there's no path around that record.
+
+## Data subject requests
+
+A guild admin can request deletion of a member's evidence, which soft-deletes it immediately
+and hard-purges it after 30 days. Moderation cases themselves are not deleted this way — the
+enforcement facts (the action taken, the reason, the timestamps) are kept as legitimate
+moderation records independent of the evidence tied to them.
+
+<Note>
+  Formal data processing terms — a DPA template and controller/processor designation — are
+  still being finalized ahead of AEGIS's commercial launch. If you need these for your own
+  compliance purposes, contact whoever operates your AEGIS instance.
+</Note>

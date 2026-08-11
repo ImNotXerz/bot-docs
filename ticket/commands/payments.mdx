@@ -1,0 +1,58 @@
+---
+title: "Payments"
+description: "Payment method presentation — Ticket Bot never processes a payment."
+---
+
+<Note>
+  This module only **presents** ways to pay you (PayPal, crypto addresses, Stripe Link, or a
+  custom method). Ticket Bot never stores card data and never processes a transaction — it's a
+  way to show members how to pay, nothing more.
+</Note>
+
+**6 commands.**
+
+<AccordionGroup>
+  <Accordion title="/payments — View available payment methods">
+    ```
+    /payments
+    ```
+    **Permission:** Public
+  </Accordion>
+
+  <Accordion title="/paymentmethod add — Add a payment method">
+    ```
+    /paymentmethod add type:<Paypal|Cashapp|Bitcoin|Litecoin|Ethereum|Usdt|Stripe Link|Custom>
+      display_name:<text> [identifier:<text>] [instructions:<text>] [network:<text>]
+      [qr_image_url:<url>] [fee_note:<text>] [minimum_note:<text>]
+    ```
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/paymentmethod remove — Remove a payment method">
+    ```
+    /paymentmethod remove display_name:<text>
+    ```
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/paymentmethod toggle — Enable/disable a payment method">
+    ```
+    /paymentmethod toggle display_name:<text>
+    ```
+    **Permission:** Manager
+  </Accordion>
+
+  <Accordion title="/paymentmethod list — List all configured payment methods (including disabled)">
+    ```
+    /paymentmethod list
+    ```
+    **Permission:** Staff
+  </Accordion>
+
+  <Accordion title="/autosendpayment — Toggle auto-sending payment methods when an AIO ticket opens">
+    ```
+    /autosendpayment enabled:<true|false>
+    ```
+    **Permission:** Manager
+  </Accordion>
+</AccordionGroup>

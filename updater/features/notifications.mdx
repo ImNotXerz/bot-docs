@@ -1,0 +1,72 @@
+---
+title: "Notifications"
+description: "What a release notification contains, and how it changes as Updater learns more."
+---
+
+Every tracked release gets exactly one message. Updater builds it once, then
+edits it in place as it learns more — it never posts a second message for a
+release it has already delivered.
+
+## What's in the card
+
+<CardGroup cols={2}>
+  <Card title="Game & platform" icon="gamepad">
+    The game's name and icon, plus a badge naming the platform or publisher
+    the strongest evidence came from — for example `STEAM` or `RIOT`.
+  </Card>
+  <Card title="Status badge" icon="certificate">
+    A second badge describing how confirmed the release is. See the table
+    below.
+  </Card>
+  <Card title="Version & build" icon="code-branch">
+    The version and/or build number, shown as `old → new` once both are
+    known, or just the new value the first time it's seen.
+  </Card>
+  <Card title="Timing" icon="clock">
+    When the release actually went out (if the source says) and when Updater
+    detected it — these are often different, and both matter.
+  </Card>
+  <Card title="Summary" icon="align-left">
+    A short description of what changed, when the source provides one.
+  </Card>
+  <Card title="Patch notes link" icon="link">
+    A **Read Patch Notes** button pointing at the official source, when
+    Updater has a canonical URL for the release.
+  </Card>
+</CardGroup>
+
+Not every release has every field. Updater only shows what it can actually
+confirm — a field with nothing behind it is left off the card rather than
+shown as "N/A" or a placeholder.
+
+## Status badges
+
+| Badge | What it means |
+| --- | --- |
+| `OFFICIAL VERIFIED` | The developer's own patch notes or release post confirms this. |
+| `PATCH NOTES` | Updater has a link to official notes for this release. |
+| `BUILD ONLY` | A build number changed, but no version number or patch notes have shown up yet. |
+| `MAINTENANCE` | This is a maintenance window, not a content release. |
+| _(none)_ | Updater detected a change but doesn't have enough yet to label it further. |
+
+## How it updates over time
+
+A release rarely announces itself all at once. A build number often shows up
+before official notes do; a maintenance window is often confirmed before
+anyone says what's in it. Updater treats these as the same underlying release
+rather than separate events, and updates the one message as better
+information arrives — a card that started as `BUILD ONLY` can become
+`OFFICIAL VERIFIED` once the developer publishes notes, with the version,
+summary, and patch-notes link all filling in on that same message.
+
+If two independent sources both report on the same release — say, an
+official publisher article and a separately detected build ID — Updater
+combines what each one proves into that single message instead of letting
+one overwrite the other, or posting twice.
+
+## The first time you enable a game
+
+The first check after you turn a game on in [`/games`](/updater/commands)
+establishes a starting point silently — it will not post updates for things
+that already happened before you enabled it. Notifications start from the
+next new release after that.

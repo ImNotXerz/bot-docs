@@ -1,0 +1,71 @@
+---
+title: "Introduction"
+description: "What Download Bot does, and whether it's the right bot for your server."
+---
+
+Download Bot lets admins publish a private "download center" for their Discord server: a
+persistent panel where members pick a product from a category list and get a private link (or
+the file itself) back. It's built entirely on Discord's **Components V2** UI system — no classic
+embeds anywhere — and the browse flow is paginated by design, so it behaves the same whether a
+server has a handful of products or thousands.
+
+## Is Download Bot for you?
+
+Download Bot is a good fit if you:
+
+- Distribute software, loaders, resources, or other files to your community and want one
+  persistent panel instead of pinned messages or a shared folder link
+- Want to control exactly who can browse and download, per role or admin-only, checked every time
+  someone actually downloads
+- Want a record of what was downloaded, by whom, and how often
+- Have (or expect to have) more products than fit in a single 25-option dropdown
+- Would rather manage the catalog with buttons and modals inside Discord than a wall of slash
+  commands
+
+It's less of a fit if you only ever hand out one or two files — a pinned message works fine for
+that, and Download Bot's category/product structure is more machinery than you need.
+
+## What it does
+
+<CardGroup cols={2}>
+  <Card title="Download center" icon="folder-open">
+    A single "Browse Downloads" button opens a private, per-user session: pick a category, then a
+    product, get your link or file.
+  </Card>
+  <Card title="Admin console" icon="sliders">
+    Add products by link or file upload, edit, rename, enable/disable, remove, or replace a
+    file — all from buttons and modals behind `/downloads`.
+  </Card>
+  <Card title="Access control" icon="lock">
+    Public, restricted to specific roles, or admin-only — set per server, and re-checked on every
+    download, not just when the panel is drawn.
+  </Card>
+  <Card title="Pluggable storage" icon="database">
+    Products can point at an external link, a locally stored file, or a Cloudflare R2 object,
+    resolved individually per product.
+  </Card>
+  <Card title="Analytics" icon="chart-simple">
+    Total downloads, unique users, the most-downloaded products, and recent activity, from inside
+    the admin console.
+  </Card>
+  <Card title="Multi-guild" icon="server">
+    Every server gets its own catalog, settings, and access rules from a single bot.
+  </Card>
+</CardGroup>
+
+## How it is built
+
+Two things shape how Download Bot behaves, and both are worth knowing before you configure it.
+
+**Everything is Components V2.** There is no `discord.Embed` anywhere in the bot — the public
+panel, the admin console, and every delivery message are built from buttons, selects, and
+modals.
+
+**Nothing destructive happens before its replacement is confirmed.** Replacing a product's file
+uploads and verifies the new one before the database is updated, and the old file isn't touched
+until after that commit succeeds. Removing a product hides it immediately, but its stored file is
+only deleted once that deletion actually succeeds — a failure is retried, not silently dropped.
+
+<Card title="Start here" icon="rocket" href="/download/quickstart">
+  Post your download panel and add your first product.
+</Card>

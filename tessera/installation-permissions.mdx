@@ -1,6 +1,6 @@
 ---
 title: "Installation & Permissions"
-description: "What V.O.I.D asks Discord for, privileged intents, and who can run what."
+description: "What Tessera asks Discord for, privileged intents, and who can run what."
 ---
 
 ## What the bot asks Discord for
@@ -36,7 +36,7 @@ nothing:
 
 ### Role setup
 
-Role panels, autoroles, and mass role all move member roles, which means V.O.I.D's own role
+Role panels, autoroles, and mass role all move member roles, which means Tessera's own role
 needs to sit **above** any role it's asked to manage in your server's role list. Discord refuses
 role changes from a lower role regardless of what permissions the bot has — this is the single
 most common reason a role-related command silently does nothing.
@@ -53,7 +53,7 @@ panel is drawn. Reopening a panel with a stale button will not bypass it.
 | Configured Admin | Manage Server or Administrator, **or** a role set with `=setadmin` |
 | Manage Server | Discord's Manage Server permission |
 | Discord Administrator | Discord's Administrator permission |
-| Bot Owner | The people who operate V.O.I.D itself |
+| Bot Owner | The people who operate Tessera itself |
 
 Set your privileged roles with `=setadmin` and `=setstaff`. Until you do, only Manage Server and
 Administrator count.

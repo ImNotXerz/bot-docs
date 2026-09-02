@@ -14,8 +14,8 @@
   "navigation": {
     "products": [
       {
-        "product": "V.O.I.D",
-        "description": "Discord community and operations bot",
+        "product": "Tessera",
+        "description": "Discord community and operations platform",
         "icon": "circle-dot",
         "tabs": [
           {
@@ -23,7 +23,12 @@
             "groups": [
               {
                 "group": "Getting started",
-                "pages": ["void/introduction", "void/quickstart", "void/installation-permissions", "void/configuration"]
+                "pages": [
+                  "tessera/introduction",
+                  "tessera/quickstart",
+                  "tessera/installation-permissions",
+                  "tessera/configuration"
+                ]
               }
             ]
           },
@@ -33,32 +38,50 @@
               {
                 "group": "Categories",
                 "pages": [
-                  "void/commands/moderation-safety",
-                  "void/commands/tickets",
-                  "void/commands/members-roles",
-                  "void/commands/content-messaging",
-                  "void/commands/engagement",
-                  "void/commands/utility-fun",
-                  "void/commands/setup-admin"
+                  "tessera/commands/moderation-safety",
+                  "tessera/commands/tickets",
+                  "tessera/commands/members-roles",
+                  "tessera/commands/content-messaging",
+                  "tessera/commands/engagement",
+                  "tessera/commands/utility-fun",
+                  "tessera/commands/setup-admin"
                 ]
               },
               {
                 "group": "Reference",
-                "pages": ["void/modules", "void/variables"]
+                "pages": [
+                  "tessera/modules",
+                  "tessera/variables"
+                ]
               }
             ]
           },
           {
             "tab": "Features",
             "groups": [
-              { "group": "Features", "pages": ["void/features/premium"] }
+              {
+                "group": "Features",
+                "pages": [
+                  "tessera/features/premium"
+                ]
+              }
             ]
           },
           {
             "tab": "Support",
             "groups": [
-              { "group": "Help", "pages": ["void/support"] },
-              { "group": "Legal", "pages": ["void/privacy"] }
+              {
+                "group": "Help",
+                "pages": [
+                  "tessera/support"
+                ]
+              },
+              {
+                "group": "Legal",
+                "pages": [
+                  "tessera/privacy"
+                ]
+              }
             ]
           }
         ]
@@ -73,27 +96,54 @@
             "groups": [
               {
                 "group": "Getting started",
-                "pages": ["aegis/introduction", "aegis/quickstart", "aegis/installation-permissions", "aegis/configuration"]
+                "pages": [
+                  "aegis/introduction",
+                  "aegis/quickstart",
+                  "aegis/installation-permissions",
+                  "aegis/configuration"
+                ]
               }
             ]
           },
           {
             "tab": "Commands",
             "groups": [
-              { "group": "Reference", "pages": ["aegis/commands"] }
+              {
+                "group": "Reference",
+                "pages": [
+                  "aegis/commands"
+                ]
+              }
             ]
           },
           {
             "tab": "Features",
             "groups": [
-              { "group": "Deep dives", "pages": ["aegis/features/sentinel", "aegis/features/moderation", "aegis/features/incidents"] }
+              {
+                "group": "Deep dives",
+                "pages": [
+                  "aegis/features/sentinel",
+                  "aegis/features/moderation",
+                  "aegis/features/incidents"
+                ]
+              }
             ]
           },
           {
             "tab": "Support",
             "groups": [
-              { "group": "Help", "pages": ["aegis/support"] },
-              { "group": "Legal", "pages": ["aegis/privacy"] }
+              {
+                "group": "Help",
+                "pages": [
+                  "aegis/support"
+                ]
+              },
+              {
+                "group": "Legal",
+                "pages": [
+                  "aegis/privacy"
+                ]
+              }
             ]
           }
         ]
@@ -108,14 +158,24 @@
             "groups": [
               {
                 "group": "Getting started",
-                "pages": ["sellauth/introduction", "sellauth/quickstart", "sellauth/installation-permissions", "sellauth/configuration"]
+                "pages": [
+                  "sellauth/introduction",
+                  "sellauth/quickstart",
+                  "sellauth/installation-permissions",
+                  "sellauth/configuration"
+                ]
               }
             ]
           },
           {
             "tab": "Commands",
             "groups": [
-              { "group": "Overview", "pages": ["sellauth/commands/overview"] },
+              {
+                "group": "Overview",
+                "pages": [
+                  "sellauth/commands/overview"
+                ]
+              },
               {
                 "group": "Categories",
                 "pages": [
@@ -151,20 +211,41 @@
           {
             "tab": "Features",
             "groups": [
-              { "group": "Deep dives", "pages": ["sellauth/features/instances"] }
+              {
+                "group": "Deep dives",
+                "pages": [
+                  "sellauth/features/instances"
+                ]
+              }
             ]
           },
           {
             "tab": "Integrations",
             "groups": [
-              { "group": "API", "pages": ["sellauth/integrations/sellauth-api"] }
+              {
+                "group": "API",
+                "pages": [
+                  "sellauth/integrations/sellauth-api"
+                ]
+              }
             ]
           },
           {
             "tab": "Support",
             "groups": [
-              { "group": "Help", "pages": ["sellauth/support"] },
-              { "group": "Legal", "pages": ["sellauth/privacy", "sellauth/terms"] }
+              {
+                "group": "Help",
+                "pages": [
+                  "sellauth/support"
+                ]
+              },
+              {
+                "group": "Legal",
+                "pages": [
+                  "sellauth/privacy",
+                  "sellauth/terms"
+                ]
+              }
             ]
           }
         ]
@@ -179,7 +260,12 @@
             "groups": [
               {
                 "group": "Getting started",
-                "pages": ["vouch/introduction", "vouch/quickstart", "vouch/installation-permissions", "vouch/configuration"]
+                "pages": [
+                  "vouch/introduction",
+                  "vouch/quickstart",
+                  "vouch/installation-permissions",
+                  "vouch/configuration"
+                ]
               }
             ]
           },
@@ -188,20 +274,38 @@
             "groups": [
               {
                 "group": "Categories",
-                "pages": ["vouch/commands/vouch", "vouch/commands/profile", "vouch/commands/market", "vouch/commands/leaderboard", "vouch/commands/report", "vouch/commands/vouch-admin"]
+                "pages": [
+                  "vouch/commands/vouch",
+                  "vouch/commands/profile",
+                  "vouch/commands/market",
+                  "vouch/commands/leaderboard",
+                  "vouch/commands/report",
+                  "vouch/commands/vouch-admin"
+                ]
               }
             ]
           },
           {
             "tab": "Features",
             "groups": [
-              { "group": "Deep dives", "pages": ["vouch/features/marketplace", "vouch/features/trust-safety"] }
+              {
+                "group": "Deep dives",
+                "pages": [
+                  "vouch/features/marketplace",
+                  "vouch/features/trust-safety"
+                ]
+              }
             ]
           },
           {
             "tab": "Support",
             "groups": [
-              { "group": "Help", "pages": ["vouch/support"] }
+              {
+                "group": "Help",
+                "pages": [
+                  "vouch/support"
+                ]
+              }
             ]
           }
         ]
@@ -216,26 +320,45 @@
             "groups": [
               {
                 "group": "Getting started",
-                "pages": ["updater/introduction", "updater/quickstart", "updater/installation-permissions"]
+                "pages": [
+                  "updater/introduction",
+                  "updater/quickstart",
+                  "updater/installation-permissions"
+                ]
               }
             ]
           },
           {
             "tab": "Commands",
             "groups": [
-              { "group": "Commands", "pages": ["updater/commands"] }
+              {
+                "group": "Commands",
+                "pages": [
+                  "updater/commands"
+                ]
+              }
             ]
           },
           {
             "tab": "Features",
             "groups": [
-              { "group": "Deep dives", "pages": ["updater/features/notifications"] }
+              {
+                "group": "Deep dives",
+                "pages": [
+                  "updater/features/notifications"
+                ]
+              }
             ]
           },
           {
             "tab": "Support",
             "groups": [
-              { "group": "Help", "pages": ["updater/support"] }
+              {
+                "group": "Help",
+                "pages": [
+                  "updater/support"
+                ]
+              }
             ]
           }
         ]
@@ -250,7 +373,12 @@
             "groups": [
               {
                 "group": "Getting started",
-                "pages": ["ticket/introduction", "ticket/quickstart", "ticket/installation-permissions", "ticket/configuration"]
+                "pages": [
+                  "ticket/introduction",
+                  "ticket/quickstart",
+                  "ticket/installation-permissions",
+                  "ticket/configuration"
+                ]
               }
             ]
           },
@@ -278,13 +406,24 @@
           {
             "tab": "Features",
             "groups": [
-              { "group": "Deep dives", "pages": ["ticket/features/aio-sales-funnel", "ticket/features/intake-plugin"] }
+              {
+                "group": "Deep dives",
+                "pages": [
+                  "ticket/features/aio-sales-funnel",
+                  "ticket/features/intake-plugin"
+                ]
+              }
             ]
           },
           {
             "tab": "Support",
             "groups": [
-              { "group": "Help", "pages": ["ticket/support"] }
+              {
+                "group": "Help",
+                "pages": [
+                  "ticket/support"
+                ]
+              }
             ]
           }
         ]
@@ -299,26 +438,47 @@
             "groups": [
               {
                 "group": "Getting started",
-                "pages": ["keyauth/introduction", "keyauth/quickstart", "keyauth/installation-permissions", "keyauth/configuration"]
+                "pages": [
+                  "keyauth/introduction",
+                  "keyauth/quickstart",
+                  "keyauth/installation-permissions",
+                  "keyauth/configuration"
+                ]
               }
             ]
           },
           {
             "tab": "Commands",
             "groups": [
-              { "group": "Categories", "pages": ["keyauth/commands/self-service", "keyauth/commands/support-operations"] }
+              {
+                "group": "Categories",
+                "pages": [
+                  "keyauth/commands/self-service",
+                  "keyauth/commands/support-operations"
+                ]
+              }
             ]
           },
           {
             "tab": "Features",
             "groups": [
-              { "group": "Deep dives", "pages": ["keyauth/features/license-operations"] }
+              {
+                "group": "Deep dives",
+                "pages": [
+                  "keyauth/features/license-operations"
+                ]
+              }
             ]
           },
           {
             "tab": "Support",
             "groups": [
-              { "group": "Help", "pages": ["keyauth/support"] }
+              {
+                "group": "Help",
+                "pages": [
+                  "keyauth/support"
+                ]
+              }
             ]
           }
         ]
@@ -333,7 +493,12 @@
             "groups": [
               {
                 "group": "Getting started",
-                "pages": ["invoice/introduction", "invoice/quickstart", "invoice/installation-permissions", "invoice/configuration"]
+                "pages": [
+                  "invoice/introduction",
+                  "invoice/quickstart",
+                  "invoice/installation-permissions",
+                  "invoice/configuration"
+                ]
               }
             ]
           },
@@ -342,20 +507,37 @@
             "groups": [
               {
                 "group": "Categories",
-                "pages": ["invoice/commands/invoices", "invoice/commands/payments", "invoice/commands/payment-profiles", "invoice/commands/crypto", "invoice/commands/admin"]
+                "pages": [
+                  "invoice/commands/invoices",
+                  "invoice/commands/payments",
+                  "invoice/commands/payment-profiles",
+                  "invoice/commands/crypto",
+                  "invoice/commands/admin"
+                ]
               }
             ]
           },
           {
             "tab": "Features",
             "groups": [
-              { "group": "Deep dives", "pages": ["invoice/features/lifecycle", "invoice/features/payment-methods"] }
+              {
+                "group": "Deep dives",
+                "pages": [
+                  "invoice/features/lifecycle",
+                  "invoice/features/payment-methods"
+                ]
+              }
             ]
           },
           {
             "tab": "Support",
             "groups": [
-              { "group": "Help", "pages": ["invoice/support"] }
+              {
+                "group": "Help",
+                "pages": [
+                  "invoice/support"
+                ]
+              }
             ]
           }
         ]
@@ -370,7 +552,12 @@
             "groups": [
               {
                 "group": "Getting started",
-                "pages": ["news/introduction", "news/quickstart", "news/installation-permissions", "news/configuration"]
+                "pages": [
+                  "news/introduction",
+                  "news/quickstart",
+                  "news/installation-permissions",
+                  "news/configuration"
+                ]
               }
             ]
           },
@@ -379,20 +566,36 @@
             "groups": [
               {
                 "group": "Categories",
-                "pages": ["news/commands/announcements", "news/commands/drafts", "news/commands/templates", "news/commands/presets", "news/commands/administration"]
+                "pages": [
+                  "news/commands/announcements",
+                  "news/commands/drafts",
+                  "news/commands/templates",
+                  "news/commands/presets",
+                  "news/commands/administration"
+                ]
               }
             ]
           },
           {
             "tab": "Features",
             "groups": [
-              { "group": "Deep dives", "pages": ["news/features/drafting-publishing"] }
+              {
+                "group": "Deep dives",
+                "pages": [
+                  "news/features/drafting-publishing"
+                ]
+              }
             ]
           },
           {
             "tab": "Support",
             "groups": [
-              { "group": "Help", "pages": ["news/support"] }
+              {
+                "group": "Help",
+                "pages": [
+                  "news/support"
+                ]
+              }
             ]
           }
         ]
@@ -407,7 +610,12 @@
             "groups": [
               {
                 "group": "Getting started",
-                "pages": ["download/introduction", "download/quickstart", "download/installation-permissions", "download/configuration"]
+                "pages": [
+                  "download/introduction",
+                  "download/quickstart",
+                  "download/installation-permissions",
+                  "download/configuration"
+                ]
               }
             ]
           },
@@ -416,20 +624,35 @@
             "groups": [
               {
                 "group": "Categories",
-                "pages": ["download/commands/downloads", "download/commands/administration", "download/commands/configuration"]
+                "pages": [
+                  "download/commands/downloads",
+                  "download/commands/administration",
+                  "download/commands/configuration"
+                ]
               }
             ]
           },
           {
             "tab": "Features",
             "groups": [
-              { "group": "Deep dives", "pages": ["download/features/download-center", "download/features/storage"] }
+              {
+                "group": "Deep dives",
+                "pages": [
+                  "download/features/download-center",
+                  "download/features/storage"
+                ]
+              }
             ]
           },
           {
             "tab": "Support",
             "groups": [
-              { "group": "Help", "pages": ["download/support"] }
+              {
+                "group": "Help",
+                "pages": [
+                  "download/support"
+                ]
+              }
             ]
           }
         ]
@@ -444,20 +667,39 @@
             "groups": [
               {
                 "group": "Getting started",
-                "pages": ["sources/introduction", "sources/prerequisites", "sources/installation"]
+                "pages": [
+                  "sources/introduction",
+                  "sources/prerequisites",
+                  "sources/installation"
+                ]
               },
               {
                 "group": "Running it",
-                "pages": ["sources/database", "sources/hosting"]
+                "pages": [
+                  "sources/database",
+                  "sources/hosting"
+                ]
               },
               {
                 "group": "Terms",
-                "pages": ["sources/license-support"]
+                "pages": [
+                  "sources/license-support"
+                ]
               }
             ]
           }
         ]
       }
     ]
-  }
+  },
+  "redirects": [
+    {
+      "source": "/void/:slug*",
+      "destination": "/tessera/:slug*"
+    },
+    {
+      "source": "/void",
+      "destination": "/tessera"
+    }
+  ]
 }

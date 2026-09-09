@@ -1,0 +1,95 @@
+---
+title: "Admin console"
+description: "Running your server from a browser — cases, enforcement, analytics and settings, with every action in your modlog."
+---
+
+The admin console at `vouch.foo/admin/your-server` is the part of the website that *changes*
+your Discord server rather than describing it. It is included with **server premium**.
+
+<Note>
+  Nothing here is a second set of rules. Resolving a case, applying a blacklist, changing a
+  threshold — each one calls exactly what `/vouch-admin` calls. The console is a second front
+  end onto one set of rules, not a parallel implementation that agrees today and drifts later.
+</Note>
+
+## Getting in
+
+Three things have to be true, and the console checks them in this order:
+
+1. The server exists and Vouch. is in it.
+2. **You have Manage Server there** — verified against Discord with your own sign-in, every
+   time you open the page. Not against a cached list, and never against a server ID the browser
+   claimed.
+3. The server has premium.
+
+<Info>
+  If you are not staff, the console answers exactly as it does for a server that does not
+  exist. Telling a stranger "that server is real but you can't manage it" would confirm both
+  facts to someone who should learn neither.
+</Info>
+
+## Everything shows up in your modlog
+
+Every action taken here is announced in your server's modlog channel, with a **via vouch.foo**
+footer so a moderator reading the channel can see which console was used. The entry is queued
+in the same transaction as the change itself, so it cannot be lost — if the channel is briefly
+unreachable it retries.
+
+<Warning>
+  If no modlog channel is set, the console tells you so on the overview. Actions still take
+  effect, but nobody in Discord will see them. Set one with `/vouch-admin` before you start
+  moderating from the web.
+</Warning>
+
+## The sections
+
+<AccordionGroup>
+  <Accordion title="Cases">
+    Every report filed in your server, open ones first. Opening a case shows the description,
+    the evidence, and the full action history.
+
+    Resolving takes one of four decisions — **action it**, **dismiss**, **close**, or **reopen**
+    — with an optional reason that is recorded on the case and posted to your modlog. You can
+    blacklist the accused in the same step, because dismissing a case and banning the person is
+    usually one judgement, and splitting it into two would show up as two unrelated modlog
+    events.
+
+    Moderator notes are internal and never posted to Discord.
+  </Accordion>
+  <Accordion title="Enforcement">
+    Blacklists and restrictions currently in force, with the reason and expiry for each, and a
+    one-click lift.
+
+    Everything here is **server-scoped**. Global blacklists reach every server on the platform,
+    so they stay a platform-owner action in `/vouch-admin` — one server's staff must not be able
+    to act on everybody else's behalf.
+  </Accordion>
+  <Accordion title="Analytics">
+    Vouch activity over 30, 90 or 365 days, plus listings created, reports filed and disputes
+    opened.
+
+    The breakdown worth watching is **where vouches came from** — command, marketplace, or the
+    website — because it is how you see whether vouch.foo is bringing you activity you would not
+    otherwise have had.
+  </Accordion>
+  <Accordion title="Webhooks">
+    Register endpoints and watch their delivery log. See [Webhooks](/vouch/web/webhooks).
+  </Accordion>
+  <Accordion title="Your bot">
+    Set up and manage a custom bot. See [Custom bot](/vouch/web/custom-bot).
+  </Accordion>
+  <Accordion title="Settings">
+    Feature toggles (marketplace, leaderboards, reports, profiles, public listing), vouch
+    thresholds, the contact workflow, and your web address.
+
+    **Channels and roles are not here**, on purpose. Picking one needs your server's channel
+    list, which the website cannot read, and a mistyped ID would silently send every vouch card
+    into nowhere. Those stay in `/vouch-admin`, where Discord gives you a real picker.
+  </Accordion>
+</AccordionGroup>
+
+## Both consoles at once
+
+Nothing goes wrong if a moderator is in `/vouch-admin` while another is in the browser. Both
+write the same rows through the same services, and a case being resolved twice is refused the
+second time rather than double-applied.

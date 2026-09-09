@@ -1,0 +1,103 @@
+---
+title: "Custom bot"
+description: "Run Vouch. under your own bot's name and avatar, against the same shared ledger."
+---
+
+A custom bot is your own Discord application — your name, your avatar, your token — running
+the full Vouch. feature set. Your members see your brand on every vouch card, leaderboard and
+listing.
+
+It is an **add-on on top of server premium**, not part of it.
+
+<Note>
+  The data stays in the shared ledger. Reputation earned through your custom bot still counts
+  everywhere on vouch.foo, and your members' profiles still work across every server. You are
+  changing the face, not forking the platform.
+</Note>
+
+## Setting one up
+
+<Steps>
+  <Step title="Create an application">
+    In the [Discord developer portal](https://discord.com/developers/applications), create an
+    application and give it the name and avatar you want your members to see.
+  </Step>
+  <Step title="Copy its token">
+    On the application's **Bot** tab, press **Reset Token** and copy what it shows you. This is
+    the only time Discord will display it.
+  </Step>
+  <Step title="Paste it into the console">
+    `vouch.foo/admin/your-server` → **Your bot**. We check the token with Discord before storing
+    it, so a revoked or mistyped one is refused immediately rather than failing silently later.
+  </Step>
+  <Step title="Invite it">
+    The console gives you an invite link with exactly the permissions the bot needs. Invite it,
+    then remove the platform bot if you no longer want both in the server.
+  </Step>
+</Steps>
+
+Your bot is usually connected within half a minute of registering.
+
+## How your token is handled
+
+<AccordionGroup>
+  <Accordion title="It is encrypted before it is stored">
+    The token is encrypted the moment it arrives and only ever decrypted by the process that
+    connects your bot to Discord.
+  </Accordion>
+  <Accordion title="It is never shown again">
+    No page and no API endpoint returns it. It does not appear in logs, and it is deliberately
+    left out of the audit records of your own setup — those get pasted into support tickets.
+  </Accordion>
+  <Accordion title="If you lose it, rotate">
+    Reset the token in the developer portal (which invalidates the old one), then paste the new
+    one under **Rotate token**. Your bot reconnects with it automatically, and any error state
+    from the old token is cleared.
+  </Accordion>
+  <Accordion title="Removing it deletes it">
+    Removing the custom bot is a real delete, not a flag — the point is that we stop holding a
+    credential nobody needs. Your server falls back to the platform bot.
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+  Never paste a **user** token. Using a user account as a bot is against Discord's terms and
+  gets the account banned — the console refuses one if you try.
+</Warning>
+
+## Your bot only works in your server
+
+A custom bot runs the whole Vouch. command tree, and nothing stops you inviting it somewhere
+else. If you do, it will politely refuse to do anything there.
+
+That is a deliberate boundary, not a limitation: your bot is tied to your server's data, and a
+bot that answered commands in someone else's server would be reading and writing reputation
+that does not belong to it.
+
+## Status, and what can go wrong
+
+The console shows what your bot is actually doing, not just what you asked for.
+
+| Status | Meaning |
+| --- | --- |
+| **Provisioning** | Registered, waiting to be picked up. Normally seconds. |
+| **Running** | Connected and answering commands. |
+| **Stopped** | You stopped it, or the add-on lapsed past its grace period. |
+| **Error** | It could not connect. The reason is shown — usually a revoked token. |
+
+A bot that crashes is restarted automatically with a backoff. A bot whose token Discord
+*refuses* is not retried, because retrying cannot fix it — it is marked with the reason and
+waits for you to rotate the token.
+
+<Info>
+  One custom bot per server. Two bots answering the same server's interactions would double
+  every reply.
+</Info>
+
+## When the add-on lapses
+
+Your bot keeps running for **7 days**, then stops. The console shows the countdown, and
+redeeming a key clears it immediately.
+
+Stopping the custom bot does not affect your data or your server's configuration — invite the
+platform bot back and everything continues where it left off.

@@ -1,0 +1,135 @@
+---
+title: "Webhooks"
+description: "Get an HTTP callback when a vouch, listing or report changes — signed, retried, and logged."
+---
+
+Webhooks let your own systems react the moment something happens in your server: sync a vouch
+into your CRM, close a ticket when a report is resolved, or update stock when a listing sells.
+
+Available with **server premium**, managed from the admin console under **Webhooks**.
+
+## Registering an endpoint
+
+<Steps>
+  <Step title="Give it a URL">
+    HTTPS only, on port 443 or 8443, reachable from the public internet. A URL that resolves to
+    a private or loopback address is refused — see [Why the URL is
+    checked](#why-the-url-is-checked).
+  </Step>
+  <Step title="Choose events">
+    Subscribe to as many as you want. Each endpoint has its own subscription list.
+  </Step>
+  <Step title="Save the signing secret">
+    It is shown **once**, at creation, and stored encrypted afterwards. There is no endpoint
+    that can hand it back — if you lose it, delete the webhook and register a new one.
+  </Step>
+</Steps>
+
+<Info>
+  Up to 5 endpoints per server.
+</Info>
+
+## Events
+
+| Event | Fires when |
+| --- | --- |
+| `vouch.created` | A vouch is created, from any source |
+| `vouch.updated` | A vouch is approved, voided, removed or restored |
+| `listing.created` | A listing is created |
+| `listing.updated` | A listing's status changes (paused, sold, closed, removed) |
+| `report.created` | A scammer report is filed |
+| `report.resolved` | A case reaches a final state |
+| `blacklist.added` | Someone is blacklisted in your server |
+
+Events are deliberately coarse. Every payload carries the entity's current state, so a consumer
+that cares about the difference between "voided" and "removed" can read it rather than needing
+one event per moderation verb.
+
+## The request
+
+```http
+POST /your-endpoint HTTP/1.1
+Content-Type: application/json
+User-Agent: vouch.foo-webhooks/1
+X-Vouch-Event: vouch.created
+X-Vouch-Timestamp: 1757280000
+X-Vouch-Delivery: 12345
+X-Vouch-Signature: v1=3f8a...
+```
+
+```json
+{
+  "event": "vouch.created",
+  "sent_at": "2026-09-08T14:22:31.442Z",
+  "data": {
+    "public_id": "VCH-A8F4K2",
+    "status": "VALID",
+    "source": "WEB",
+    "rating": 5,
+    "product_or_service": "Logo design",
+    "voucher_user_id": "123456789012345678",
+    "recipient_user_id": "987654321098765432",
+    "created_at": "2026-09-08T14:22:31.019Z"
+  }
+}
+```
+
+<Note>
+  Report payloads deliberately omit the reporter's free-text description and any moderator
+  notes. A webhook goes to a third-party server, and the person who filed the report did not
+  agree to have their words forwarded there.
+</Note>
+
+## Verifying a delivery
+
+The signature is the only reason your endpoint can believe a request came from us rather than
+from anyone who learned the URL. Verify it on every request.
+
+```python
+import hashlib, hmac
+
+def verify(secret: str, timestamp: str, raw_body: bytes, signature: str) -> bool:
+    expected = "v1=" + hmac.new(
+        secret.encode(), f"{timestamp}.".encode() + raw_body, hashlib.sha256
+    ).hexdigest()
+    return hmac.compare_digest(expected, signature)
+```
+
+Three things matter here:
+
+- Sign the **raw body bytes**, not a re-serialised copy. Re-encoding the JSON changes the bytes
+  and the signature will not match.
+- Use a **constant-time comparison**. `==` on a string leaks timing information.
+- **Reject old timestamps.** The timestamp is inside the signed material, so it cannot be
+  swapped — but you still need to refuse anything more than a few minutes old, or a captured
+  request can be replayed at you later.
+
+## Retries
+
+Answer with any `2xx` and the delivery is done. Anything else is a failure, and we retry on a
+fixed schedule: **30 seconds, 5 minutes, 30 minutes, 6 hours**, then give up and mark the
+delivery abandoned. Abandoned deliveries are kept, not deleted — "why didn't my endpoint get
+this?" deserves an answer.
+
+Two exceptions:
+
+- A `4xx` other than `408` or `429` is **not retried**. Your endpoint understood the request
+  and said no; sending identical bytes again cannot change that answer.
+- A **redirect is a failure**, not a hop to follow. Redirects are never followed.
+
+An endpoint that fails 20 times in a row is disabled automatically, and stays disabled until
+you re-enable it from the console. The delivery log there shows the status, attempt count and
+last error for each recent delivery.
+
+## Why the URL is checked
+
+A webhook URL is chosen by you and then fetched by our servers, which is exactly the shape of
+an SSRF vulnerability. Without a check, an endpoint could be pointed at a cloud metadata
+service or at something else on our private network.
+
+So the destination is validated when you register it, **and re-checked before every send** —
+DNS can be re-pointed after registration — and redirects are never followed, since a `302` is
+the easy way to turn a validated public URL into an internal request.
+
+This is why `http://`, non-standard ports, and hosts resolving to private ranges are all
+refused at registration rather than failing quietly later.

@@ -1,0 +1,94 @@
+---
+title: "Marketplace on the web"
+description: "Browsing the public catalogue, creating listings from a browser, and how buyers reach sellers."
+---
+
+The web marketplace is every public listing from every participating server, in one catalogue.
+Browsing it is free and needs no account. Creating listings from the web is what **user
+premium** unlocks.
+
+<Note>
+  A listing only appears here if its server has public listing switched on *and* the
+  marketplace enabled. Turning either off in `/vouch-admin` removes that server's listings from
+  the site entirely.
+</Note>
+
+## Browsing
+
+`vouch.foo/market` searches titles and descriptions, and filters by type (selling, buying,
+services), by category, and by price. Filters live in the URL, so a filtered catalogue is a
+link you can send someone.
+
+The default sort is **best sellers**, which orders by the seller's valid vouch count in that
+server. It is not the full trust rating — trust is computed live from several aggregates, and
+ordering the entire catalogue by it would mean recomputing it for every listing on every page
+load. Vouch count is the dominant term in trust anyway, and each card shows the average rating
+beside it so you can judge for yourself.
+
+Every card carries the seller's record: their name, their vouch count in that server, and their
+average rating. That is the whole point — you can tell who is safe to buy from before you talk
+to them.
+
+## Creating a listing
+
+<Steps>
+  <Step title="Redeem user premium">
+    `vouch.foo/dashboard/listings` shows the form locked until you do. It stays visible rather
+    than hidden, so you can see what a key would give you.
+  </Step>
+  <Step title="Pick a server">
+    You can post into any server that is running Vouch. with the marketplace and public listing
+    both enabled. Your listing belongs to that server's marketplace as well as the global
+    catalogue.
+  </Step>
+  <Step title="Write it">
+    Title, description, type, and optionally a category and price. Leave the price empty and the
+    card reads "Ask".
+  </Step>
+  <Step title="It posts to Discord">
+    The listing card appears in that server's marketplace channel automatically. You do not need
+    to run `/market create` as well — this *is* that.
+  </Step>
+</Steps>
+
+Managing works the same way in both places. Pause, mark sold, relist and remove are all on
+`/dashboard/listings`, and each one updates the card in Discord.
+
+## How buyers reach you
+
+Each server decides how contact works, and the website respects that setting rather than
+overriding it. When someone opens a listing, they see one of these:
+
+<AccordionGroup>
+  <Accordion title="Your payment details, behind a click">
+    For servers set to show contact details. The buyer must be signed in, and the details sit
+    behind a button rather than rendering straight away — payment handles are the part a
+    scraper wants, and a deliberate click makes bulk harvesting cost something.
+  </Accordion>
+  <Accordion title="A link to your own storefront">
+    For servers set to storefront links, when you have a storefront URL on your profile. If you
+    do not, it falls back to showing payment details, exactly as the bot does.
+  </Accordion>
+  <Accordion title="A deep link into Discord">
+    For servers using private threads, ticket channels, or mentions. Those workflows create
+    something inside Discord, which only the bot can do — so rather than half-implementing them,
+    the site sends the buyer straight to the listing's own card, where the real **Contact
+    Seller** button is.
+  </Accordion>
+  <Accordion title="A prompt to sign in">
+    For anyone not signed in, on a reveal-style workflow. Contact details are not shown to
+    anonymous visitors.
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+  vouch.foo never holds funds and never escrows anything. Buyers pay sellers directly, exactly
+  as they would in Discord. The site's job is to tell you who you are dealing with, not to
+  stand between you.
+</Warning>
+
+## Getting reported
+
+A listing can be reported like anything else, and a moderator resolving that case can remove
+the listing as part of the resolution. That happens whether the listing was created in Discord
+or on the web — same case management, same audit trail.

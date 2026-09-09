@@ -316,6 +316,23 @@
             ]
           },
           {
+            "tab": "Web platform",
+            "groups": [
+              {
+                "group": "vouch.foo",
+                "pages": [
+                  "vouch/web/overview",
+                  "vouch/web/free-and-premium",
+                  "vouch/web/marketplace",
+                  "vouch/web/server-pages",
+                  "vouch/web/admin-console",
+                  "vouch/web/webhooks",
+                  "vouch/web/custom-bot"
+                ]
+              }
+            ]
+          },
+          {
             "tab": "Support",
             "groups": [
               {

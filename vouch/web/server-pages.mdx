@@ -1,0 +1,64 @@
+---
+title: "Server pages"
+description: "Your server's public address on vouch.foo, and the storefront that server premium unlocks."
+---
+
+Every server that lists publicly gets a page at `vouch.foo/s/your-server`. It is a shareable,
+crawlable front door for your community — somewhere to point people who ask "is this server
+legitimate?" before they join.
+
+## What's on it
+
+Two things are free for every listed server:
+
+- **Your leaderboard** — the same ranking the bot deploys in your channels, rendered for the
+  open web.
+- **Your trusted sellers** — everyone your staff has marked trusted, with global and
+  server-scoped trust shown distinctly.
+
+One thing is **server premium**:
+
+- **Your storefront** — your server's listings collected under your own name, rather than
+  scattered through the global catalogue.
+
+<Note>
+  When the storefront is locked, the page says so plainly rather than rendering nothing. A
+  silent omission would make a busy server look like it has nothing to sell.
+</Note>
+
+## Your web address
+
+Your slug is minted the first time somebody needs one — the first web listing in your server,
+or the first visit to your page — rather than at install time. That means a server that renames
+itself before anyone looks gets the better address.
+
+It is derived from your server name: **Forge Market** becomes `forge-market`. If that is taken,
+the next candidate is tried, and so on.
+
+You can change it from the admin console under **Settings → Web address**.
+
+<Warning>
+  Changing your slug breaks every existing link to your page — including any you have pinned in
+  Discord or posted elsewhere. There is no redirect from the old one. Worth doing early, if at
+  all.
+</Warning>
+
+## Being found
+
+Server pages and listings are in the sitemap, so search engines can find them without crawling
+a filtered catalogue.
+
+**Profiles are deliberately not in the sitemap.** No endpoint enumerates them either — "every
+seller on the platform" is exactly the list a scraper wants, and publishing it would be doing
+that work for them. Profiles still get indexed the ordinary way: through the leaderboard,
+through marketplace cards, and through links people share themselves.
+
+Pages behind sign-in — the dashboard and the admin console — are excluded from indexing
+entirely. A crawler only sees a sign-in prompt there, and search results full of "Sign in to
+manage this server" would help nobody.
+
+## Sharing a link
+
+Pasting any vouch.foo link into Discord, Slack or X renders a card built for a thumbnail: one
+large number, a short label, nothing competing with it. A profile leads with the trust rating,
+a listing with its price, and a server page with how many things are for sale.

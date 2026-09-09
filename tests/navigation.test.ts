@@ -26,6 +26,31 @@ function readConfig(): DocsConfig {
   return JSON.parse(readFileSync(join(ROOT, "docs.json"), "utf8")) as DocsConfig;
 }
 
+/**
+ * The directory a product owns, or `null` for one whose pages sit at the repo root — the
+ * Overview hub is a single `index.mdx` and owns no directory of its own. The directory tests
+ * below skip those rather than looking for an `index/` folder that was never meant to exist.
+ */
+function directoryForProduct(product: Product): string | null {
+  const first = pagesForProduct(product)[0];
+  if (first === undefined || !first.includes("/")) return null;
+  return first.split("/")[0];
+}
+
+/** Every `.mdx` under `dir`, recursively, as page slugs. Nested sections (`vouch/web/...`)
+ *  are real, so a non-recursive read would silently stop checking them. */
+function pagesOnDisk(dir: string): string[] {
+  const slugs: string[] = [];
+  for (const entry of readdirSync(join(ROOT, dir), { withFileTypes: true })) {
+    if (entry.isDirectory()) {
+      slugs.push(...pagesOnDisk(`${dir}/${entry.name}`));
+    } else if (entry.name.endsWith(".mdx")) {
+      slugs.push(`${dir}/${entry.name.replace(/\.mdx$/u, "")}`);
+    }
+  }
+  return slugs;
+}
+
 function pagesForProduct(product: Product): string[] {
   const pages: string[] = [...(product.pages ?? [])];
   for (const tab of product.tabs ?? []) {
@@ -54,6 +79,7 @@ describe("navigation", () => {
 
   it("keeps every product's pages inside its own directory", () => {
     for (const product of config.navigation.products) {
+      if (directoryForProduct(product) === null) continue;
       const prefixes = new Set(pagesForProduct(product).map((slug) => slug.split("/")[0]));
       // One directory per product: a stray slug would put a page in another bot's sidebar.
       expect([...prefixes], `${product.product} spans multiple directories`).toHaveLength(1);
@@ -61,7 +87,9 @@ describe("navigation", () => {
   });
 
   it("does not let two products claim the same directory", () => {
-    const roots = config.navigation.products.map((product) => pagesForProduct(product)[0]?.split("/")[0]);
+    const roots = config.navigation.products
+      .map(directoryForProduct)
+      .filter((dir): dir is string => dir !== null);
     expect(new Set(roots).size).toBe(roots.length);
   });
 
@@ -72,7 +100,8 @@ describe("navigation", () => {
         .map((entry) => entry.name)
     );
     for (const product of config.navigation.products) {
-      const root = pagesForProduct(product)[0]?.split("/")[0] ?? "";
+      const root = directoryForProduct(product);
+      if (root === null) continue;
       expect(onDisk, `${product.product} points at ${root}/ which does not exist`).toContain(root);
     }
   });
@@ -80,12 +109,9 @@ describe("navigation", () => {
   it("has no page on disk that the navigation omits", () => {
     const navPages = new Set(config.navigation.products.flatMap(pagesForProduct));
     for (const product of config.navigation.products) {
-      const dir = pagesForProduct(product)[0]?.split("/")[0];
-      if (dir === undefined) continue;
-      const onDisk = readdirSync(join(ROOT, dir))
-        .filter((name) => name.endsWith(".mdx"))
-        .map((name) => `${dir}/${name.replace(/\.mdx$/u, "")}`);
-      for (const page of onDisk) {
+      const dir = directoryForProduct(product);
+      if (dir === null) continue;
+      for (const page of pagesOnDisk(dir)) {
         expect(navPages, `${page}.mdx is not reachable from the sidebar`).toContain(page);
       }
     }

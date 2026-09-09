@@ -1,0 +1,83 @@
+---
+title: "Free and premium"
+description: "What vouch.foo gives away, what it charges for, and how redeem keys work."
+---
+
+Three things are free forever, for everyone: **on-site vouching, your profile page, and
+leaderboard placement**. That is deliberate rather than a trial — reputation belongs to the
+person who earned it, and putting a paywall between someone and their own record would make
+the record worth less.
+
+What costs money is the tooling built on top: selling, administering, and white-labelling.
+
+## The split
+
+| Capability | Free | User premium | Server premium |
+| --- | --- | --- | --- |
+| Public profile at `vouch.foo/@handle` | Yes | Yes | — |
+| Receive on-site vouches (synced to Discord) | Yes | Yes | — |
+| Give on-site vouches | Yes | Yes | — |
+| Leaderboard placement, global and per-server | Yes | Yes | Server board page |
+| Trust rating with its full breakdown | Yes | Yes | Server-wide view |
+| Browse the marketplace | Yes | Yes | — |
+| **Create and manage listings on the web** | No | Yes | — |
+| **Server storefront at `/s/your-server`** | No | — | Yes |
+| **Analytics** (30 / 90 / 365 days) | No | Yes | Yes, server-wide |
+| **Web admin console** (settings, cases, enforcement) | No | — | Yes |
+| **Webhooks** | No | Yes | Yes |
+| **Priority sync** | No | Yes | Yes |
+| **Custom bot** (your name, your avatar) | No | — | Add-on |
+
+<Note>
+  User premium and server premium are separate things bought by different people. A seller buys
+  user premium for themselves; a server owner buys server premium for their community. Neither
+  implies the other.
+</Note>
+
+## Redeeming a key
+
+Premium is unlocked with a key rather than a card. A key looks like `VF-XXXX-XXXX-XXXX`, and
+you redeem it at `vouch.foo/dashboard/redeem`.
+
+<Steps>
+  <Step title="Sign in">
+    Head to `vouch.foo` and sign in with Discord. Redeeming is tied to your account, so this
+    has to happen first.
+  </Step>
+  <Step title="Pick what it applies to">
+    A **user** key applies to your account and needs nothing else. A **server** key asks which
+    server — and you must have Manage Server there.
+  </Step>
+  <Step title="Paste the key">
+    The dashboard tells you what was unlocked and when it expires. Redeeming a second key for
+    the same thing extends it rather than starting a duplicate.
+  </Step>
+</Steps>
+
+<Warning>
+  Spending a server key requires **Manage Server** in that server, checked against Discord at
+  the moment you redeem — not against anything we have cached. Being a member is not enough.
+</Warning>
+
+## What happens when premium lapses
+
+Nothing is deleted, and nothing you earned is taken away.
+
+Listings you already created stay where they are; you simply cannot create new ones from the
+web until you renew. A server that lapses keeps its free page — its leaderboard and its trusted
+sellers — and loses the storefront and the console. Vouches, profiles and trust ratings are
+untouched in every case, because those are free tier.
+
+The one thing with a grace period is a **custom bot**, which keeps running for 7 days after the
+add-on lapses before it stops. A renewal that lands on a Monday morning should not have taken
+your server's bot offline over the weekend.
+
+## Priority sync
+
+Premium servers get their cards posted in about a second instead of waiting for the periodic
+sweep. It is strictly a latency improvement: on the free tier the card still arrives, just up
+to a couple of minutes later. Nothing is ever dropped for being on the free tier.
+
+<Card title="Selling on the web" icon="shop" href="/vouch/web/marketplace">
+  What user premium actually unlocks, and how listings work.
+</Card>

@@ -1,0 +1,97 @@
+---
+title: "vouch.foo"
+description: "The web half of Vouch. — public profiles, a marketplace, and a server console, on the same ledger as the bot."
+---
+
+`vouch.foo` is Vouch. on the open web. It is not a mirror of the bot and not a separate
+product: it is a second front end onto the same ledger, so a vouch left on the website is the
+same row a `/vouch` command creates, and it appears in your Discord server within seconds.
+
+<Note>
+  Everything on vouch.foo is optional. A server that never turns it on keeps working exactly as
+  before — the bot does not depend on the website for anything.
+</Note>
+
+## What lives there
+
+<CardGroup cols={2}>
+  <Card title="Profiles" icon="id-card">
+    A public page for every person with a reputation, at `vouch.foo/@handle`. Trust rating,
+    rating distribution, per-server breakdown, and recent vouches.
+  </Card>
+  <Card title="Leaderboards" icon="ranking-star">
+    The same five categories and four ranges the bot deploys per server, pooled across every
+    server that lists publicly.
+  </Card>
+  <Card title="Marketplace" icon="shop">
+    Every public listing from every participating server, in one searchable catalogue — with
+    the seller's record attached to each card.
+  </Card>
+  <Card title="Server pages" icon="server">
+    `vouch.foo/s/your-server` — your leaderboard, your trusted sellers, and (on premium) your
+    storefront.
+  </Card>
+  <Card title="Admin console" icon="sliders">
+    Resolve reports, apply blacklists, read analytics and manage webhooks from a browser, with
+    every action announced in your modlog.
+  </Card>
+  <Card title="Custom bot" icon="robot">
+    Run the platform under your own bot's name and avatar, against the same shared ledger.
+  </Card>
+</CardGroup>
+
+## One ledger, two front ends
+
+This is the idea the whole thing rests on, and it is worth stating plainly.
+
+Nothing on vouch.foo keeps its own copy of anything. A vouch created on the website runs
+through the same anti-abuse engine, the same state machine and the same audit trail as one
+created with `/vouch`. A listing created in Discord appears in the web catalogue on its next
+read. A report resolved in the browser writes the same case history a moderator would see in
+`/vouch-admin`.
+
+Because both sides read and write one set of tables, there is no sync job in either direction
+— and therefore nothing that can fall out of step.
+
+The one place the two differ is **publishing to Discord**. The website holds no gateway
+connection and never will, so when it does something that should appear in a channel — a vouch
+card, a listing card, a modlog line — it commits the change and a job to publish it in the same
+transaction. The bot's existing worker posts it. That means the card can be late if Discord is
+briefly unreachable, but it cannot be *lost*.
+
+## Signing in
+
+There is no separate password. vouch.foo signs you in with Discord, and your session is a
+server-side record that can be revoked — not a token that keeps working until it expires.
+
+Signing in is only needed to *do* things. Reading is free and anonymous: profiles,
+leaderboards, the marketplace and server pages all render for a visitor who has never signed
+in, which is what makes a link to your record worth sharing.
+
+## Handles
+
+A handle is your address across the whole platform: `vouch.foo/@yourname`. It is global rather
+than per-server — your reputation follows you between servers, so your address should too — and
+first-come.
+
+Before you claim one, your profile still exists and is still linkable, at
+`vouch.foo/u/<your Discord ID>`. That URL keeps working forever; claiming a handle adds a
+nicer one rather than replacing it.
+
+<Info>
+  Handles are 3–24 characters: letters, numbers, and single underscores. Changing yours frees
+  the old one for someone else, so pick one you will keep.
+</Info>
+
+## Opting a server out
+
+Public listing is per-server and on by default. Turning it off in `/vouch-admin` removes that
+server completely from the public web: no server page, no leaderboard placement, none of its
+listings in the catalogue, and no on-site vouching into it.
+
+It does not delete anything or change how the bot behaves inside your server — it only decides
+whether the outside world can see it.
+
+<Card title="What's free and what isn't" icon="lock-open" href="/vouch/web/free-and-premium">
+  The full split, and how redeem keys work.
+</Card>
